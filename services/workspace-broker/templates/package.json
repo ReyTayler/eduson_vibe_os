@@ -1,0 +1,8 @@
+{
+  "name": "vibe-os-school-live",
+  "private": true,
+  "type": "module",
+  "dsh": {
+    "bundles": []
+  }
+}

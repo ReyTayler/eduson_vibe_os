@@ -1,0 +1,27 @@
+[Unit]
+Description=Vibe OS student portal HTTPS and separate sandboxed preview origin
+Wants=network-online.target
+After=network-online.target vibe-os-portal.service
+Wants=vibe-os-portal.service
+[Service]
+Type=simple
+RuntimeDirectory=vibe-os-portal-web
+RuntimeDirectoryMode=0755
+ExecStartPre=/usr/sbin/nginx -t -c /etc/vibe-os/nginx-portal.conf
+ExecStart=/usr/sbin/nginx -c /etc/vibe-os/nginx-portal.conf
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGQUIT
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=2
+LimitCORE=0
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/run/vibe-os-portal-web /var/log/nginx/error.log
+MemoryMax=192M
+MemorySwapMax=0
+TasksMax=16
+[Install]
+WantedBy=multi-user.target

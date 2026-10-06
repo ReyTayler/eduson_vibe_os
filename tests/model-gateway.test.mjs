@@ -40,17 +40,31 @@ async function fixture(t,provider){
  }
  return {ledger,request,calls:()=>calls,socket,dir}
 }
-test('One million aggregate authorization admits fifteen conservative attempts and never refunds known usage',()=>{
+test('Confirmed terminal usage settles its reserve; one million cap includes all cache and output tokens',()=>{
  const ledger=new Ledger(':memory:')
- for(let i=0;i<15;i++){const id=randomUUID();ledger.reserve(id,20+i%8,'h');ledger.finish(id,'settled',{input:10,output:2,cacheRead:5,cacheWrite:0,total:17},200)}
- assert.throws(()=>ledger.reserve(randomUUID(),27,'h'),/TOKEN_BUDGET_EXHAUSTED/)
- assert.equal(ledger.status().debitedTokens,983040);assert.equal(ledger.status().confirmed_tokens,255);ledger.close()
+ for(let i=0;i<100;i++){const id=randomUUID();ledger.reserve(id,20+i%8,'h');ledger.finish(id,'settled',{input:10,output:2,cacheRead:5,cacheWrite:0,total:17},200)}
+ assert.equal(ledger.status().debitedTokens,1700);assert.equal(ledger.status().confirmed_tokens,1700)
+ assert.equal(ledger.status().remainingAuthorizationTokens,998300)
+ ledger.close()
 })
+test('Fifteen outstanding or uncertain full envelopes are the maximum without trusted usage',()=>{
+ const ledger=new Ledger(':memory:')
+ for(let i=0;i<15;i++)ledger.reserve(randomUUID(),20+i%8,'h')
+ assert.throws(()=>ledger.reserve(randomUUID(),27,'h'),/TOKEN_BUDGET_EXHAUSTED/)
+ assert.equal(ledger.status().uncertain_ceiling,983040);ledger.close()
+})
+test('Large confirmed usage cannot admit calls beyond the unchanged million-token ceiling',()=>{
+ const ledger=new Ledger(':memory:')
+ for(let i=0;i<15;i++){const id=randomUUID();ledger.reserve(id,20+i%8,'h');ledger.finish(id,'settled',{input:CALL_DEBIT-2,output:2,cacheRead:0,cacheWrite:0,total:CALL_DEBIT},200)}
+ assert.throws(()=>ledger.reserve(randomUUID(),27,'h'),/TOKEN_BUDGET_EXHAUSTED/)
+ assert.equal(ledger.status().confirmed_tokens,983040);ledger.close()
+})
+
 test('Duplicate admission and duplicate settlement cannot trigger another call or debit',()=>{
  const l=new Ledger(':memory:'),id=randomUUID();l.reserve(id,20,'hash');assert.throws(()=>l.reserve(id,21,'other'),/REQUEST_ALREADY_ADMITTED/)
  l.finish(id,'settled',{input:10,output:2,cacheRead:0,cacheWrite:0,total:12},200)
  assert.throws(()=>l.finish(id,'settled',{input:10,output:2,cacheRead:0,cacheWrite:0,total:12},200),/CAS/)
- assert.equal(l.status().debitedTokens,CALL_DEBIT);l.close()
+ assert.equal(l.status().debitedTokens,12);l.close()
 })
 test('Interrupted sent request becomes uncertain on WAL reopen and retains the full debit',()=>{
  const dir=mkdtempSync(join(tmpdir(),'vibe-ledger-')),p=join(dir,'db'),id=randomUUID()
@@ -88,10 +102,17 @@ test('Same request id is sent upstream once',async t=>{
  const f=await fixture(t),id=randomUUID();await f.request(body,{'X-Vibe-Request-Id':id});const r=await f.request(body,{'X-Vibe-Request-Id':id})
  assert.match(r.text,/REQUEST_ALREADY_ADMITTED/);assert.equal(f.calls(),1)
 })
-test('Concurrent attempts across all keys cannot overrun shared budget',async t=>{
- const f=await fixture(t),responses=await Promise.all(Array.from({length:24},(_,i)=>f.request(body,{'X-Vibe-Credential':String(20+i%8)})))
- assert.equal(responses.filter(r=>r.status===200).length,15);assert.equal(f.calls(),15);assert.equal(f.ledger.status().debitedTokens,983040)
+test('Concurrent attempts across all keys reserve atomically before any provider finishes',async t=>{
+ let release
+ const gate=new Promise(resolve=>{release=resolve})
+ const f=await fixture(t,async()=>{await gate;return stream()})
+ const all=Promise.all(Array.from({length:24},(_,i)=>f.request(body,{'X-Vibe-Credential':String(20+i%8)})))
+ await new Promise(r=>setTimeout(r,100))
+ assert.equal(f.calls(),15);assert.equal(f.ledger.status().uncertain_ceiling,983040)
+ release();const responses=await all
+ assert.equal(responses.filter(r=>r.status===200).length,15);assert.equal(f.ledger.status().debitedTokens,255)
 })
+
 test('Provider HTTP auth errors are sanitized and full debit stays consumed',async t=>{
  const f=await fixture(t,()=>new Response(fakeKey,{status:401})),r=await f.request()
  assert.equal(r.status,502);assert.ok(!r.text.includes(fakeKey));assert.equal(f.ledger.status().uncertain_ceiling,CALL_DEBIT)
@@ -120,4 +141,27 @@ test('Credential outside 20 through 27 and arbitrary route cannot dispatch',asyn
  assert.equal((await f.request(body,{'X-Vibe-Credential':'19'})).status,403)
  assert.equal((await f.request(body,{},'POST','/v1/chat/completions')).status,404)
  assert.equal(f.calls(),0);assert.equal(f.ledger.status().attempts,0)
+})
+
+test('Malformed settlement never releases capacity, duplicate settlement cannot refund twice',()=>{
+ const l=new Ledger(':memory:'),id=randomUUID();l.reserve(id,20,'h')
+ assert.throws(()=>l.finish(id,'settled',undefined,200),/INVALID_STATE/)
+ assert.throws(()=>l.finish(id,'settled',{input:10,output:1,cacheRead:0,cacheWrite:0,total:0},200),/INVALID_USAGE/)
+ assert.equal(l.status().debitedTokens,CALL_DEBIT)
+ l.finish(id,'uncertain',undefined,undefined);assert.equal(l.status().debitedTokens,CALL_DEBIT);l.close()
+})
+test('V1 migration keeps the original history, cap and unresolved reservations',()=>{
+ const dir=mkdtempSync(join(tmpdir(),'vibe-v2-')),p=join(dir,'db')
+ let l=new Ledger(p),a=randomUUID(),b=randomUUID();l.reserve(a,20,'a');l.finish(a,'settled',{input:10,output:2,cacheRead:0,cacheWrite:0,total:12},200);l.reserve(b,21,'b')
+ l.db.exec('DROP TABLE budget_authorization;UPDATE token_budget SET debited_tokens=131072');l.close()
+ l=new Ledger(p);assert.equal(l.status().generation,2);assert.equal(l.status().attempts,2);assert.equal(l.status().confirmed_tokens,12);assert.equal(l.status().uncertain_ceiling,CALL_DEBIT);assert.equal(l.status().legacyDebitedTokens,131072);assert.equal(l.status().limitTokens,1000000)
+ l.close();rmSync(dir,{recursive:true,force:true})
+})
+test('Read-only private status while streaming cannot turn an active request into uncertain',async t=>{
+ let release;const gate=new Promise(resolve=>{release=resolve})
+ const f=await fixture(t,async()=>{await gate;return stream()}),inflight=f.request()
+ while(f.calls()===0)await new Promise(r=>setTimeout(r,5))
+ const s=await f.request('',{},'GET','/v1/status')
+ assert.equal(s.status,200);assert.equal(f.ledger.db.prepare('SELECT state FROM model_requests').get().state,'sent')
+ release();assert.equal((await inflight).status,200)
 })

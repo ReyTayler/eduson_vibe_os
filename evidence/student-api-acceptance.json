@@ -1,0 +1,121 @@
+{
+  "suite": "five-student-portal-acceptance",
+  "passed": true,
+  "paidCalls": 0,
+  "checks": [
+    {
+      "check": "five private accounts; only student one has starter projects",
+      "passed": true
+    },
+    {
+      "check": "GET /projects/12e647862bad399d0b6052c65fc122e2/files",
+      "status": 404
+    },
+    {
+      "check": "GET /projects/12e647862bad399d0b6052c65fc122e2/file?path=index.html",
+      "status": 404
+    },
+    {
+      "check": "GET /projects/12e647862bad399d0b6052c65fc122e2/chats",
+      "status": 404
+    },
+    {
+      "check": "POST /projects/12e647862bad399d0b6052c65fc122e2/chats",
+      "status": 404
+    },
+    {
+      "check": "POST /projects/12e647862bad399d0b6052c65fc122e2/run",
+      "status": 404
+    },
+    {
+      "check": "POST /projects/12e647862bad399d0b6052c65fc122e2/hosting",
+      "status": 404
+    },
+    {
+      "check": "DELETE /projects/12e647862bad399d0b6052c65fc122e2",
+      "status": 404
+    },
+    {
+      "check": "GET /chats/775e8160166f0d06ba56a6dac46f60cd",
+      "status": 404
+    },
+    {
+      "check": "POST /chats/775e8160166f0d06ba56a6dac46f60cd/messages",
+      "status": 404
+    },
+    {
+      "check": "POST /folders",
+      "status": 403
+    },
+    {
+      "check": "POST /folders",
+      "status": 403
+    },
+    {
+      "check": "GET /projects/12e647862bad399d0b6052c65fc122e2/file?path=..%2F..%2Fetc%2Fpasswd",
+      "status": 400
+    },
+    {
+      "check": "POST /projects",
+      "status": 400
+    },
+    {
+      "check": "GET /projects/e43812021b2e24ea3ee98c91ff6d6325/files",
+      "status": 404
+    },
+    {
+      "check": "PUT /projects/e43812021b2e24ea3ee98c91ff6d6325/file",
+      "status": 409
+    },
+    {
+      "check": "isolated Python real execution and cgroup cleanup",
+      "passed": true
+    },
+    {
+      "check": "isolated Node real execution",
+      "passed": true
+    },
+    {
+      "check": "UID mapping and network socket denied",
+      "passed": true
+    },
+    {
+      "check": "host credentials inaccessible from student tool jail",
+      "passed": true
+    },
+    {
+      "check": "create, save, CAS reject, rename and delete nested file and directory",
+      "passed": true
+    },
+    {
+      "check": "create and rename independent chat",
+      "passed": true
+    },
+    {
+      "check": "GET /chats/bf4fdf5e504bb1bb3cc1462c94188223",
+      "status": 404
+    },
+    {
+      "check": "PATCH /projects/12e647862bad399d0b6052c65fc122e2",
+      "status": 404
+    },
+    {
+      "check": "folder ownership, rename and removal preserve projects",
+      "passed": true
+    },
+    {
+      "check": "POST /projects/a68727cca341f508f7003700692d3580/hosting",
+      "status": 409
+    },
+    {
+      "check": "maximum three, fourth denied, off/on preserves files, publication URL stable",
+      "passed": true
+    },
+    {
+      "check": "preview origin excludes authentication and API",
+      "passed": true
+    }
+  ],
+  "count": 28,
+  "othersRestoredEmpty": true
+}

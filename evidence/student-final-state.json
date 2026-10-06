@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "students": [
+    {
+      "login": "student01",
+      "projects": 2
+    },
+    {
+      "login": "student02",
+      "projects": 0
+    },
+    {
+      "login": "student03",
+      "projects": 0
+    },
+    {
+      "login": "student04",
+      "projects": 0
+    },
+    {
+      "login": "student05",
+      "projects": 0
+    }
+  ],
+  "projects": [
+    {
+      "id": "12e647862bad399d0b6052c65fc122e2",
+      "student": 1
+    },
+    {
+      "id": "e4ea65dff37a4957c8229e9aaa133abf",
+      "student": 1
+    }
+  ],
+  "slots": [
+    {
+      "student": 1,
+      "slot": 1,
+      "project": "12e647862bad399d0b6052c65fc122e2"
+    }
+  ],
+  "pendingRuns": 0,
+  "portalQuickCheck": "ok",
+  "brokerQuickCheck": "ok",
+  "privateCredentialsMode": "0400"
+}

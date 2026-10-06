@@ -1,0 +1,45 @@
+{
+  "suite": "student-ui-real-harness-cycle",
+  "passed": true,
+  "checks": [
+    "student-login",
+    "new-chat",
+    "rename-chat",
+    "real-deepseek",
+    "real-scoped-write-tool",
+    "durable-assistant",
+    "created-file",
+    "cold-ui-reload",
+    "persisted-chat",
+    "persisted-file",
+    "global-million-token-cap"
+  ],
+  "budgetBefore": {
+    "generation": 2,
+    "limitTokens": 1000000,
+    "debitedTokens": 960,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 999040,
+    "enabled": true,
+    "maxRemainingCalls": 15,
+    "attempts": 10,
+    "confirmed_tokens": 960,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 655360
+  },
+  "budgetAfter": {
+    "generation": 2,
+    "limitTokens": 1000000,
+    "debitedTokens": 3135,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 996865,
+    "enabled": true,
+    "maxRemainingCalls": 15,
+    "attempts": 12,
+    "confirmed_tokens": 3135,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 786432
+  },
+  "answer": "Помощник\n1 действий в проекте\n\nФайл NOTES.md создан, указанный текст записан.",
+  "browserErrors": []
+}

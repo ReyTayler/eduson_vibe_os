@@ -1,0 +1,44 @@
+{
+  "suite": "student-private-lifecycle",
+  "passed": true,
+  "count": 9,
+  "checks": [
+    "existing real Harness history resumed with persisted cursor and no model request",
+    "student 2 protected engine initialized with its own profile",
+    "student 3 protected engine initialized with its own profile",
+    "student 4 protected engine initialized with its own profile",
+    "student 5 protected engine initialized with its own profile",
+    "model outage preserves HTTPS, file access and isolated execution; prompts rejected before admission",
+    "logout revokes HTTP session and closes an already open SSE stream",
+    "password change invalidates old sessions; original supplied password restored",
+    "all checks made zero paid requests and preserve the global million-token authorization"
+  ],
+  "paidCalls": 0,
+  "budgetBefore": {
+    "generation": 2,
+    "limitTokens": 1000000,
+    "debitedTokens": 3135,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 996865,
+    "enabled": true,
+    "maxRemainingCalls": 15,
+    "attempts": 12,
+    "confirmed_tokens": 3135,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 786432
+  },
+  "budgetAfter": {
+    "generation": 2,
+    "limitTokens": 1000000,
+    "debitedTokens": 3135,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 996865,
+    "enabled": true,
+    "maxRemainingCalls": 15,
+    "attempts": 12,
+    "confirmed_tokens": 3135,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 786432
+  },
+  "otherCabinetsRestoredEmpty": true
+}

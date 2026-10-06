@@ -51,13 +51,18 @@ type info struct {
 	Version string `json:"version"`
 }
 type runner struct {
-	rootfd  int
-	config  string
-	token   string
-	uid     uint32
-	toolUID int
-	mu      sync.Mutex
-	pending map[string]bool
+	rootfd     int
+	config     string
+	token      string
+	uid        uint32
+	toolUID    int
+	mu         sync.Mutex
+	pending    map[string]bool
+	registry   string
+	workers    map[string]*runner
+	controlUID uint32
+	prefix     string
+	slice      string
 }
 type peerKey struct{}
 type capWriter struct {
@@ -327,6 +332,54 @@ func (r *runner) filesystem(q request) (any, error) {
 			return nil, e
 		}
 		return map[string]any{"created": true}, nil
+	case "remove", "rename":
+		if p == "." {
+			return nil, errors.New("FS_SANDBOX_DENIED")
+		}
+		prior, e := r.stat(p)
+		if e != nil || prior == nil {
+			return nil, errors.New("FS_NOT_FOUND")
+		}
+		if q.Guard != nil && prior.Version != q.Guard.Version {
+			return nil, errors.New("FS_STALE_VERSION")
+		}
+		parent, e := opened(r.rootfd, path.Dir(p), unix.O_RDONLY|unix.O_DIRECTORY, 0)
+		if e != nil {
+			return nil, e
+		}
+		defer unix.Close(parent)
+		if q.Op == "remove" {
+			flags := 0
+			if prior.Type == "directory" {
+				flags = unix.AT_REMOVEDIR
+			}
+			if e = unix.Unlinkat(parent, path.Base(p), flags); e != nil {
+				return nil, e
+			}
+			if e = unix.Fsync(parent); e != nil {
+				return nil, e
+			}
+			return map[string]any{"removed": true}, nil
+		}
+		dest, e := relative(q.New)
+		if e != nil || dest == "." {
+			return nil, errors.New("FS_SANDBOX_DENIED")
+		}
+		dst, e := opened(r.rootfd, path.Dir(dest), unix.O_RDONLY|unix.O_DIRECTORY, 0)
+		if e != nil {
+			return nil, e
+		}
+		defer unix.Close(dst)
+		if e = unix.Renameat2(parent, path.Base(p), dst, path.Base(dest), unix.RENAME_NOREPLACE); e != nil {
+			return nil, e
+		}
+		if e = unix.Fsync(parent); e != nil {
+			return nil, e
+		}
+		if e = unix.Fsync(dst); e != nil {
+			return nil, e
+		}
+		return map[string]any{"renamed": true}, nil
 	case "list":
 		fd, e := opened(r.rootfd, p, unix.O_RDONLY|unix.O_DIRECTORY, 0)
 		if e != nil {
@@ -353,8 +406,8 @@ func (r *runner) filesystem(q request) (any, error) {
 	}
 	return nil, errors.New("UNKNOWN_OPERATION")
 }
-func cgroupEmpty(unit string) (bool, error) {
-	p := filepath.Join("/sys/fs/cgroup/vibe-poc-tools.slice", unit, "cgroup.events")
+func cgroupEmpty(unit, slice string) (bool, error) {
+	p := filepath.Join("/sys/fs/cgroup", slice, unit, "cgroup.events")
 	b, e := os.ReadFile(p)
 	if errors.Is(e, os.ErrNotExist) {
 		return true, nil
@@ -364,11 +417,11 @@ func cgroupEmpty(unit string) (bool, error) {
 	}
 	return strings.Contains(string(b), "populated 0\n"), nil
 }
-func stopRange(unit string) (bool, error) {
+func stopRange(unit, slice string) (bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	exec.CommandContext(ctx, "/usr/bin/systemctl", "stop", unit).Run()
-	cg := filepath.Join("/sys/fs/cgroup/vibe-poc-tools.slice", unit)
+	cg := filepath.Join("/sys/fs/cgroup", slice, unit)
 	if b, e := os.ReadFile(filepath.Join(cg, "cgroup.events")); e == nil && strings.Contains(string(b), "populated 1\n") {
 		if e = os.WriteFile(filepath.Join(cg, "cgroup.kill"), []byte("1"), 0600); e != nil {
 			return false, e
@@ -377,7 +430,7 @@ func stopRange(unit string) (bool, error) {
 		return false, e
 	}
 	for n := 0; n < 50; n++ {
-		empty, e := cgroupEmpty(unit)
+		empty, e := cgroupEmpty(unit, slice)
 		if e != nil {
 			return false, e
 		}
@@ -414,9 +467,9 @@ func (r *runner) run(ctx context.Context, q request) (any, error) {
 	if ms < 50 || ms > 3000 {
 		return nil, errors.New("INVALID_DEADLINE")
 	}
-	unit := "vibe-tool-" + randomID() + ".service"
+	unit := r.prefix + randomID() + ".service"
 	r.pending[unit] = true
-	args := []string{"--quiet", "--pipe", "--wait", "--service-type=exec", "--description=Vibe OS managed tool range", "--unit=" + unit, "--slice=vibe-poc-tools.slice", "-p", "MemoryMax=256M", "-p", "MemorySwapMax=0", "-p", "TasksMax=64", "-p", "CPUQuota=50%", "-p", "KillMode=control-group", "-p", "OOMPolicy=stop", "-p", fmt.Sprintf("RuntimeMaxSec=%dms", ms), "/opt/vibe-os/bin/nsjail", "--quiet", "--config", r.config, "--", binary}
+	args := []string{"--quiet", "--pipe", "--wait", "--service-type=exec", "--description=Vibe OS managed tool range", "--unit=" + unit, "--slice=" + r.slice, "-p", "MemoryMax=256M", "-p", "MemorySwapMax=0", "-p", "TasksMax=64", "-p", "CPUQuota=50%", "-p", "KillMode=control-group", "-p", "OOMPolicy=stop", "-p", fmt.Sprintf("RuntimeMaxSec=%dms", ms), "/opt/vibe-os/bin/nsjail", "--quiet", "--config", r.config, "--", binary}
 	args = append(args, q.Args...)
 	owned, cancel := context.WithTimeout(ctx, time.Duration(ms)*time.Millisecond+3*time.Second)
 	defer cancel()
@@ -428,7 +481,7 @@ func (r *runner) run(ctx context.Context, q request) (any, error) {
 	start := time.Now()
 	e := cmd.Run()
 	result, _ := exec.Command("/usr/bin/systemctl", "show", unit, "--value", "-p", "Result").Output()
-	empty, cleanupErr := stopRange(unit)
+	empty, cleanupErr := stopRange(unit, r.slice)
 	if cleanupErr != nil || !empty {
 		return nil, fmt.Errorf("CLEANUP_UNCONFIRMED: %w", cleanupErr)
 	}
@@ -446,7 +499,7 @@ func (r *runner) run(ctx context.Context, q request) (any, error) {
 }
 func (r *runner) barrier() error {
 	for unit := range r.pending {
-		empty, err := stopRange(unit)
+		empty, err := stopRange(unit, r.slice)
 		if err != nil || !empty {
 			return errors.New("CLEANUP_UNCONFIRMED")
 		}
@@ -454,11 +507,81 @@ func (r *runner) barrier() error {
 	}
 	return nil
 }
+
+type registryRecord struct {
+	Workspace string `json:"workspace"`
+	Config    string `json:"config"`
+	Token     string `json:"token"`
+	UID       uint32 `json:"uid"`
+	ToolUID   int    `json:"toolUid"`
+}
+
+func (r *runner) scoped(h *http.Request) (*runner, error) {
+	if r.registry == "" {
+		return r, nil
+	}
+	id := h.Header.Get("X-Vibe-Project")
+	if len(id) != 32 {
+		return nil, errors.New("PROJECT_DENIED")
+	}
+	if _, e := hex.DecodeString(id); e != nil {
+		return nil, errors.New("PROJECT_DENIED")
+	}
+	for key, child := range r.workers {
+		if _, e := os.Stat(filepath.Join(r.registry, key+".json")); errors.Is(e, os.ErrNotExist) {
+			unix.Close(child.rootfd)
+			delete(r.workers, key)
+		}
+	}
+	if len(r.workers) >= 64 {
+		return nil, errors.New("PROJECT_CAPACITY")
+	}
+	name := filepath.Join(r.registry, id+".json")
+	fi, e := os.Lstat(name)
+	if e != nil || !fi.Mode().IsRegular() || fi.Mode().Perm()&0022 != 0 || fi.Size() > 4096 {
+		return nil, errors.New("PROJECT_DENIED")
+	}
+	var st unix.Stat_t
+	if e = unix.Stat(name, &st); e != nil || st.Uid != 0 {
+		return nil, errors.New("PROJECT_DENIED")
+	}
+	if child := r.workers[id]; child != nil {
+		return child, nil
+	}
+	data, e := os.ReadFile(name)
+	if e != nil {
+		return nil, e
+	}
+	var record registryRecord
+	if e = json.Unmarshal(data, &record); e != nil {
+		return nil, e
+	}
+	if record.Workspace != "/srv/vibe-os/data/student-projects/"+id+"/workspace" || record.Config != "/etc/vibe-os/student-projects/"+id+"/tool.cfg" || record.UID < 28001 || record.UID > 28005 || record.ToolUID != int(record.UID)+1000 || len(record.Token) != 64 {
+		return nil, errors.New("PROJECT_DENIED")
+	}
+	if _, e = hex.DecodeString(record.Token); e != nil {
+		return nil, errors.New("PROJECT_DENIED")
+	}
+	fd, e := unix.Open(record.Workspace, unix.O_PATH|unix.O_DIRECTORY|unix.O_NOFOLLOW|unix.O_CLOEXEC, 0)
+	if e != nil {
+		return nil, e
+	}
+	child := &runner{rootfd: fd, config: record.Config, token: record.Token, uid: record.UID, toolUID: record.ToolUID, pending: r.pending, controlUID: r.controlUID, prefix: r.prefix, slice: r.slice}
+	r.workers[id] = child
+	return child, nil
+}
 func (r *runner) serve(w http.ResponseWriter, h *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	peer, _ := h.Context().Value(peerKey{}).(uint32)
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	target, scopeErr := r.scoped(h)
+	if scopeErr != nil {
+		http.Error(w, "denied", 403)
+		return
+	}
 	token := strings.TrimPrefix(h.Header.Get("Authorization"), "Bearer ")
-	if peer != r.uid || subtle.ConstantTimeCompare([]byte(token), []byte(r.token)) != 1 {
+	if (peer != target.uid && peer != target.controlUID) || subtle.ConstantTimeCompare([]byte(token), []byte(target.token)) != 1 {
 		http.Error(w, "denied", 403)
 		return
 	}
@@ -477,20 +600,18 @@ func (r *runner) serve(w http.ResponseWriter, h *http.Request) {
 		http.Error(w, "trailing request", 400)
 		return
 	}
-	r.mu.Lock()
-	defer r.mu.Unlock()
 	var value any
 	var e error
-	if cleanupErr := r.barrier(); cleanupErr != nil {
+	if cleanupErr := target.barrier(); cleanupErr != nil {
 		http.Error(w, "cleanup unavailable", 503)
 		return
 	}
 	if q.Op == "barrier" {
 		value = map[string]any{"cgroupEmpty": true}
 	} else if q.Op == "run" {
-		value, e = r.run(h.Context(), q)
+		value, e = target.run(h.Context(), q)
 	} else {
-		value, e = r.filesystem(q)
+		value, e = target.filesystem(q)
 	}
 	if e != nil {
 		w.WriteHeader(400)
@@ -504,7 +625,18 @@ func main() {
 	workspace := flag.String("workspace", "/srv/vibe-os/data/poc-project-1", "Trusted project root")
 	config := flag.String("tool-config", "/etc/vibe-os/tool-1.cfg", "Trusted jail configuration")
 	capFile := flag.String("cap-file", "/var/lib/vibe-os/poc-engine/capability", "Scoped capability file")
+	registry := flag.String("registry", "", "Root-owned multi-project registry")
+	controlUID := flag.Uint("control-uid", 4294967295, "Trusted control peer UID")
+	prefix := flag.String("unit-prefix", "vibe-tool-", "Owned tool unit prefix")
+	slice := flag.String("slice", "vibe-poc-tools.slice", "Owned tool cgroup slice")
 	flag.Parse()
+	if (*prefix != "vibe-tool-" && *prefix != "vibe-ws-tool-") || (*slice != "vibe-poc-tools.slice" && *slice != "vibe-student-tools.slice") {
+		panic("Invalid managed range configuration")
+	}
+	if *registry != "" && *registry != "/var/lib/vibe-os/student-registry" {
+		panic("Invalid registry")
+	}
+
 	if os.Geteuid() != 0 {
 		panic("Runner requires root for namespace and cgroup setup")
 	}
@@ -521,9 +653,9 @@ func main() {
 		panic(e)
 	}
 	defer unix.Close(fd)
-	r := &runner{rootfd: fd, config: *config, token: string(token), uid: 23000, toolUID: 23001, pending: make(map[string]bool)}
+	r := &runner{rootfd: fd, config: *config, token: string(token), uid: 23000, toolUID: 23001, pending: make(map[string]bool), registry: *registry, workers: make(map[string]*runner), controlUID: uint32(*controlUID), prefix: *prefix, slice: *slice}
 	// Recover owned short-lived ranges after a broker crash before accepting writes.
-	recovery, recoveryErr := exec.Command("/usr/bin/systemctl", "list-units", "--all", "--plain", "--no-legend", "vibe-tool-*.service").Output()
+	recovery, recoveryErr := exec.Command("/usr/bin/systemctl", "list-units", "--all", "--plain", "--no-legend", *prefix+"*.service").Output()
 	if recoveryErr != nil {
 		panic(recoveryErr)
 	}
@@ -536,10 +668,10 @@ func main() {
 		if unit == "●" && len(fields) > 1 {
 			unit = fields[1]
 		}
-		if !strings.HasPrefix(unit, "vibe-tool-") {
+		if !strings.HasPrefix(unit, *prefix) {
 			continue
 		}
-		if len(unit) != len("vibe-tool-")+32+len(".service") || !strings.HasPrefix(unit, "vibe-tool-") || !strings.HasSuffix(unit, ".service") {
+		if len(unit) != len(*prefix)+32+len(".service") || !strings.HasPrefix(unit, *prefix) || !strings.HasSuffix(unit, ".service") {
 			panic("Unexpected owned range")
 		}
 		r.pending[unit] = true
@@ -566,7 +698,11 @@ func main() {
 	if e = os.Chown(*socket, 23000, 23000); e != nil {
 		panic(e)
 	}
-	if e = os.Chmod(*socket, 0600); e != nil {
+	mode := os.FileMode(0600)
+	if *registry != "" {
+		mode = 0660
+	}
+	if e = os.Chmod(*socket, mode); e != nil {
 		panic(e)
 	}
 	server := &http.Server{Handler: http.HandlerFunc(r.serve), ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 8 * time.Second, WriteTimeout: 12 * time.Second, MaxHeaderBytes: 8192,
@@ -588,7 +724,7 @@ func main() {
 			})
 			return context.WithValue(ctx, peerKey{}, uid)
 		}}
-	fmt.Fprintln(os.Stderr, "Vibe OS prototype runner ready; scoped to one project")
+	fmt.Fprintln(os.Stderr, "Vibe OS anchored workspace runner ready")
 	if e = server.Serve(listener); e != nil && !errors.Is(e, http.ErrServerClosed) {
 		panic(e)
 	}

@@ -91,8 +91,8 @@ export function apply(ctx:Context,config:Config):void{
   const options={provider:config.provider,model:config.model,maxTokens:config.maxTokens}
   const handle=stat?await ctx.agents.resume({resumeSessionId:branded,agentOptions:options}):await ctx.agents.create({sessionId:branded,meta:{cwd:'/workspace'},agentOptions:options})
   entries.set(sid,{handle})
-  await checkpoint(handle.agent.session)
-  return {sessionId:sid,opened:true,resumed:!!stat}
+  const persistedCursor=await checkpoint(handle.agent.session)
+  return {sessionId:sid,opened:true,resumed:!!stat,persistedCursor}
  }
  async function request(method:string,params:Record<string,unknown>):Promise<unknown>{
   if(method==='initialize'){

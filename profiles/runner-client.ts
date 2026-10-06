@@ -1,5 +1,5 @@
 /** Bounded authenticated RPC to the root Runner; no TCP transport is exposed. */
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 import http from 'node:http'
 export interface Output { text: string; totalBytes: number; truncated: boolean }
 export interface RunResult { exitCode: number; timedOut: boolean; aborted: boolean; cgroupEmpty: true; stdout: Output; stderr: Output }
@@ -26,8 +26,11 @@ export function runResult(value: unknown): RunResult {
 export class RunnerClient {
   readonly socketPath: string
   private readonly token: string
+  private readonly project: string | undefined
   constructor(socketPath='/bridge/runner.sock',capFile='/capability') {
     this.socketPath=socketPath
+    this.project=existsSync('/project-id')?readFileSync('/project-id','utf8').trim():undefined
+    if(this.project!==undefined&&!/^[a-f0-9]{32}$/.test(this.project))throw new Error('Invalid project scope')
     this.token=readFileSync(capFile,'utf8').trim()
     if (!/^[a-f0-9]{64}$/.test(this.token)) throw new Error('Invalid capability')
   }
@@ -36,7 +39,7 @@ export class RunnerClient {
     const bytes=JSON.stringify(body)
     if (Buffer.byteLength(bytes)>2*1024*1024) throw new Error('Runner request too large')
     return new Promise((resolve,reject)=>{
-      const req=http.request({socketPath:this.socketPath,path:'/v1/operation',method:'POST',headers:{Authorization:'Bearer '+this.token,'Content-Type':'application/json','Content-Length':Buffer.byteLength(bytes)},signal},res=>{
+      const req=http.request({socketPath:this.socketPath,path:'/v1/operation',method:'POST',headers:{Authorization:'Bearer '+this.token,'Content-Type':'application/json','Content-Length':Buffer.byteLength(bytes),...this.project?{'X-Vibe-Project':this.project}:{}},signal},res=>{
         const chunks: Buffer[]=[]
         let length=0
         res.on('data',(chunk: Buffer)=>{

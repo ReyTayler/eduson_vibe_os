@@ -1,0 +1,33 @@
+{
+  "name": "vibe-os-student-portal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "start": "node api/server.mjs"
+  },
+  "dependencies": {
+    "@codemirror/lang-css": "6.3.1",
+    "@codemirror/lang-html": "6.4.12",
+    "@codemirror/lang-javascript": "6.2.5",
+    "@codemirror/lang-markdown": "6.5.2",
+    "@codemirror/lang-python": "6.2.1",
+    "@node-rs/argon2": "2.2.2",
+    "@uiw/react-codemirror": "4.25.12",
+    "fastify": "5.12.5",
+    "lucide-react": "1.52.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "playwright": "1.63.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "vite": "8.3.3"
+  }
+}

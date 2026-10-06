@@ -1,0 +1,24 @@
+[Unit]
+Description=Vibe OS multi-project anchored Runner
+After=local-fs.target
+RequiresMountsFor=/srv/vibe-os/data
+[Service]
+ExecStart=/opt/vibe-os/bin/vibe-workspace-runner --socket /run/vibe-os-workspace/runner.sock --registry /var/lib/vibe-os/student-registry --control-uid 0 --unit-prefix vibe-ws-tool- --slice vibe-student-tools.slice
+User=root
+RuntimeDirectory=vibe-os-workspace
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+UMask=0077
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/srv/vibe-os/data/student-projects /run/vibe-os-workspace /sys/fs/cgroup
+MemoryMax=192M
+MemorySwapMax=0
+TasksMax=64
+[Install]
+WantedBy=multi-user.target

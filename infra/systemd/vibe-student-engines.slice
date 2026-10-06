@@ -1,0 +1,7 @@
+[Unit]
+Description=Vibe OS student Harness pool
+[Slice]
+MemoryMax=1G
+MemorySwapMax=0
+TasksMax=128
+CPUQuota=150%

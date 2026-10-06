@@ -1,0 +1,16 @@
+{
+  "trusted": true,
+  "ip": "80.249.145.94",
+  "subjectAltName": [
+    [
+      "IP Address",
+      "80.249.145.94"
+    ]
+  ],
+  "notBefore": "Oct  6 15:03:21 2026 GMT",
+  "notAfter": "Oct 13 07:03:20 2026 GMT",
+  "renewalDryRunPassed": true,
+  "renewalDryRunUtcDate": "2026-10-06",
+  "renewalTimer": "active",
+  "renewalTimerEnabled": "enabled"
+}

@@ -1,0 +1,28 @@
+✔ Confirmed terminal usage settles its reserve; one million cap includes all cache and output tokens (44.499881ms)
+✔ Fifteen outstanding or uncertain full envelopes are the maximum without trusted usage (3.283962ms)
+✔ Large confirmed usage cannot admit calls beyond the unchanged million-token ceiling (5.078205ms)
+✔ Duplicate admission and duplicate settlement cannot trigger another call or debit (1.40289ms)
+✔ Interrupted sent request becomes uncertain on WAL reopen and retains the full debit (17.369845ms)
+✔ AES-GCM plaintext absent, AAD bound to credential number and corrupted ciphertext rejected (6.434969ms)
+✔ Unauthorized caller rejected before reserve and upstream (42.15962ms)
+✔ Image, unknown model, excessive output and thinking cannot spend tokens (22.207534ms)
+✔ Oversized body rejected before reserve (16.862779ms)
+✔ Fragmented SSE with CRLF crosses chunk boundaries; terminal usage commits before completion (28.973644ms)
+✔ Same request id is sent upstream once (23.910704ms)
+✔ Concurrent attempts across all keys reserve atomically before any provider finishes (157.077146ms)
+✔ Provider HTTP auth errors are sanitized and full debit stays consumed (19.950632ms)
+✔ Missing terminal usage and in-band provider error cannot appear as success (15.530006ms)
+✔ Client disconnect aborts upstream and preserves non-refundable debit (26.103891ms)
+✔ In-band provider error text never exposes credential material or final success (16.297288ms)
+✔ Credential outside 20 through 27 and arbitrary route cannot dispatch (13.681597ms)
+✔ Malformed settlement never releases capacity, duplicate settlement cannot refund twice (1.58973ms)
+✔ V1 migration keeps the original history, cap and unresolved reservations (18.426951ms)
+✔ Read-only private status while streaming cannot turn an active request into uncertain (18.682325ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 649.295482

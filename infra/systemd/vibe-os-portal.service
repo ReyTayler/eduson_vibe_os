@@ -1,0 +1,22 @@
+[Unit]
+Description=Vibe OS student portal and private API
+After=vibe-os-workspace-broker.service
+Wants=vibe-os-workspace-broker.service
+[Service]
+ExecStart=/usr/local/bin/node /opt/vibe-os/portal/api/server.mjs
+User=vibe-portal-api
+Group=vibe-portal-api
+WorkingDirectory=/opt/vibe-os/portal
+Restart=on-failure
+RestartSec=2
+LimitCORE=0
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/vibe-os/portal
+MemoryMax=384M
+MemorySwapMax=0
+TasksMax=64
+[Install]
+WantedBy=multi-user.target

@@ -1,84 +1,83 @@
-# Следующие этапы реализации Vibe OS
+# Vibe OS — оставшаяся дорожная карта
 
-Этот файл описывает переход от серверного технического прототипа к учебному MVP. Текущее состояние и проверенные ограничения находятся в [отчёте](build-report.md).
+Состояние на 6 октября 2026 года. Текущая работающая сборка описана в [student-portal](student-portal.md). Предыдущая дорожная карта сохранена в [generation 1](implementation-next-generation1.md) для сопоставления аудита.
 
-## 1. Завершить безопасную интеграцию модели
+## Что уже реализовано
 
-**Текущее состояние:** gateway, AES-GCM storage, отдельный school-deepseek provider и keys №20–27 реализованы; live checks прошли. См. [интеграцию](deepseek-integration.md). Развивать `services/model-gateway/`, `packages/credentials/` и `profiles/deepseek-model.ts`.
+На сервере работают пять независимых ученических кабинетов, React UI, authenticated Fastify API, проекты/папки/файлы/директории, CodeMirror, guarded saves, изолированный Python/Node, реальные отдельные Harness sessions, durable messages/runs, fair queue, scoped multi-project Runner, ciphertext keys 20–27, общий budget generation 2, статический preview и постоянная публикация с тремя слотами на ученика. Есть trusted HTTPS на IP и renewal timer. Старый публичный тестовый стенд отключён.
 
-- Сохранить отдельный provider ID `school-deepseek`. Не выбирать `deepseek-official` через SDK initialize, чтобы не появлялся штатный fallback.
-- Повторно сверить официальный DeepSeek Anthropic Messages wire и поддержку модели. По исследованному baseline штатный adapter использует `/anthropic/v1/messages`; OpenAI Chat Completions здесь нельзя подставить без проверки совместимости.
-- Добавить узкий транспорт provider → Unix gateway. Проверить abort, частичные SSE chunks, error frames и terminal usage. Не применять глобальную подмену fetch.
-- Сохранить root-only credential directory и добавить per-user ownership, версии и rotation. Master key хранить вне DB через совместимый с systemd 249 `LoadCredential`. Не рассчитывать на `LoadCredentialEncrypted`.
-- Шифровать школьный ключ AES-256-GCM с nonce 96 bit и AAD, содержащим владельца, credential ID и key version. Ключи учеников должны иметь разные fingerprints. Не наследовать ключ в engine/command environment.
-- Реальная credential применяется только в gateway. Engine получает ограниченную capability run/project/model/budget и доступ к одному Unix endpoint.
-- Включить ядро pre-reserve/settle из `packages/control/` в gateway. Worst-case резервируется до отправки. Usage считается доверенным только после проверенного provider response. Не отпускать uncertain резерв по кнопке отмены и не делать слепой replay.
-- Реальный canary провести на отдельном тестовом ключе с жёстким небольшим лимитом и без записи key в лог. Первый live canary уже прошёл: 960 токенов на десяти запросах. Последующие попытки учитываются в том же неизменяемом token ledger, без нового допуска по умолчанию.
+Приёмочные suites перечислены в [отчёте кабинетов](student-portal.md). Кабинеты подходят для просмотра UI и пробной работы пяти учеников. Ниже перечислены реальные незавершённые части.
 
-**Приёмка:** ключ не виден в tool output, traces, браузере, JSONL и engine env; duplicate/cancel/crash/midnight tests проходят; повторная доставка события usage не меняет spent второй раз.
+## 1. Приглашения, классы и преподаватель
 
-## 2. Развернуть настоящий BFF и writer
+Файлы для развития: `apps/portal/api/`, migrations/contracts нового control layer.
 
-**Файлы:** `apps/api/`, `packages/control/migrations/`, `packages/contracts/`.
+- Перевести bootstrap из пяти фиксированных users в classroom/membership с teacher/admin roles.
+- Одна авторитетная схема ownership/membership; согласовать две текущие SQL projections с оригинальными control invariants.
+- Одноразовый invitation: random token, SHA-256 verifier, TTL, атомарное consume; rate limits, закрытый reset/revoke.
+- Все HTTP/SSE/project/AI routes проверяют действующий membership. Epoch/revocation распространяются на уже открытые streams и preview capabilities.
+- Добавить teacher cabinet, просмотр проектов своего класса, лимиты и restriction; pupil enable не снимает restriction.
+- Журнал operator/teacher действий с retention без plaintext key/password.
 
-- Fastify 5, TypeScript strict; точные версии закрепить lockfile после повторной проверки перед установкой.
-- Сохранить один SQLite writer в отдельном worker. В прототипе используется встроенная SQLite Node 3.53.4. Если будет выбран better-sqlite3, проверить фактическую embedded SQLite и WAL fix в новом бинарном артефакте.
-- Развивать schema generation 1 последовательными миграциями. Не переписывать уже применённые поколения и не делать downgrade.
-- Ввести classroom/membership, session projection, credential records, idempotency, durable jobs/outbox, audit retention и caps сущностей.
-- Добавить закрытые одноразовые invitations: random token, SHA-256 verifier, TTL, atomic consume.
-- Пароли Argon2id. Непредсказуемая серверная сессия, Secure/HttpOnly/__Host cookie, CSRF и отзыв session epoch. Email не обязателен.
-- Каждый HTTP/SSE/files/chat route проверяет ownership и действующую membership. Учитель ограничен своим классом.
-- В browser request никогда не принимать user ID как источник полномочий, runner paths, UID, stop receipts, grant signature или plaintext credential.
-- Доработать корневой Runner до typed multi-project registry: capability scoped per run, peer roles engine/control, validated root-owned specs, generation fences, durable recovery. Не открыть общий root shell.
+Приёмка: два класса, чужой teacher/ученик, повтор invitation, disable во время SSE/очереди/hosting, revoked preview и парольный reset.
 
-**Приёмка:** отрицательные ownership tests между двумя учениками и двумя классами; повторная активация приглашения запрещена; disabled user теряет HTTP/SSE/preview доступ; SQLite connection не допускает запрещённые pragmas и REPLACE.
+## 2. Постоянные backend-приложения
 
-## 3. Сделать workspace, editor и AI lifecycle
+Текущие slots обслуживают статические snapshots. Для Python/Node HTTP runtimes использовать исходные invariants в `packages/control/` и проверенный принцип root coordinator, сохраняя отдельные UID/rootfs/quotas.
 
-**Файлы:** `apps/web/`, `services/ai-worker/`, `packages/workspaces/`.
+- Ввести точный release/profile/dependencies manifest, boot/cutover grant и generation fences.
+- HMAC minute/group/classroom code преподавателя связывается с конкретным sealed release и data policy. После одобрения неизменённый release переживает reboot без нового minute code.
+- Для каждого приложения ограниченный transient/persistent systemd range + NsJail, фиксированный listener и exact registered ingress target.
+- Пользовательские SQLite/live data отдельно от source/release/preview. Обновление кода сохраняет live DB; seed проверяется manifest.
+- Новое приложение получает слот лишь после stop ACK и empty cgroup предыдущего. Unknown/stopping держит capacity. Максимум три на ученика плюс измеренный общий pool.
+- Разрешения сети и установки dependencies оформить отдельно: не открывать общий host network/socket и платные API посетителям.
+- Перед cutover согласованный backup; автоматический rollback произвольного DDL не обещать.
 
-- React, Vite, русские тексты интерфейса, редактор с ограниченным файловым API.
-- Save применяет base revision CAS и отказывает при активной mutation lease. Queued AI intent не блокирует save до dispatch.
-- Fair queue по ученикам; для начала ограничить одновременные engine, фиксировать p95 ожидания. Не обещать класс из 30 учеников по памяти и скорости fake fixture.
-- Каждый AI run работает в staging копии конкретной revision. Ученик не пишет одновременно в этот staging.
-- Реализовать все нужные методы FS/subprocess/shell перед загрузкой штатных consumers; не оставлять частичные provider как общую замену.
-- Расширить tool caps до обоснованного профиля для Python/Node. Сохранить CPU/memory/pids, no INET/INET6, bounded output, exit/cgroup ACK.
-- Продолжить school open/read/cancel/delta протокол. Разделять tentative stream и durable settlement.
-- Ограничить рост history до dispatch, сделать отдельный archive index/stream reader и независимую summary-rollover session. Fork с inherited prefix не решает проблему размера.
-- Добавить file/event/entity caps, итоговый combined result byte cap и worst-case RSS измерение под 512 MiB.
+Приёмка: stable URL, switch/off/on/update/reboot, writable old FD не меняет release, утраченный ACK, late stop старой generation, fill quota, restriction после restore.
 
-**Приёмка:** cancel во время файловой операции и model streaming; crash между flush/artifact seal/SQL projection; resume с ровно одной writer lease; превышение истории не запускает полный decode; изменения на базе старой revision не коммитятся.
+## 3. AI staging и atomic commit
 
-## 4. Реализовать пользовательскую публикацию и постоянный хостинг
+Сейчас mutation lease защищает живой workspace. Cancel/error может оставить частичные изменения, и UI сообщает об этом.
 
-**Файлы:** `services/release-sealer/`, `services/runtime-coordinator/`, `packages/approvals/`.
+- Run фиксирует base revision и работает в staging copy с отдельной квотой.
+- Команды, FS и background helpers ограничены staging данного run.
+- Перед seal закрыть writer admission, остановить дочерние ranges, получить empty cgroup ACK и копировать в новые inode.
+- Commit/merge применяет CAS к base revision. Изменённая учеником revision требует явного resolution, а не silent overwrite.
+- Отдельно хранить tentative stream, durable history и committed files; crash recovery не делает model replay автоматически.
+- Idempotency/outbox согласовывает staging, history и SQL. Failed cleanup остаётся видимым для оператора.
 
-- HMAC-код преподавателя имеет minute/group/classroom scope и ограниченный TTL. Созданная approval привязана к точному sealed release/profile/data policy; обычный approved runtime переживает reboot без нового minute code.
-- Закрыть mutation admission и остановить все writers/commands/build helpers; дождаться cgroup empty. Копировать release в новые inode, без staging hardlinks и удерживаемых writable FD.
-- Manifest включает содержимое, dependency/profile digests, UID/network/resource policy и правила данных.
-- Live SQLite отделить от staging/preview/dev DB. Первый seed проверить хешем; обновление кода сохраняет live DB. До cutover делать согласованный backup; автоматический rollback DDL не обещать.
-- Применить проверенные три hosting_slots на ученика и глобальный pool для прототипа. Failed/unknown/stopping сохраняют reserved capacity до ACK.
-- Координатор меняет ingress и запускает ровно один runtime generation. Stop старого поколения не останавливает новое.
-- При boot/restart/cutover снова проверить grant, restriction, digest и membership.
-- Квоты распределять из tenant pool по каждому project ID; учитывать код, releases, staging, live DB/WAL и engine home. Отдельно ограничить control metadata и retention.
+Приёмка: два окна браузера, stale save, cancel при write, engine crash после artifact flush до SQL, reopen и повтор commit.
 
-**Приёмка:** обновление при старом открытом FD не меняет approved bytes; новая версия не создаёт четвёртый runtime; потерянный ACK удерживает слот; teacher restriction не снимается pupil enable; quota fill не блокирует оператора.
+## 4. Более длинные чаты и dependency tooling
 
-## 5. Разнести домены и включить preview
+Текущий gateway intentionally bounded: request до 16 KiB, output до 2048, один engine, до 6 модельных шагов. Это может ограничивать длинную переписку и генерацию большого проекта.
 
-- Нужны отдельные registrable domains для портала и пользовательских приложений, wildcard DNS и TLS. Адрес/домен сейчас не предоставлен.
-- Proxy маршрутизирует только зарегистрированные exact targets. Ни URL браузера, ни произвольный Host не становятся upstream.
-- Не публиковать database files, dotfiles, source maps с секретами и служебные логи.
-- Preview bearer означает передаваемый доступ. User ID внутри capability не подтверждает личность получателя. Для приватных материалов требуется отдельная проверка сессии и membership.
-- Публичные посетительские paid API по умолчанию выключены; только отдельный allowlist gateway с собственными бюджетами.
+- Ввести archive index, bounded stream reader и summary/rollover sessions; полный history decode под hard RSS cap не разрешать.
+- При расширении payload/output заново обосновать worst-case token reservation до изменения cap.
+- Реализовать изолированный build/dependency cache и разрешённые package sources с lockfile/content digest.
+- Отдельный bounded gateway для package downloads; запрет credentials/host paths/DNS rebinding.
+- Улучшить UX diff/accept changes, checkpoints и восстановление файлов.
+- Привязку credentials сделать операционными versioned records с per-user/classroom RBAC, ротацией/отзывом; сохранить global 1 000 000 authorization пока пользователь не изменит его явно.
+- Реализовать денежные/day/classroom budgets, admission и settle/uncertainty без обхода global cap.
 
-## 6. Подготовить эксплуатацию и пилот
+## 5. Домены и эксплуатация
 
-- Перенести данные на подходящий XFS том либо отдельно зафиксировать поддерживаемую схему одного диска и доказать IO SLO под fsync flood.
-- Зафиксировать journald/log/control WAL caps, метрики очереди и бюджета, disk/inode headroom, kill/recovery и cleanup lag.
-- Подключить внешнее S3 хранение. SQLite backup API и fsync watermarks; не копировать отдельно `.db` при живом WAL.
-- Проверить восстановление на чистый сервер, отдельное хранение master key, отзыв приглашений/preview/session capabilities и применение актуальных revocations перед запуском восстановленных apps.
-- Пилот 5–10 учеников провести после регистрации, ключей, доменов, backup/restore и отрицательных изоляционных тестов.
-- Library, ручные screenshot/cards, курс/PDF/VK links и прогресс учителя добавить после устойчивого editor/AI/hosting цикла.
+Текущий IP HTTPS + порт 8443 использует opaque CSP sandbox и credential stripping. Расширять browser capabilities следует после появления отдельных registrable domains.
 
-Нагрузку 30 учеников и 90 динамических приложений проверять отдельно. Сервер 4 vCPU / 8 GiB был выбран для технического прототипа.
+- Portal и пользовательские приложения на независимых registrable domains; wildcard DNS/TLS и exact ingress mappings.
+- Пересмотреть CSP, cookies, CORS, preview bearer и private previews для новых capabilities.
+- Внешние S3 backups: SQLite backup API, fsync watermarks, snapshots/data/master key отдельными защищёнными объектами.
+- Проверить восстановление на чистый сервер; актуальные revocations применяются до запуска восстановленных apps.
+- Согласовать XFS loop на одном SSD с IO SLO; для расширения выделить data volume и проверить quota/fsync flood.
+- Лимиты control SQL, logs/journal, histories, artifacts, snapshots и metadata. Нынешний проектный cap не заменяет operator headroom.
+- Метрики queue wait/run latency/cancel cleanup, budget uncertainty, TLS expiry/renew, disk/inode headroom, cgroup leak и backup age.
+
+## 6. Пилот и нагрузка
+
+Сначала пробная работа пяти учеников и сбор фактических UX ошибок. Далее — пилот 5–10 после teacher/invitation, backend runtime при необходимости и внешнего restore.
+
+Нагрузочные проверки: конкурирующие saves/chats/runs/publications, cgroup cleanup, SQLite contention, noisy neighbor по памяти/CPU/IO, очередь модели и долговременный рост history/release storage.
+
+Класс из 30 учеников и 90 постоянных backend apps — отдельная нагрузочная задача. Сервер 4 vCPU / 8 GiB не даёт такой гарантии без измерений.
+
+Library, прогресс учителя, загрузка изображений/PDF и дополнительные учебные материалы идут после устойчивого основного цикла. Полный переносимый installer нужен перед повторным развёртыванием; сейчас runtime и paths закреплены для текущего сервера.

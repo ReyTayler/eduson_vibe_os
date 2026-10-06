@@ -1,0 +1,10 @@
+{
+  "student": 1,
+  "webProject": "12e647862bad399d0b6052c65fc122e2",
+  "pythonProject": "e4ea65dff37a4957c8229e9aaa133abf",
+  "published": true,
+  "pythonRun": {
+    "exitCode": 255,
+    "cgroupEmpty": true
+  }
+}

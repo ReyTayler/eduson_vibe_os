@@ -1,0 +1,9 @@
+[Unit]
+Description=Renew Vibe OS short-lived IP TLS certificate
+[Service]
+Type=oneshot
+ExecStart=/opt/vibe-os/certbot/bin/certbot renew --quiet --deploy-hook /opt/vibe-os/bin/reload-portal-tls
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/etc/letsencrypt /var/lib/letsencrypt /var/log/letsencrypt

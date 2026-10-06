@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checks": [
+    "empty private cabinet",
+    "create folder",
+    "create Node project in selected folder and modal focus containment",
+    "directory and nested file creation; Ctrl+S; real execution",
+    "rename directory and active file preserves content",
+    "create and rename chat",
+    "mobile editor layout",
+    "delete file and empty directory from UI",
+    "chat overview and profile settings"
+  ],
+  "count": 9,
+  "browserErrors": [],
+  "paidCalls": 0,
+  "fixturesRemoved": true
+}

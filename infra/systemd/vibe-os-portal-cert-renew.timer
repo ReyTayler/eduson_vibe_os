@@ -1,0 +1,9 @@
+[Unit]
+Description=Check Vibe OS IP certificate renewal every two hours
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=2h
+RandomizedDelaySec=5min
+Persistent=yes
+[Install]
+WantedBy=timers.target

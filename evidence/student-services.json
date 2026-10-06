@@ -1,0 +1,31 @@
+{
+  "timeUtc": "2026-10-06T17:12:02.182090+00:00",
+  "legacyServicesRetired": [
+    "vibe-os-poc-app1.service",
+    "vibe-os-poc-app2.service",
+    "vibe-os-poc-app3.service",
+    "vibe-os-poc-app4.service",
+    "vibe-os-poc-console.service",
+    "vibe-os-poc-runner.service",
+    "vibe-os-test-web.service"
+  ],
+  "legacySlotsReleasedAfterEmptyCgroup": [
+    "demo1",
+    "demo2",
+    "demo3"
+  ],
+  "legacyDataPreserved": true,
+  "currentServices": {
+    "vibe-os-model-gateway": "active",
+    "vibe-os-workspace-runner": "active",
+    "vibe-os-workspace-broker": "active",
+    "vibe-os-portal": "active",
+    "vibe-os-portal-web": "active"
+  },
+  "finishedNegativeToolUnitsCleared": 6,
+  "retiredCanaryUnitsResetAfterEmptyCgroup": [
+    "vibe-os-poc-app1.service",
+    "vibe-os-poc-app2.service",
+    "vibe-os-poc-app3.service"
+  ]
+}

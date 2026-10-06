@@ -1,0 +1,7 @@
+[Unit]
+Description=Vibe OS student command pool
+[Slice]
+MemoryMax=1G
+MemorySwapMax=0
+TasksMax=256
+CPUQuota=200%

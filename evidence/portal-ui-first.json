@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "errors": [],
+  "checks": [
+    "trusted-ip-https",
+    "login",
+    "dashboard",
+    "code-editor",
+    "opaque-preview",
+    "preview-script",
+    "hosting",
+    "python-run",
+    "mobile-layout"
+  ],
+  "screenshots": "/opt/vibe-os/platform/evidence/portal-ui"
+}
