@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T20:49:22.699969+00:00",
+  "paidCalls": 0,
+  "feature": "Separate admin panel and append-only current-week bonus grants",
+  "adminUrl": "https://80.249.145.94/admin",
+  "adminAccounts": 1,
+  "studentAccounts": 5,
+  "humanProjects": 3,
+  "humanPortalRowsPreserved": true,
+  "grantCount": 1,
+  "student01Budget": {
+    "generation": 4,
+    "scope": "student",
+    "student": 1,
+    "period": "weekly",
+    "timezone": "Europe/Moscow",
+    "periodStartsAt": "2026-10-04T20:59:00.000Z",
+    "resetsAt": "2026-10-11T20:59:00.000Z",
+    "limitTokens": 3000000,
+    "baseLimitTokens": 1000000,
+    "extraLimitTokens": 2000000,
+    "debitedTokens": 829759,
+    "remainingAuthorizationTokens": 2170241,
+    "enabled": true,
+    "clockValid": true,
+    "maxRemainingCalls": 66,
+    "attempts": 31,
+    "confirmed_tokens": 829759,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 8538857
+  },
+  "productionBudget": {
+    "attempts": 46,
+    "confirmed_tokens": 837577,
+    "uncertain_ceiling": 0
+  },
+  "offlineTests": 73,
+  "liveAdminChecks": 4,
+  "weeklyQuotaChecks": 8,
+  "runtimeMatchesSource": true,
+  "frontendMatchesBuild": true,
+  "javascriptSyntaxFiles": 41,
+  "documentationLinks": 98,
+  "services": {
+    "vibe-os-model-gateway": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-broker": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-runner": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal-web": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "evidence": [
+    "admin-bonus-tests.tap",
+    "admin-bonus-acceptance.json",
+    "weekly-quota-acceptance.json",
+    "student-secret-scan.json"
+  ]
+}

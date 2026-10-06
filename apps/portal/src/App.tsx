@@ -1,3 +1,4 @@
+import Admin from "./Admin";
 import {
   useEffect,
   useRef,
@@ -242,6 +243,9 @@ function Login({ onLogin }: { onLogin: (user: User) => void }) {
             <ShieldCheck size={15} />
             Личный кабинет · твои проекты и разговоры
           </div>
+          <a className="login-admin-link" href="/admin">
+            Вход для администратора
+          </a>
         </section>
       </main>
       <footer className="login-footer">
@@ -293,7 +297,7 @@ function ProjectCover({ project }: { project: Project }) {
     </div>
   );
 }
-export default function App() {
+function StudentApp() {
   const [user, setUser] = useState<User | null>(null),
     [loading, setLoading] = useState(true),
     [view, setView] = useState<View>("home"),
@@ -1408,8 +1412,20 @@ function SettingsPage({
             </div>
             <div className="budget-line">
               <span>Твой лимит на неделю</span>
-              <b>1 000 000</b>
+              <b>
+                {new Intl.NumberFormat("ru").format(
+                  budget?.limitTokens ?? 1000000,
+                )}
+              </b>
             </div>
+            {!!budget?.extraLimitTokens && (
+              <div className="budget-line">
+                <span>Из них дополнительно</span>
+                <b>
+                  +{new Intl.NumberFormat("ru").format(budget.extraLimitTokens)}
+                </b>
+              </div>
+            )}
             <div className="budget-line">
               <span>Использовано</span>
               <b>
@@ -1442,9 +1458,10 @@ function SettingsPage({
               </b>
             </div>
             <small>
-              Личный лимит — 1 млн токенов в неделю на все твои проекты и чаты.
-              Сброс каждое воскресенье в 23:59 по Москве. Для незавершённых
-              запросов сохраняется резерв.
+              Базовый лимит — 1 млн токенов в неделю на все твои проекты и чаты.
+              Дополнительные начисления действуют до следующего сброса. Сброс
+              каждое воскресенье в 23:59 по Москве. Для незавершённых запросов
+              сохраняется резерв.
             </small>
           </div>
           <div className="settings-card glass">
@@ -1732,5 +1749,13 @@ function ProjectModal({
         </div>
       </form>
     </Modal>
+  );
+}
+
+export default function App() {
+  return window.location.pathname.replace(/\/$/, "") === "/admin" ? (
+    <Admin />
+  ) : (
+    <StudentApp />
   );
 }

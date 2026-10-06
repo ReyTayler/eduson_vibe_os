@@ -1,5 +1,5 @@
 {
-  "timeUtc": "2026-10-06T19:47:04.612871+00:00",
+  "timeUtc": "2026-10-06T20:49:22.699969+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
@@ -12,8 +12,8 @@
     0
   ],
   "hostingSlotsPerStudent": 3,
-  "paidCallsTotal": 41,
-  "confirmedTokensTotal": 560849,
+  "paidCallsTotal": 46,
+  "confirmedTokensTotal": 837577,
   "modelTestingBudget": {
     "generation": 4,
     "scope": "operator",
@@ -127,15 +127,27 @@
       "passed": true,
       "paidCalls": 0,
       "evidence": "model-history-live-check.json"
+    },
+    "admin-extra-quota-offline": {
+      "passed": true,
+      "checks": 73,
+      "paidCalls": 0,
+      "evidence": "admin-bonus-tests.tap"
+    },
+    "admin-bonus-live": {
+      "passed": true,
+      "checks": 4,
+      "paidCalls": 0,
+      "evidence": "admin-bonus-acceptance.json"
     }
   },
   "staticChecks": {
     "goVet": "passed",
     "strictProfilesTypeScript": "passed",
     "strictPortalTypeScriptBuild": "passed",
-    "javascriptSyntaxFiles": 35,
+    "javascriptSyntaxFiles": 41,
     "pythonSyntaxFiles": 13,
-    "documentationLinks": 91,
+    "documentationLinks": 98,
     "diffCheck": "passed",
     "renewalDryRun": "passed",
     "runtimeMatchesSource": "passed"
@@ -145,11 +157,11 @@
       "active": "active",
       "enabled": "enabled"
     },
-    "vibe-os-workspace-runner": {
+    "vibe-os-workspace-broker": {
       "active": "active",
       "enabled": "enabled"
     },
-    "vibe-os-workspace-broker": {
+    "vibe-os-workspace-runner": {
       "active": "active",
       "enabled": "enabled"
     },
@@ -209,7 +221,7 @@
     "absoluteModelAndRunDeadline": null,
     "providerIdleTimeoutMs": 300000
   },
-  "latestFeatureEvidence": "model-history-final.json",
+  "latestFeatureEvidence": "admin-bonus-final.json",
   "studentWeeklyBudgets": [
     {
       "generation": 4,
@@ -219,16 +231,18 @@
       "timezone": "Europe/Moscow",
       "periodStartsAt": "2026-10-04T20:59:00.000Z",
       "resetsAt": "2026-10-11T20:59:00.000Z",
-      "limitTokens": 1000000,
-      "debitedTokens": 553031,
-      "remainingAuthorizationTokens": 446969,
+      "limitTokens": 3000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 2000000,
+      "debitedTokens": 829759,
+      "remainingAuthorizationTokens": 2170241,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 13,
-      "attempts": 26,
-      "confirmed_tokens": 553031,
+      "maxRemainingCalls": 66,
+      "attempts": 31,
+      "confirmed_tokens": 829759,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 6848533
+      "admittedCeilingTotal": 8538857
     },
     {
       "generation": 4,
@@ -239,6 +253,8 @@
       "periodStartsAt": "2026-10-04T20:59:00.000Z",
       "resetsAt": "2026-10-11T20:59:00.000Z",
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "debitedTokens": 19,
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
@@ -258,6 +274,8 @@
       "periodStartsAt": "2026-10-04T20:59:00.000Z",
       "resetsAt": "2026-10-11T20:59:00.000Z",
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "debitedTokens": 19,
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
@@ -277,6 +295,8 @@
       "periodStartsAt": "2026-10-04T20:59:00.000Z",
       "resetsAt": "2026-10-11T20:59:00.000Z",
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "debitedTokens": 19,
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
@@ -296,6 +316,8 @@
       "periodStartsAt": "2026-10-04T20:59:00.000Z",
       "resetsAt": "2026-10-11T20:59:00.000Z",
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "debitedTokens": 7704,
       "remainingAuthorizationTokens": 992296,
       "enabled": true,
@@ -315,6 +337,12 @@
     "timezone": "Europe/Moscow",
     "resetWeekday": "Sunday",
     "resetTime": "23:59:00",
-    "carryover": false
+    "carryover": false,
+    "extras": "explicit admin grants for the current Moscow week; no carryover"
+  },
+  "adminPanel": {
+    "url": "https://80.249.145.94/admin",
+    "accounts": 1,
+    "scope": "selected-student current-week extra tokens; append-only audit history"
   }
 }

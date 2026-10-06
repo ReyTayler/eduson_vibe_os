@@ -8,6 +8,8 @@
 
 **У каждого ученика 1 000 000 токенов в неделю.** Сброс каждое воскресенье ровно в 23:59 МСК, без переноса остатка; общий лимит всех его проектов и чатов. В настройках видны личный расход, остаток и следующая дата сброса. [Архитектура квот и приёмка](docs/weekly-quota.md).
 
+[Админ-панель](https://80.249.145.94/admin) позволяет добавлять токены выбранному ученику на текущую неделю и просматривать журнал начислений. У student01 выдано +2 млн до 11 октября, 23:59 МСК. [Устройство бонусов, доступ и проверки](docs/admin-weekly-bonus.md).
+
 В каждом чате доступны рассуждения Off/Low/High/Max. Собственный лимит ответа 64K снят: вывод определяется возможностями DeepSeek и остатком личной недельной квоты. [Текущая политика ответа и проверки](docs/response-policy.md) · [Параметры reasoning](docs/reasoning-settings.md).
 
 Работают проекты и папки, файловые директории, редактор, сохранение с контролем версии, выполнение Python/Node, отдельные чаты с реальным DeepSeek Harness, предпросмотр и включение/выключение постоянного хостинга. Одновременно доступны три опубликованных сайта на ученика. Интерфейс выполнен на React: голубой/белый, прозрачные панели, анимации и адаптация для телефона.
@@ -20,14 +22,14 @@
 
 ```sh
 # Offline, без API keys и платных вызовов; root для проверки владельца Vault.
-node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs tests/model-history.test.mjs
+node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs tests/model-history.test.mjs tests/extra-budget.test.mjs apps/portal/tests/admin-api.test.mjs
 
 # На сервере root, без model prompts; удаляет только свои fixtures.
 node apps/portal/tests/weekly-quota.mjs
 node apps/portal/tests/secret-scan.mjs
 ```
 
-62 offline tests, приёмка квот в пяти кабинетах и полный путь большого ответа через настоящий Harness прошли. Strict TypeScript и production build проходят. Старые API/UI/lifecycle сценарии фиксируют исходные seed fixtures; перед повторным запуском на живых данных требуется адаптация. Lifecycle также кратко отключает gateway и меняет пароль пятого ученика, поэтому не входит в обычный health check.
+73 offline tests, приёмка квот в пяти кабинетах и полный путь большого ответа через настоящий Harness прошли. Strict TypeScript и production build проходят. Старые API/UI/lifecycle сценарии фиксируют исходные seed fixtures; перед повторным запуском на живых данных требуется адаптация. Lifecycle также кратко отключает gateway и меняет пароль пятого ученика, поэтому не входит в обычный health check.
 
 `apps/portal/tests/live-ui.mjs`, `reasoning-live.mjs` и `reasoning-replay.mjs` выполняют **платные** запросы и не входят в health check. Первоначальная проверка кабинетов использовала 3 135 токенов, 12 запросов; reasoning добавил 7 685 токенов, 8 запросов. При публикации недельных квот новых платных вызовов не было. Общий актуальный расход, включая самостоятельную работу учеников, доступен в operator status `overview.lifetime`, личные текущие квоты — в `overview.students`.
 

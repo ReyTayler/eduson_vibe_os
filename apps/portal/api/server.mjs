@@ -1,4 +1,5 @@
 import templates from "./templates.mjs";
+import { registerAdmin } from "./admin.mjs";
 
 /** Student BFF: server sessions, ownership, revision fences and one durable AI queue. */
 import Fastify from "fastify";
@@ -78,6 +79,17 @@ function fail(code, status = 400) {
 const ru = {
   AI_UNAVAILABLE:
     "Помощник временно недоступен. Файлы и редактор продолжают работать.",
+  ADMIN_REQUIRED: "Войдите в панель администратора.",
+  ADMIN_BUDGET_UNAVAILABLE:
+    "Учёт токенов временно недоступен. Повторите позже.",
+  GRANT_INPUT_INVALID:
+    "Введите положительное целое количество токенов и проверьте выбранный аккаунт.",
+  GRANT_REQUEST_CONFLICT:
+    "Эта операция уже записана с другими параметрами. Обновите журнал начислений.",
+  GRANT_WINDOW_CHANGED:
+    "Началась новая неделя. Обновите лимиты и повторите начисление.",
+  BUDGET_CLOCK_ROLLBACK:
+    "Проверка времени не пройдена. Начисление не выполнено.",
   AUTH_REQUIRED: "Войдите в свой кабинет.",
   AUTH_FAILED: "Неверный логин или пароль.",
   RATE_LIMIT: "Слишком много попыток. Подождите минуту.",
@@ -297,6 +309,7 @@ app.addHook("onRequest", async (req, reply) => {
   reply
     .header("Cache-Control", "no-store")
     .header("X-Content-Type-Options", "nosniff");
+  if (req.url.startsWith("/api/admin/")) return;
   if (req.url.startsWith("/api/")) {
     if (req.url.split("?")[0] !== "/api/auth/login") {
       req.student = getSession(req);
@@ -350,6 +363,21 @@ app.setErrorHandler((err, req, reply) => {
         ? "Сервис временно недоступен. Повторите позже."
         : "Не удалось выполнить действие. Проверьте данные."),
   });
+});
+registerAdmin({
+  app,
+  db,
+  sha,
+  rid,
+  fields,
+  str,
+  fail,
+  callBroker,
+  rate,
+  hash,
+  verify,
+  csrfSecret,
+  origin: ORIGIN,
 });
 app.post("/api/auth/login", async (req, reply) => {
   if (req.headers.origin !== ORIGIN) throw fail("CSRF_DENIED", 403);

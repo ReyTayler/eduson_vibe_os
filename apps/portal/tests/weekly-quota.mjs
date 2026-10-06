@@ -141,7 +141,11 @@ try {
       v.ready &&
         v.period === "weekly" &&
         v.timezone === "Europe/Moscow" &&
-        v.limitTokens === 1000000,
+        v.baseLimitTokens === 1000000 &&
+        Number.isSafeInteger(v.extraLimitTokens) &&
+        v.extraLimitTokens >= 0 &&
+        v.limitTokens === v.baseLimitTokens + v.extraLimitTokens &&
+        v.limitTokens === g.limitTokens,
       "Personal weekly policy",
     );
     assert(
@@ -251,8 +255,15 @@ try {
   );
   const lines = await page.locator(".budget-line").allTextContents();
   assert(
-    lines.some((l) => l.includes("1 000 000")) &&
-      lines.some((l) => l.includes("Использовано")),
+    lines.some((l) =>
+      l
+        .replace(/[\u00a0\u202f]/g, " ")
+        .includes(
+          new Intl.NumberFormat("ru")
+            .format(before.overview.students[0].limitTokens)
+            .replace(/[\u00a0\u202f]/g, " "),
+        ),
+    ) && lines.some((l) => l.includes("Использовано")),
     "Personal settings UI",
   );
   assert(

@@ -72,3 +72,6 @@ node apps/portal/tests/secret-scan.mjs
 [Приёмка действующего сервера](../evidence/weekly-quota-acceptance.json): пять входов и личных status, отказ чужому credential, игнорирование подмены query student, provisioning новой capability, настоящий cold Harness initialize без paid calls, desktop/mobile UI, timezone America/New_York, сохранение человеческих проектов. [Деплой и сохранённый расход](../evidence/weekly-quota-deploy.json).
 
 [Desktop](../evidence/portal-ui/weekly-quota.png) · [Mobile](../evidence/portal-ui/mobile-weekly-quota.png) · [Проверка отсутствия секретов](../evidence/student-secret-scan.json).
+
+
+Администратор может выдать дополнительные токены на текущую неделю. Базовый CHECK 1 млн сохранён; текущий total рассчитывается как base + grants. Бонус истекает в тот же воскресный сброс. [Админ-панель и атомарный учёт начислений](admin-weekly-bonus.md).

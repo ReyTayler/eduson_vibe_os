@@ -1,6 +1,7 @@
 /** Root-only typed workspace/engine coordinator, reachable solely through a protected Unix socket. */
 import http from "node:http";
 import { classifyRunFailure } from "./run-errors.mjs";
+import { adminModelRequest } from "./admin-model.mjs";
 import {
   readFileSync,
   writeFileSync,
@@ -103,11 +104,16 @@ async function budget(student) {
               if (
                 v.student !== student ||
                 v.period !== "weekly" ||
-                v.limitTokens !== 1000000
+                v.baseLimitTokens !== 1000000 ||
+                !Number.isSafeInteger(v.extraLimitTokens) ||
+                v.extraLimitTokens < 0 ||
+                v.limitTokens !== v.baseLimitTokens + v.extraLimitTokens
               )
                 throw error("BUDGET_SCOPE_MISMATCH", 503);
               item.value = {
                 limitTokens: v.limitTokens,
+                baseLimitTokens: v.baseLimitTokens,
+                extraLimitTokens: v.extraLimitTokens,
                 confirmedTokens: v.confirmed_tokens,
                 reservedTokens: v.uncertain_ceiling,
                 remainingTokens: v.remainingAuthorizationTokens,
@@ -831,6 +837,17 @@ async function ai(params, res) {
 }
 async function dispatch(p) {
   switch (p.op) {
+    case "admin-budgets":
+      return adminModelRequest("/v1/admin/overview");
+    case "admin-grants":
+      if (!Number.isInteger(p.student) || p.student < 1 || p.student > 5)
+        throw error("INVALID_STUDENT");
+      return adminModelRequest("/v1/admin/grants?student=" + p.student);
+    case "admin-grant": {
+      const result = await adminModelRequest("/v1/admin/grants", p.grant);
+      budgets.delete(p.grant.student);
+      return result;
+    }
     case "budget":
       return budget(p.student);
     case "provision":

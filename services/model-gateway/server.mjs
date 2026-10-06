@@ -272,6 +272,78 @@ export function createGateway({
         );
         return;
       }
+      if (req.url.startsWith("/v1/admin/")) {
+        if (!operator) throw fail("OPERATOR_REQUIRED", 403);
+        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Cache-Control", "no-store");
+        if (req.method === "GET" && req.url === "/v1/admin/overview") {
+          res.end(JSON.stringify(ledger.overview()));
+          return;
+        }
+        if (
+          req.method === "GET" &&
+          /^\/v1\/admin\/grants\?student=[1-5]$/.test(req.url)
+        ) {
+          const student = Number(
+            new URL(req.url, "http://localhost").searchParams.get("student"),
+          );
+          res.end(JSON.stringify(ledger.grants(student)));
+          return;
+        }
+        if (req.method === "POST" && req.url === "/v1/admin/grants") {
+          if (req.headers["content-type"] !== "application/json")
+            throw fail("CONTENT_TYPE");
+          const chunks = [];
+          let bytes = 0;
+          for await (const chunk of req) {
+            timer.refresh();
+            bytes += chunk.length;
+            if (bytes > 4096) throw fail("GRANT_INPUT_INVALID", 413);
+            chunks.push(chunk);
+          }
+          let body;
+          try {
+            body = object(JSON.parse(Buffer.concat(chunks).toString("utf8")));
+          } catch (_parse) {
+            throw fail("GRANT_INPUT_INVALID");
+          }
+          if (
+            Object.keys(body).some(
+              (k) =>
+                ![
+                  "id",
+                  "student",
+                  "tokens",
+                  "actor",
+                  "note",
+                  "periodStart",
+                ].includes(k),
+            )
+          )
+            throw fail("GRANT_INPUT_INVALID");
+          let result;
+          try {
+            result = ledger.grant(body);
+          } catch (e) {
+            if (
+              [
+                "GRANT_INPUT_INVALID",
+                "GRANT_REQUEST_CONFLICT",
+                "GRANT_WINDOW_CHANGED",
+                "BUDGET_CLOCK_ROLLBACK",
+              ].includes(e.message)
+            )
+              throw fail(
+                e.message,
+                e.message === "GRANT_INPUT_INVALID" ? 400 : 409,
+              );
+            throw e;
+          }
+          res.end(JSON.stringify(result));
+          return;
+        }
+        throw fail("ROUTE_NOT_ALLOWED", 404);
+      }
       const keyId = Number(req.headers["x-vibe-credential"]);
       if (!Number.isInteger(keyId) || keyId < 20 || keyId > 27)
         throw fail("CREDENTIAL_SCOPE", 403);

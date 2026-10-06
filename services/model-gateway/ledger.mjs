@@ -250,6 +250,10 @@ CREATE TABLE IF NOT EXISTS weekly_policy(id INTEGER PRIMARY KEY CHECK(id=1),gene
 CREATE TABLE IF NOT EXISTS weekly_budgets(student INTEGER NOT NULL CHECK(student BETWEEN 1 AND 5),period_start INTEGER NOT NULL,period_end INTEGER NOT NULL CHECK(period_end>period_start),limit_tokens INTEGER NOT NULL CHECK(limit_tokens=1000000),PRIMARY KEY(student,period_start));
 CREATE TABLE IF NOT EXISTS request_scopes(request_id TEXT PRIMARY KEY REFERENCES model_requests(id),student INTEGER CHECK(student BETWEEN 1 AND 5),period_start INTEGER,CHECK((student IS NULL AND period_start IS NULL) OR (student IS NOT NULL AND period_start IS NOT NULL)));
 CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,period_start,request_id);
+CREATE TABLE IF NOT EXISTS weekly_grants(id TEXT PRIMARY KEY,student INTEGER NOT NULL,period_start INTEGER NOT NULL,tokens INTEGER NOT NULL CHECK(tokens>0 AND tokens<=9007199254740991),actor TEXT NOT NULL,note TEXT NOT NULL,created_at INTEGER NOT NULL,FOREIGN KEY(student,period_start) REFERENCES weekly_budgets(student,period_start));
+CREATE INDEX IF NOT EXISTS grants_by_week ON weekly_grants(student,period_start,created_at);
+CREATE TRIGGER IF NOT EXISTS immutable_grant_update BEFORE UPDATE ON weekly_grants BEGIN SELECT RAISE(ABORT,'GRANTS_APPEND_ONLY');END;
+CREATE TRIGGER IF NOT EXISTS immutable_grant_delete BEFORE DELETE ON weekly_grants BEGIN SELECT RAISE(ABORT,'GRANTS_APPEND_ONLY');END;
 `);
       this.db
         .prepare(
@@ -305,6 +309,123 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
       .get(student, window.start);
     if (b.limit_tokens !== TOKEN_CEILING || b.period_end !== window.end)
       throw new Error("WEEKLY_LIMIT_INVALID");
+  }
+  extraTokens(student, period) {
+    if (student === null) return 0;
+    studentId(student);
+    return this.db
+      .prepare(
+        "SELECT coalesce(sum(tokens),0) tokens FROM weekly_grants WHERE student=? AND period_start=?",
+      )
+      .get(student, period).tokens;
+  }
+  limitFor(student, period) {
+    return TOKEN_CEILING + this.extraTokens(student, period);
+  }
+  grant({ id, student, tokens, actor, note = "", periodStart }) {
+    studentId(student);
+    if (
+      student === null ||
+      typeof id !== "string" ||
+      !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(
+        id,
+      ) ||
+      !Number.isSafeInteger(tokens) ||
+      tokens < 1 ||
+      typeof actor !== "string" ||
+      !/^[a-f0-9]{32}$/.test(actor) ||
+      typeof note !== "string" ||
+      Buffer.byteLength(note) > 512 ||
+      !Number.isSafeInteger(periodStart)
+    )
+      throw new Error("GRANT_INPUT_INVALID");
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const previous = this.db
+        .prepare("SELECT * FROM weekly_grants WHERE id=?")
+        .get(id);
+      if (previous) {
+        if (
+          previous.student !== student ||
+          previous.tokens !== tokens ||
+          previous.actor !== actor ||
+          previous.note !== note ||
+          previous.period_start !== periodStart
+        )
+          throw new Error("GRANT_REQUEST_CONFLICT");
+        this.db.exec("COMMIT");
+        return {
+          grant: this.publicGrant(previous),
+          replayed: true,
+          budget: this.status(student),
+        };
+      }
+      const now = this.clock(),
+        window = weekWindow(now);
+      const latest = this.db
+        .prepare("SELECT latest_period_start FROM weekly_policy WHERE id=1")
+        .get().latest_period_start;
+      if (window.start < latest) throw new Error("BUDGET_CLOCK_ROLLBACK");
+      if (window.start !== periodStart) throw new Error("GRANT_WINDOW_CHANGED");
+      this.bucket(student, window);
+      if (!Number.isSafeInteger(this.limitFor(student, window.start) + tokens))
+        throw new Error("GRANT_INPUT_INVALID");
+      this.db
+        .prepare("INSERT INTO weekly_grants VALUES(?,?,?,?,?,?,?)")
+        .run(
+          id,
+          student,
+          window.start,
+          tokens,
+          actor,
+          note,
+          Math.floor(now / 1000),
+        );
+      this.db
+        .prepare(
+          "UPDATE weekly_policy SET latest_period_start=max(latest_period_start,?) WHERE id=1",
+        )
+        .run(window.start);
+      const row = this.db
+        .prepare("SELECT * FROM weekly_grants WHERE id=?")
+        .get(id);
+      this.db.exec("COMMIT");
+      return {
+        grant: this.publicGrant(row),
+        replayed: false,
+        budget: this.status(student),
+      };
+    } catch (e) {
+      if (this.db.isTransaction) this.db.exec("ROLLBACK");
+      throw e;
+    }
+  }
+  publicGrant(row) {
+    const bucket = this.db
+      .prepare(
+        "SELECT period_end FROM weekly_budgets WHERE student=? AND period_start=?",
+      )
+      .get(row.student, row.period_start);
+    return {
+      id: row.id,
+      student: row.student,
+      tokens: row.tokens,
+      actor: row.actor,
+      note: row.note,
+      createdAt: new Date(row.created_at * 1000).toISOString(),
+      periodStartsAt: new Date(row.period_start * 1000).toISOString(),
+      expiresAt: new Date(bucket.period_end * 1000).toISOString(),
+    };
+  }
+  grants(student) {
+    studentId(student);
+    if (student === null) throw new Error("GRANT_INPUT_INVALID");
+    return this.db
+      .prepare(
+        "SELECT * FROM weekly_grants WHERE student=? ORDER BY created_at DESC,id DESC LIMIT 100",
+      )
+      .all(student)
+      .map((row) => this.publicGrant(row));
   }
   totals(student = null, period = null) {
     studentId(student);
@@ -376,7 +497,7 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
         throw new Error("BUDGET_CLOCK_ROLLBACK");
       if (student !== null) this.bucket(student, window);
       const remaining =
-        TOKEN_CEILING -
+        this.limitFor(student, window.start) -
         this.accounted(student, student === null ? null : window.start);
       let maxTokens;
       if (envelope) {
@@ -428,7 +549,9 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
       .get().latest_period_start;
     const clockValid = student === null || window.start >= latest,
       enabled = !!auth.enabled && clockValid;
-    const remaining = Math.max(0, TOKEN_CEILING - accounted);
+    const extraLimitTokens = this.extraTokens(student, window.start),
+      limitTokens = TOKEN_CEILING + extraLimitTokens,
+      remaining = Math.max(0, limitTokens - accounted);
     return {
       generation: 4,
       scope: student === null ? "operator" : "student",
@@ -439,7 +562,9 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
         student === null ? null : new Date(window.start * 1000).toISOString(),
       resetsAt:
         student === null ? null : new Date(window.end * 1000).toISOString(),
-      limitTokens: TOKEN_CEILING,
+      limitTokens,
+      baseLimitTokens: TOKEN_CEILING,
+      extraLimitTokens,
       debitedTokens: accounted,
       remainingAuthorizationTokens: remaining,
       enabled,

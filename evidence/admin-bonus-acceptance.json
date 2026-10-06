@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T20:44:50.017Z",
+  "paidCalls": 0,
+  "checks": [
+    "Authorized student01 +2m grant performed through the live admin form",
+    "Idempotent retry, conflict rejection and CSRF enforced on the deployed API",
+    "Admin account quotas and audit journal persist after reload; responsive mobile layout",
+    "Student01 sees 3m weekly total and +2m extra; student cookies cannot access admin operations"
+  ],
+  "grantId": "f560c880-db32-4932-ac3e-d3e04ca16d54",
+  "student": "student01",
+  "baseTokens": 1000000,
+  "extraTokens": 2000000,
+  "totalTokens": 3000000,
+  "remainingTokens": 2170241,
+  "confirmedTokensPreserved": 829759,
+  "expiresAt": "2026-10-11T20:59:00.000Z",
+  "productionBudgetBefore": {
+    "attempts": 46,
+    "confirmed_tokens": 837577,
+    "uncertain_ceiling": 0
+  },
+  "productionBudgetAfter": {
+    "attempts": 46,
+    "confirmed_tokens": 837577,
+    "uncertain_ceiling": 0
+  },
+  "otherStudentsUnchanged": true,
+  "browserErrors": []
+}

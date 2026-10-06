@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "timeUtc": "2026-10-06T18:47:06.642Z",
+  "timeUtc": "2026-10-06T20:46:59.367Z",
   "checks": [
     "student 1 personal quota, reset and identity isolation",
     "student 2 personal quota, reset and identity isolation",
@@ -14,11 +14,13 @@
   "personalBudgets": [
     {
       "student": 1,
-      "limitTokens": 1000000,
-      "confirmedTokens": 232781,
+      "limitTokens": 3000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 2000000,
+      "confirmedTokens": 829759,
       "reservedTokens": 0,
-      "remainingTokens": 767219,
-      "maxRemainingCalls": 23,
+      "remainingTokens": 2170241,
+      "maxRemainingCalls": 66,
       "ready": true,
       "period": "weekly",
       "timezone": "Europe/Moscow",
@@ -28,6 +30,8 @@
     {
       "student": 2,
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "confirmedTokens": 19,
       "reservedTokens": 0,
       "remainingTokens": 999981,
@@ -41,6 +45,8 @@
     {
       "student": 3,
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "confirmedTokens": 19,
       "reservedTokens": 0,
       "remainingTokens": 999981,
@@ -54,6 +60,8 @@
     {
       "student": 4,
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "confirmedTokens": 19,
       "reservedTokens": 0,
       "remainingTokens": 999981,
@@ -67,6 +75,8 @@
     {
       "student": 5,
       "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
       "confirmedTokens": 7704,
       "reservedTokens": 0,
       "remainingTokens": 992296,
@@ -88,13 +98,13 @@
     0
   ],
   "lifetimeBefore": {
-    "attempts": 31,
-    "confirmed_tokens": 240599,
+    "attempts": 46,
+    "confirmed_tokens": 837577,
     "uncertain_ceiling": 0
   },
   "lifetimeAfter": {
-    "attempts": 31,
-    "confirmed_tokens": 240599,
+    "attempts": 46,
+    "confirmed_tokens": 837577,
     "uncertain_ceiling": 0
   }
 }
