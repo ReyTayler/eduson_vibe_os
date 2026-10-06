@@ -1,0 +1,74 @@
+{
+  "suite": "eight-credential-live-messages",
+  "passed": true,
+  "results": [
+    {
+      "id": 20,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    },
+    {
+      "id": 21,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    },
+    {
+      "id": 22,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    },
+    {
+      "id": 23,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    },
+    {
+      "id": 24,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    },
+    {
+      "id": 25,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    },
+    {
+      "id": 26,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    },
+    {
+      "id": 27,
+      "passed": true,
+      "status": 200,
+      "reply": "VIBE_OK"
+    }
+  ],
+  "budgetBefore": {
+    "limitTokens": 1000000,
+    "debitedTokens": 0,
+    "remainingAuthorizationTokens": 1000000,
+    "enabled": true,
+    "maxRemainingCalls": 15,
+    "attempts": 0,
+    "confirmed_tokens": 0,
+    "uncertain_ceiling": 0
+  },
+  "budgetAfter": {
+    "limitTokens": 1000000,
+    "debitedTokens": 524288,
+    "remainingAuthorizationTokens": 475712,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 8,
+    "confirmed_tokens": 152,
+    "uncertain_ceiling": 0
+  }
+}

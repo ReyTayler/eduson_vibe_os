@@ -4,16 +4,16 @@
 
 ## 1. Завершить безопасную интеграцию модели
 
-**Файлы:** создать `services/model-gateway/`, `packages/credentials/`, `profiles/deepseek-model.ts`. Продолжать использовать ядро Harness из зафиксированного коммита.
+**Текущее состояние:** gateway, AES-GCM storage, отдельный school-deepseek provider и keys №20–27 реализованы; live checks прошли. См. [интеграцию](deepseek-integration.md). Развивать `services/model-gateway/`, `packages/credentials/` и `profiles/deepseek-model.ts`.
 
-- Создать отдельный provider ID `school-deepseek`. Не выбирать `deepseek-official` через SDK initialize, чтобы не появлялся штатный fallback.
+- Сохранить отдельный provider ID `school-deepseek`. Не выбирать `deepseek-official` через SDK initialize, чтобы не появлялся штатный fallback.
 - Повторно сверить официальный DeepSeek Anthropic Messages wire и поддержку модели. По исследованному baseline штатный adapter использует `/anthropic/v1/messages`; OpenAI Chat Completions здесь нельзя подставить без проверки совместимости.
 - Добавить узкий транспорт provider → Unix gateway. Проверить abort, частичные SSE chunks, error frames и terminal usage. Не применять глобальную подмену fetch.
-- Создать root-only credential directory. Master key хранить вне DB через совместимый с systemd 249 `LoadCredential`. Не рассчитывать на `LoadCredentialEncrypted`.
+- Сохранить root-only credential directory и добавить per-user ownership, версии и rotation. Master key хранить вне DB через совместимый с systemd 249 `LoadCredential`. Не рассчитывать на `LoadCredentialEncrypted`.
 - Шифровать школьный ключ AES-256-GCM с nonce 96 bit и AAD, содержащим владельца, credential ID и key version. Ключи учеников должны иметь разные fingerprints. Не наследовать ключ в engine/command environment.
 - Реальная credential применяется только в gateway. Engine получает ограниченную capability run/project/model/budget и доступ к одному Unix endpoint.
 - Включить ядро pre-reserve/settle из `packages/control/` в gateway. Worst-case резервируется до отправки. Usage считается доверенным только после проверенного provider response. Не отпускать uncertain резерв по кнопке отмены и не делать слепой replay.
-- Реальный canary провести на отдельном тестовом ключе с жёстким небольшим лимитом и без записи key в лог. Пока такой ключ на сервере не предоставлен.
+- Реальный canary провести на отдельном тестовом ключе с жёстким небольшим лимитом и без записи key в лог. Первый live canary уже прошёл: 960 токенов на десяти запросах. Последующие попытки учитываются в том же неизменяемом token ledger, без нового допуска по умолчанию.
 
 **Приёмка:** ключ не виден в tool output, traces, браузере, JSONL и engine env; duplicate/cancel/crash/midnight tests проходят; повторная доставка события usage не меняет spent второй раз.
 

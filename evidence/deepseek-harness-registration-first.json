@@ -1,0 +1,27 @@
+{
+  "suite": "real-deepseek-harness-cycle",
+  "passed": false,
+  "sessionId": "live-proof-7c500882e8a04b9d90899e4617e158a6",
+  "scenarios": [],
+  "error": "no adapter registered for provider \"school-deepseek\"",
+  "budgetBefore": {
+    "limitTokens": 1000000,
+    "debitedTokens": 524288,
+    "remainingAuthorizationTokens": 475712,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 8,
+    "confirmed_tokens": 152,
+    "uncertain_ceiling": 0
+  },
+  "budgetAfter": {
+    "limitTokens": 1000000,
+    "debitedTokens": 524288,
+    "remainingAuthorizationTokens": 475712,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 8,
+    "confirmed_tokens": 152,
+    "uncertain_ceiling": 0
+  }
+}

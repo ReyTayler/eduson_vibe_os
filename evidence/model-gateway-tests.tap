@@ -1,0 +1,23 @@
+✔ One million aggregate authorization admits fifteen conservative attempts and never refunds known usage (6.593544ms)
+✔ Duplicate admission and duplicate settlement cannot trigger another call or debit (1.080111ms)
+✔ Interrupted sent request becomes uncertain on WAL reopen and retains the full debit (13.078896ms)
+✔ AES-GCM plaintext absent, AAD bound to credential number and corrupted ciphertext rejected (5.004028ms)
+✔ Unauthorized caller rejected before reserve and upstream (38.414644ms)
+✔ Image, unknown model, excessive output and thinking cannot spend tokens (22.531551ms)
+✔ Oversized body rejected before reserve (13.625868ms)
+✔ Fragmented SSE with CRLF crosses chunk boundaries; terminal usage commits before completion (24.527583ms)
+✔ Same request id is sent upstream once (16.879303ms)
+✔ Concurrent attempts across all keys cannot overrun shared budget (106.86965ms)
+✔ Provider HTTP auth errors are sanitized and full debit stays consumed (19.989355ms)
+✔ Missing terminal usage and in-band provider error cannot appear as success (14.964119ms)
+✔ Client disconnect aborts upstream and preserves non-refundable debit (25.554634ms)
+✔ In-band provider error text never exposes credential material or final success (13.385264ms)
+✔ Credential outside 20 through 27 and arbitrary route cannot dispatch (10.498803ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 457.960736

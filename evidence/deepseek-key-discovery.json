@@ -1,0 +1,143 @@
+{
+  "suite": "eight-credential-discovery",
+  "paidCalls": 0,
+  "passed": true,
+  "results": [
+    {
+      "id": 20,
+      "passed": true,
+      "credentialId": 20,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "passed": true,
+      "credentialId": 21,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "passed": true,
+      "credentialId": 22,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "passed": true,
+      "credentialId": 23,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "passed": true,
+      "credentialId": 24,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "passed": true,
+      "credentialId": 25,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "passed": true,
+      "credentialId": 26,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "passed": true,
+      "credentialId": 27,
+      "models": [
+        {
+          "id": "deepseek-flash",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "contextWindow": 1048576,
+          "maxOutputTokens": 393216
+        }
+      ]
+    }
+  ]
+}

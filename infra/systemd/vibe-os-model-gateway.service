@@ -1,0 +1,35 @@
+[Unit]
+Description=Vibe OS bounded DeepSeek gateway
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+User=vibe-model-gateway
+Group=vibe-poc-engine
+SupplementaryGroups=vibe-model-gateway
+ExecStart=/usr/local/bin/node /opt/vibe-os/model-gateway/services/model-gateway/server.mjs
+ExecStartPost=/usr/local/bin/node /opt/vibe-os/model-gateway/services/model-gateway/wait-ready.mjs
+TimeoutStartSec=15
+LoadCredential=master-key:/etc/vibe-os/credentials/master.key
+LoadCredential=engine-capability:/var/lib/vibe-os/poc-model/capability
+RuntimeDirectory=vibe-os-model
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=yes
+ReadWritePaths=/var/lib/vibe-os/model-budget /run/vibe-os-model
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+NoNewPrivileges=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+LockPersonality=yes
+LimitCORE=0
+MemoryMax=192M
+MemorySwapMax=0
+TasksMax=32
+CPUQuota=50%
+Restart=on-failure
+RestartSec=3
+[Install]
+WantedBy=multi-user.target

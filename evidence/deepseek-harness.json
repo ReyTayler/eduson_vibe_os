@@ -1,0 +1,54 @@
+{
+  "suite": "real-deepseek-harness-cycle",
+  "passed": true,
+  "sessionId": "live-proof-dacd3fb307454d6cbb5cba42822e2ed9",
+  "scenarios": [
+    {
+      "resumed": false,
+      "verifiedFromActualRunAndPersistedJSONL": true,
+      "eventCount": 17,
+      "usageTokens": 808,
+      "steps": 2,
+      "toolResult": "HARNESS_THREE_SEAMS_OK",
+      "modelReply": "HARNESS_LIVE_OK"
+    },
+    {
+      "resumed": true,
+      "eventCount": 18,
+      "cursor": 18,
+      "streamFrames": 0,
+      "usageTokens": 808,
+      "stderr": ""
+    }
+  ],
+  "budgetBefore": {
+    "limitTokens": 1000000,
+    "debitedTokens": 524288,
+    "remainingAuthorizationTokens": 475712,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 8,
+    "confirmed_tokens": 152,
+    "uncertain_ceiling": 0
+  },
+  "budgetAfter": {
+    "limitTokens": 1000000,
+    "debitedTokens": 655360,
+    "remainingAuthorizationTokens": 344640,
+    "enabled": true,
+    "maxRemainingCalls": 5,
+    "attempts": 10,
+    "confirmed_tokens": 960,
+    "uncertain_ceiling": 0
+  },
+  "coldReopenPaidCalls": 0,
+  "finalColdReadAfterGatewayRestart": {
+    "resumed": true,
+    "eventCount": 18,
+    "cursor": 18,
+    "streamFrames": 0,
+    "usageTokens": 808,
+    "stderr": ""
+  },
+  "finalColdReadAddedPaidCalls": 0
+}

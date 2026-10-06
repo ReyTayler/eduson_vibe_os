@@ -1,0 +1,27 @@
+{
+  "suite": "real-deepseek-harness-cycle",
+  "passed": false,
+  "sessionId": "live-proof-dacd3fb307454d6cbb5cba42822e2ed9",
+  "scenarios": [],
+  "error": "Missing durable usage",
+  "budgetBefore": {
+    "limitTokens": 1000000,
+    "debitedTokens": 524288,
+    "remainingAuthorizationTokens": 475712,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 8,
+    "confirmed_tokens": 152,
+    "uncertain_ceiling": 0
+  },
+  "budgetAfter": {
+    "limitTokens": 1000000,
+    "debitedTokens": 655360,
+    "remainingAuthorizationTokens": 344640,
+    "enabled": true,
+    "maxRemainingCalls": 5,
+    "attempts": 10,
+    "confirmed_tokens": 960,
+    "uncertain_ceiling": 0
+  }
+}

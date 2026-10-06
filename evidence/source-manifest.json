@@ -1,23 +1,28 @@
 [
   {
     "path": ".gitignore",
-    "bytes": 76,
-    "sha256": "4583a7146969072a8de8c2612c9313b1e7f380760ebe7d713168cff89a50cae4"
+    "bytes": 99,
+    "sha256": "e6239590f94d5cd3c9fc83372d5da92448b0273e8237f816be975c69f3940cee"
   },
   {
     "path": "README.md",
-    "bytes": 2186,
-    "sha256": "7cfeafa2a5e6720c94c3884294aaaf085de99567c783bcaa8a9472f83e93fd06"
+    "bytes": 2356,
+    "sha256": "ff6c4be095e52bb64b7c60c2c6eff48bd2e4c692e16e5a52497ca62b65740a7e"
   },
   {
     "path": "docs/build-report.md",
-    "bytes": 14512,
-    "sha256": "50997aeb32521ae511ee73485cd43885e898a2ea31a5305d0be4a520de41bd35"
+    "bytes": 15071,
+    "sha256": "1fb3e65e70df27f06e1d6edeaa1b53ccb25bf4928d2ca019a5968b34f290756b"
+  },
+  {
+    "path": "docs/deepseek-integration.md",
+    "bytes": 8661,
+    "sha256": "90ee7b89ef04756ab10001a145c3731b77f7ca57f41fce3cdb75c2b0925745e7"
   },
   {
     "path": "docs/implementation-next.md",
-    "bytes": 12485,
-    "sha256": "1f6f4589b03ce1ede151aa767d33a97c65f8d24aba316f4e1f9bdc7497009fae"
+    "bytes": 12860,
+    "sha256": "af9018ac270467ad9194904115c9a755ab17c8576eaea34b957765ab28315e59"
   },
   {
     "path": "evidence/control-tests.tap",
@@ -25,14 +30,64 @@
     "sha256": "212ce745194e7a3b274a2747c5b3a9f53d4fe232df650c2821b1099a84a9eca0"
   },
   {
+    "path": "evidence/deepseek-budget-restart.json",
+    "bytes": 553,
+    "sha256": "70094fcba501f5a8b9b2de8d3bc5a3a1e70716e771762e4e2a1962ed2b65af5f"
+  },
+  {
+    "path": "evidence/deepseek-harness-assertion-first.json",
+    "bytes": 681,
+    "sha256": "1e8c12d6ef19583b68a82509fe7060912a54a5967559832ca9ecc942ed39f4c3"
+  },
+  {
+    "path": "evidence/deepseek-harness-registration-first.json",
+    "bytes": 713,
+    "sha256": "405013de3420f88bb6032f8015efce6900e9185021823d02b51cceca83d9fdc5"
+  },
+  {
+    "path": "evidence/deepseek-harness.json",
+    "bytes": 1273,
+    "sha256": "4f44fc27d54823a420a885587f89a4f1029e867b48b279eacf5a6d96bf53ce95"
+  },
+  {
+    "path": "evidence/deepseek-key-discovery.json",
+    "bytes": 2955,
+    "sha256": "2edd2d7ed88960f931780d5ebea988ac3294a003c574b41d3ffaceca2c6e67e4"
+  },
+  {
+    "path": "evidence/deepseek-key-smokes.json",
+    "bytes": 1355,
+    "sha256": "4175418a739d1391ddf53a7c40558a8efdc75f85dd317437cfd7f907702bae41"
+  },
+  {
+    "path": "evidence/deepseek-secret-isolation.json",
+    "bytes": 699,
+    "sha256": "580efd77d685f2e54c5fa51c211c9b6d6188a1f9383c7102ff40f7653a1f2d84"
+  },
+  {
+    "path": "evidence/deepseek-secret-scan.json",
+    "bytes": 266,
+    "sha256": "09789beb3147a9bdc0452873f8e1a6786cafb15c74a6196bc0aadbd7d7aff65c"
+  },
+  {
     "path": "evidence/harness-build.json",
     "bytes": 175,
     "sha256": "3be9aa57de39de8ddf08c63e309091a712f8b0c226757881756bdea6658eb2f8"
   },
   {
+    "path": "evidence/harness-composition-after-gateway.json",
+    "bytes": 530,
+    "sha256": "a7fdf4238a6094655090d6b1a53d96a57136bd4d8a2de8b1738d535356610130"
+  },
+  {
     "path": "evidence/harness-composition.json",
     "bytes": 530,
     "sha256": "4e51b6b60b1ddf816fca8678edb1c56b4ae013bfd50c67d4cd69bb458c763bc7"
+  },
+  {
+    "path": "evidence/harness-denials-after-gateway.json",
+    "bytes": 1057,
+    "sha256": "ae08cab3659dc8b0f6cc0d0df08cdc80673e1560f621b2986fd85f43d1ed042a"
   },
   {
     "path": "evidence/harness-denials.json",
@@ -43,6 +98,11 @@
     "path": "evidence/hosting-lifecycle.json",
     "bytes": 915,
     "sha256": "641895001395efff39f58f47ca68a49f433719dd4b5de6bc8948b435a5a3ec0f"
+  },
+  {
+    "path": "evidence/model-gateway-tests.tap",
+    "bytes": 1469,
+    "sha256": "fe4cdf4214a80a76e0cf24a9083485e51a7903953d5148ce5fdd2598bbb3b8bc"
   },
   {
     "path": "evidence/nsjail.json",
@@ -106,8 +166,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 1955,
-    "sha256": "d3ac2af474d99d3416ede8d9cf9c18ad5b2018708f24c8d04a4cda7d7698bb54"
+    "bytes": 2819,
+    "sha256": "caaa93cc57b2ced9da846c7bcbb7edbf0b656676f9f268831e5844dd283a91bb"
   },
   {
     "path": "evidence/toolchain.json",
@@ -175,6 +235,11 @@
     "sha256": "4178dae0ac5f6eeee10cd93af4dadd746df556267e2f4c14944bdc14c2b14209"
   },
   {
+    "path": "infra/nsjail/engine-live.cfg",
+    "bytes": 2739,
+    "sha256": "a04ec74690aa1ee7f7f66cb6622c3e679dc244a91d1b8929f78d87dd92d11bec"
+  },
+  {
     "path": "infra/nsjail/engine.cfg",
     "bytes": 2180,
     "sha256": "5887a955d4b4aa74cf2ad15f17ba95d32e533aee923fd8d13e05560e6489ec77"
@@ -220,6 +285,11 @@
     "sha256": "69bb8456448945182313861cbee32702d8115979d4e1cdca5f27c426ff93555f"
   },
   {
+    "path": "infra/systemd/vibe-os-model-gateway.service",
+    "bytes": 1027,
+    "sha256": "4892c7e7de3b42c9c4ee9fb5dba43bd81b95359243b058ef0f836a7d4a5b9d3b"
+  },
+  {
     "path": "infra/systemd/vibe-os-poc-app1.service",
     "bytes": 640,
     "sha256": "b5ea18f407dc0df3164cbd6ed9608cdaf1460cf3ff602cf5439bdc972b9074ed"
@@ -255,9 +325,14 @@
     "sha256": "b497fab50526e7de8d4139bfff8fb56f9d1ccc2bdd8d6eb374dadbaa0a0ed7b5"
   },
   {
+    "path": "infra/vendor/deepseek-codec-license.txt",
+    "bytes": 1065,
+    "sha256": "ebb4f09972aee8608be255debaf78451a68e95c290f55c240dec2ecfa16ea6be"
+  },
+  {
     "path": "package.json",
-    "bytes": 283,
-    "sha256": "6da71c7b7a7984b36175e4745ed763538bfc5e0c54beaf55a09972f19f24294a"
+    "bytes": 588,
+    "sha256": "6a5f0252142e34a344c10743fe0c9c42780b253e788c33fadd24885f876eeb2d"
   },
   {
     "path": "packages/control/index.mjs",
@@ -270,9 +345,29 @@
     "sha256": "1779dc24423a63cd2d5006fd88460a80c77a8fcf95cb295f378fda99dd62e422"
   },
   {
+    "path": "packages/credentials/vault.mjs",
+    "bytes": 3460,
+    "sha256": "a275b88cfff227378456f38e0f000fa1a4721d6316d9acb9ad4fc87af77b5690"
+  },
+  {
+    "path": "profiles/cordis.live.patch.yml",
+    "bytes": 3394,
+    "sha256": "53e40c33d304a2e1d1d2bebc8b3d26b7d6265dd6c3a20c72dbe8d3234cfa2fce"
+  },
+  {
     "path": "profiles/cordis.patch.yml",
     "bytes": 3087,
     "sha256": "917de85eaf4dc87d9839eeb732d8890bd011ea570c97e8a2f7630f3f7ae1a374"
+  },
+  {
+    "path": "profiles/deepseek-codec.d.ts",
+    "bytes": 398,
+    "sha256": "7e54e9ea9e2434abed2c073f262bed321407e044f291684cb60b9b5739f4e67d"
+  },
+  {
+    "path": "profiles/deepseek-model.ts",
+    "bytes": 4235,
+    "sha256": "d43efb760d3d3600fa20257e921a2611b52df5222a0654f6c290473fc5d22603"
   },
   {
     "path": "profiles/fs-provider.ts",
@@ -291,8 +386,8 @@
   },
   {
     "path": "profiles/school-sdk.ts",
-    "bytes": 9995,
-    "sha256": "2af15c7fb3039b73c7e980795c9817f2e115b699f9a87eebda8962fb95380d7d"
+    "bytes": 10613,
+    "sha256": "1b08f912f7d85d4e13c1853665480639af52c76e5959648e6224742aeb092c30"
   },
   {
     "path": "profiles/shell-provider.ts",
@@ -340,6 +435,36 @@
     "sha256": "1bbd00b17dc2063bb76bfdc3e9679f1894673a62a427cc5762e5dddf8bfd41f9"
   },
   {
+    "path": "services/model-gateway/codec-entry.ts",
+    "bytes": 410,
+    "sha256": "524bfee20087226919d7f8cd8a7295ca0fe1f04a8205aef66152d95f2e179ce2"
+  },
+  {
+    "path": "services/model-gateway/import-keys.mjs",
+    "bytes": 194,
+    "sha256": "380ab03ee99067794ee4d8026e7b9ff3c21dfb095bad16c68436dce3bfc7fa33"
+  },
+  {
+    "path": "services/model-gateway/ledger.mjs",
+    "bytes": 3647,
+    "sha256": "c97ab5608cebfb7d69bce0aca842fc6b2b206fb7e36d2c51d60f517eb8dc7c8d"
+  },
+  {
+    "path": "services/model-gateway/operator.mjs",
+    "bytes": 3674,
+    "sha256": "d0c7ff5b4e4c70acba3e375c6121cd101c89a9f3220ee23382ac19105eb6f142"
+  },
+  {
+    "path": "services/model-gateway/server.mjs",
+    "bytes": 11090,
+    "sha256": "ab1f328f646501982f6fa5f6fa8edc4fbba778908bc0cf2cbbb5a75016a304f5"
+  },
+  {
+    "path": "services/model-gateway/wait-ready.mjs",
+    "bytes": 630,
+    "sha256": "cbeb28836e542ffc8a0d55bf6bb92f1843647ca91f7783d4c5097f1784f6bc00"
+  },
+  {
     "path": "services/runner/go.mod",
     "bytes": 79,
     "sha256": "0471716c008482fcd28411ecd230649a1fb693277f04830fa392f85123bdf893"
@@ -360,6 +485,11 @@
     "sha256": "85bb470ea9fe4e2438f15d092991d1c85296e2ad31c31d59d01fb637887b1b42"
   },
   {
+    "path": "tests/deepseek_harness.py",
+    "bytes": 4748,
+    "sha256": "c9351787af3f24ccb41ae13a817d41884ad078e0bdb52fc0f254a1984f5ee717"
+  },
+  {
     "path": "tests/harness_composition.py",
     "bytes": 4913,
     "sha256": "9a6dda594a3c88d81885474af7aa1374320f4ff5bda712850d207a40dc729e86"
@@ -378,6 +508,11 @@
     "path": "tests/isolation.py",
     "bytes": 5711,
     "sha256": "7981d0c2c149827c5326ad56be274ad5cfeba72118ad65f0ca7af39b7483dbf4"
+  },
+  {
+    "path": "tests/model-gateway.test.mjs",
+    "bytes": 9021,
+    "sha256": "a2e92c891c6f8528c71018a596951ac594af3004c477c94f9fc82987665039a0"
   },
   {
     "path": "tests/poc_client.py",

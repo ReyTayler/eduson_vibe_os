@@ -1,0 +1,24 @@
+{
+  "suite": "model-gateway-restart-budget",
+  "passed": true,
+  "before": {
+    "limitTokens": 1000000,
+    "debitedTokens": 655360,
+    "remainingAuthorizationTokens": 344640,
+    "enabled": true,
+    "maxRemainingCalls": 5,
+    "attempts": 10,
+    "confirmed_tokens": 960,
+    "uncertain_ceiling": 0
+  },
+  "after": {
+    "limitTokens": 1000000,
+    "debitedTokens": 655360,
+    "remainingAuthorizationTokens": 344640,
+    "enabled": true,
+    "maxRemainingCalls": 5,
+    "attempts": 10,
+    "confirmed_tokens": 960,
+    "uncertain_ceiling": 0
+  }
+}

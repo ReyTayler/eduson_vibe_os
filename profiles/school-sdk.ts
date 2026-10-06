@@ -12,7 +12,7 @@ import {Transform} from 'node:stream'
 import {RunnerClient,object,text} from './runner-client.js'
 export const name='school-sdk'
 export const inject=['agents','sessions','sessionPersistence','llm','tools','loader']
-export interface Config { maxLogBytes:number;maxLogEvents:number;maxEventBytes:number;maxSessions:number;maxReadBytes:number;maxSteps:number }
+export interface Config { maxLogBytes:number;maxLogEvents:number;maxEventBytes:number;maxSessions:number;maxReadBytes:number;maxSteps:number;provider:string;model:string;maxTokens:number }
 export const Config:Schema<Config>=Schema.object({
  maxLogBytes:Schema.number().default(8*1024*1024),
  maxLogEvents:Schema.number().default(20000),
@@ -20,6 +20,9 @@ export const Config:Schema<Config>=Schema.object({
  maxSessions:Schema.number().default(16),
  maxReadBytes:Schema.number().default(230*1024),
  maxSteps:Schema.number().default(12),
+ provider:Schema.string().default('school-mock'),
+ model:Schema.string().default('poc-fixed'),
+ maxTokens:Schema.number().step(1).min(1).max(2048).default(1024),
 })
 interface Entry { handle:AgentHandle;run?:{id:string;done:Promise<void>};error?:string }
 class BoundedLines extends Transform {
@@ -50,7 +53,8 @@ function id(value:unknown):string{
  return v
 }
 export function apply(ctx:Context,config:Config):void{
- for(const [key,value] of Object.entries(config)){if(!Number.isSafeInteger(value)||value<1)throw new Error('Invalid '+key)}
+ for(const [key,value] of Object.entries(config)){if(typeof value==='number'&&(!Number.isSafeInteger(value)||value<1))throw new Error('Invalid '+key)}
+ if(!((config.provider==='school-mock'&&config.model==='poc-fixed')||(config.provider==='school-deepseek'&&config.model==='deepseek-flash')))throw new Error('Invalid school model route')
  const entries=new Map<string,Entry>(),client=new RunnerClient()
  const input=new BoundedLines()
  process.stdin.pipe(input)
@@ -84,7 +88,7 @@ export function apply(ctx:Context,config:Config):void{
   const branded=brandString<SessionId>(sid)
   await bounded(branded)
   const stat=await ctx.sessionPersistence.stat(branded)
-  const options={provider:'school-mock',model:'poc-fixed',maxTokens:4096}
+  const options={provider:config.provider,model:config.model,maxTokens:config.maxTokens}
   const handle=stat?await ctx.agents.resume({resumeSessionId:branded,agentOptions:options}):await ctx.agents.create({sessionId:branded,meta:{cwd:'/workspace'},agentOptions:options})
   entries.set(sid,{handle})
   await checkpoint(handle.agent.session)
@@ -93,9 +97,10 @@ export function apply(ctx:Context,config:Config):void{
  async function request(method:string,params:Record<string,unknown>):Promise<unknown>{
   if(method==='initialize'){
    await ctx.loader.await()
-   if(params.provider!=='school-mock'||params.model!=='poc-fixed')throw new Error('Only the keyless school-mock route is enabled')
+   if(params.provider!==config.provider||params.model!==config.model)throw new Error(config.provider==='school-mock'?'Only the keyless school-mock route is enabled':'Only the configured school model route is enabled')
+   await ctx.llm.resolveModelInfo(config.provider,config.model)
    initialized=true
-   return {serverInfo:{name:'vibe-os-school-poc',version:'0.0.1'},features:['open','read','cancel','delta','durable-settlement'],paidCalls:false}
+   return {serverInfo:{name:'vibe-os-school-poc',version:'0.0.1'},features:['open','read','cancel','delta','durable-settlement'],paidCalls:config.provider==='school-deepseek'}
   }
   if(!initialized||closing)throw new Error('Runtime not available')
   if(method==='session/open')return open(params)

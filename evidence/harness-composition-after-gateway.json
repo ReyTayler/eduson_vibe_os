@@ -1,0 +1,25 @@
+{
+  "suite": "school-profile-real-composition",
+  "passed": true,
+  "paidCalls": 0,
+  "sessions": [
+    {
+      "resumed": false,
+      "eventCount": 17,
+      "persistedCursor": 17,
+      "streamFrames": 17,
+      "sampledCgroupPeakBytes": 55463936,
+      "memorySampleIntervalMs": 20,
+      "stderr": ""
+    },
+    {
+      "resumed": true,
+      "eventCount": 40,
+      "persistedCursor": 40,
+      "streamFrames": 13,
+      "sampledCgroupPeakBytes": 55934976,
+      "memorySampleIntervalMs": 20,
+      "stderr": ""
+    }
+  ]
+}

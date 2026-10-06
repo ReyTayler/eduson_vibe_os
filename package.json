@@ -4,7 +4,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "build:profiles": "node /opt/vibe-os/build/deepseek-harness/node_modules/typescript/bin/tsc -p tsconfig.profiles.json"
+    "build:profiles": "node /opt/vibe-os/build/deepseek-harness/node_modules/typescript/bin/tsc -p tsconfig.profiles.json",
+    "build:codec": "/opt/vibe-os/build/deepseek-harness/node_modules/.pnpm/esbuild@0.28.1/node_modules/esbuild/bin/esbuild services/model-gateway/codec-entry.ts --bundle --platform=node --format=esm --packages=external --external:@deepseek-ai/* --target=node24 --outfile=dist/profiles/deepseek-codec.js"
   },
   "engines": {
     "node": "24.21.0"
