@@ -20,16 +20,18 @@
 
 ```sh
 # Offline, без API keys и платных вызовов; root для проверки владельца Vault.
-node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs
+node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs tests/model-history.test.mjs
 
 # На сервере root, без model prompts; удаляет только свои fixtures.
 node apps/portal/tests/weekly-quota.mjs
 node apps/portal/tests/secret-scan.mjs
 ```
 
-55 offline tests, приёмка квот в пяти кабинетах и полный путь большого ответа через настоящий Harness прошли. Strict TypeScript и production build проходят. Старые API/UI/lifecycle сценарии фиксируют исходные seed fixtures; перед повторным запуском на живых данных требуется адаптация. Lifecycle также кратко отключает gateway и меняет пароль пятого ученика, поэтому не входит в обычный health check.
+62 offline tests, приёмка квот в пяти кабинетах и полный путь большого ответа через настоящий Harness прошли. Strict TypeScript и production build проходят. Старые API/UI/lifecycle сценарии фиксируют исходные seed fixtures; перед повторным запуском на живых данных требуется адаптация. Lifecycle также кратко отключает gateway и меняет пароль пятого ученика, поэтому не входит в обычный health check.
 
 `apps/portal/tests/live-ui.mjs`, `reasoning-live.mjs` и `reasoning-replay.mjs` выполняют **платные** запросы и не входят в health check. Первоначальная проверка кабинетов использовала 3 135 токенов, 12 запросов; reasoning добавил 7 685 токенов, 8 запросов. При публикации недельных квот новых платных вызовов не было. Общий актуальный расход, включая самостоятельную работу учеников, доступен в operator status `overview.lifetime`, личные текущие квоты — в `overview.students`.
+
+Исправлено прерывание длинной работы с файлами из-за CONTENT_LIMIT: [причина, изменения и проверка исходного чата](docs/model-history-failure.md). Отдельный офлайн-сценарий `node apps/portal/tests/history-harness.mjs` проверяет настоящий Harness, 20 шагов, 40 файловых операций и точные причины ошибок; использует и удаляет только свой временный проект.
 
 Артефакты проверок и снимки интерфейса: `evidence/`. Старые демосервисы отключены, их данные и результаты сохранены для аудита. Их lifecycle tests относятся к историческому стенду и требуют отдельного восстановления fixtures.
 

@@ -1,5 +1,5 @@
 {
-  "timeUtc": "2026-10-06T18:52:32.601820+00:00",
+  "timeUtc": "2026-10-06T19:47:04.612871+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
@@ -12,8 +12,8 @@
     0
   ],
   "hostingSlotsPerStudent": 3,
-  "paidCallsTotal": 31,
-  "confirmedTokensTotal": 240599,
+  "paidCallsTotal": 41,
+  "confirmedTokensTotal": 560849,
   "modelTestingBudget": {
     "generation": 4,
     "scope": "operator",
@@ -110,15 +110,32 @@
       "checks": 4,
       "paidCalls": 0,
       "evidence": "response-harness-acceptance.json"
+    },
+    "model-history-regressions": {
+      "passed": true,
+      "checks": 62,
+      "paidCalls": 0,
+      "evidence": "model-history-tests.tap"
+    },
+    "native-long-history-and-errors": {
+      "passed": true,
+      "checks": 5,
+      "paidCalls": 0,
+      "evidence": "model-history-harness.json"
+    },
+    "original-chat-resume": {
+      "passed": true,
+      "paidCalls": 0,
+      "evidence": "model-history-live-check.json"
     }
   },
   "staticChecks": {
     "goVet": "passed",
     "strictProfilesTypeScript": "passed",
     "strictPortalTypeScriptBuild": "passed",
-    "javascriptSyntaxFiles": 32,
+    "javascriptSyntaxFiles": 35,
     "pythonSyntaxFiles": 13,
-    "documentationLinks": 85,
+    "documentationLinks": 91,
     "diffCheck": "passed",
     "renewalDryRun": "passed",
     "runtimeMatchesSource": "passed"
@@ -192,7 +209,7 @@
     "absoluteModelAndRunDeadline": null,
     "providerIdleTimeoutMs": 300000
   },
-  "latestFeatureEvidence": "response-policy-final.json",
+  "latestFeatureEvidence": "model-history-final.json",
   "studentWeeklyBudgets": [
     {
       "generation": 4,
@@ -203,15 +220,15 @@
       "periodStartsAt": "2026-10-04T20:59:00.000Z",
       "resetsAt": "2026-10-11T20:59:00.000Z",
       "limitTokens": 1000000,
-      "debitedTokens": 232781,
-      "remainingAuthorizationTokens": 767219,
+      "debitedTokens": 553031,
+      "remainingAuthorizationTokens": 446969,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 23,
-      "attempts": 16,
-      "confirmed_tokens": 232781,
+      "maxRemainingCalls": 13,
+      "attempts": 26,
+      "confirmed_tokens": 553031,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 1818219
+      "admittedCeilingTotal": 6848533
     },
     {
       "generation": 4,

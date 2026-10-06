@@ -65,19 +65,13 @@ export function validateBody(value) {
     )
       throw fail("REASONING_EFFORT");
   } else if (b.output_config !== undefined) throw fail("REASONING_DISABLED");
-  if (
-    !Array.isArray(b.messages) ||
-    !b.messages.length ||
-    b.messages.length > 32
-  )
-    throw fail("MESSAGE_LIMIT");
-  let blocks = 0;
+  // The incoming UTF-8 body is bounded before validation. Message and block
+  // counts grow during normal tool work and do not represent a context limit.
+  if (!Array.isArray(b.messages) || !b.messages.length)
+    throw fail("MESSAGE_FORMAT");
   function content(items, depth = 0, role) {
-    if (depth > 2 || !Array.isArray(items) || items.length > 16)
-      throw fail("CONTENT_LIMIT");
+    if (depth > 2 || !Array.isArray(items)) throw fail("CONTENT_FORMAT");
     for (const block of items) {
-      blocks++;
-      if (blocks > 64) throw fail("CONTENT_LIMIT");
       const x = object(block);
       if (x.type === "text") {
         if (

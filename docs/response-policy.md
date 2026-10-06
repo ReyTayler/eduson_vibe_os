@@ -59,3 +59,6 @@ node apps/portal/tests/weekly-quota.mjs
 node apps/portal/tests/reasoning.mjs
 node apps/portal/tests/secret-scan.mjs
 ```
+
+
+После проверки живого длинного чата сняты прежние ограничения gateway на 64 content blocks, 16 блоков в массиве и 32 сообщения. Теперь 62 offline tests и отдельная проверка настоящего Harness с 20 шагами подтверждают длинную работу с инструментами. [Диагностика и исправление CONTENT_LIMIT](model-history-failure.md).

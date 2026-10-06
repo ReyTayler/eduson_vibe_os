@@ -1,5 +1,6 @@
 /** Root-only typed workspace/engine coordinator, reachable solely through a protected Unix socket. */
 import http from "node:http";
+import { classifyRunFailure } from "./run-errors.mjs";
 import {
   readFileSync,
   writeFileSync,
@@ -787,13 +788,21 @@ async function ai(params, res) {
     while (!stopped && Date.now() < end)
       await new Promise((r) => setTimeout(r, 30));
     await operation(id, { op: "barrier" });
+    const failure = classifyRunFailure(result.error);
+    if (failure)
+      console.error(
+        "Student model run failed",
+        run,
+        failure.code,
+        failure.reason,
+      );
     emit(res, "complete", {
       text: answer,
       tools,
       cursor,
       usage,
       cancelled: engine.cancelled,
-      error: result.error ? "MODEL_RUN_FAILED" : undefined,
+      error: failure?.code,
       durable: result.durable === true,
     });
   } catch (e) {

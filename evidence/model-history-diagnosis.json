@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T19:38:32.104Z",
+  "project": "fd956de103f35327278c0128283b33bd",
+  "chat": "4ec2f7c6c3dd3bf64b0dab7ec17675fc",
+  "run": "eaacfa6dcc9a4c7da9e73993612f174a",
+  "runStartedAt": "2026-10-06T19:26:42.236Z",
+  "runFailedAt": "2026-10-06T19:29:36.033Z",
+  "nativeFailure": "School gateway: CONTENT_LIMIT",
+  "reconstructedHistory": {
+    "messages": 21,
+    "contentBlocks": 72,
+    "maxBlocksPerList": 6,
+    "serializedBytesExcludingToolDeclarations": 158473,
+    "previousValidation": "CONTENT_LIMIT",
+    "currentValidation": "accepted"
+  },
+  "protectedHistorySha256": "2b87100c596dfcde44874b51aa4f39e2aa317832ed71e1f0129db9fa1c6248e5",
+  "paidCalls": 0,
+  "protectedHistoryOriginalBytes": 795689,
+  "originalRunGatewayRequests": [
+    {
+      "state": "settled",
+      "count": 10,
+      "confirmedTokens": 320250
+    }
+  ],
+  "student1WeeklyRemainingAtDiagnosis": 446969,
+  "gatewayTimestampUnit": "unix-seconds"
+}

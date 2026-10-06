@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T19:41:47.330Z",
+  "paidCalls": 0,
+  "checks": [
+    "20 native tool rounds, 40 successful file reads, 41 request messages and 161 content blocks; high reasoning/signatures replay; visible and persisted final answer",
+    "Native engine restart resumes the same long chat and completes another turn",
+    "Upstream 429 and midstream errors retain their exact safe classification through the SDK, broker and API",
+    "Correct Russian notices for rate, stream and weekly quota; no misleading new-chat advice or upstream error body",
+    "UI reload preserves long chat, successful resumed answer and precise error notices"
+  ],
+  "nativeModelCalls": 24,
+  "nativeSuccessfulToolCalls": 40,
+  "maximumRequestMessages": 45,
+  "maximumRequestContentBlocks": 166,
+  "productionBudgetBefore": {
+    "attempts": 41,
+    "confirmed_tokens": 560849,
+    "uncertain_ceiling": 0
+  },
+  "productionBudgetAfter": {
+    "attempts": 41,
+    "confirmed_tokens": 560849,
+    "uncertain_ceiling": 0
+  },
+  "browserErrors": [],
+  "fixtureRemoved": true
+}

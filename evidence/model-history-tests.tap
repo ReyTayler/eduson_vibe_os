@@ -1,0 +1,382 @@
+TAP version 13
+# Subtest: Confirmed terminal usage settles its reserve; one million cap includes all cache and output tokens
+ok 1 - Confirmed terminal usage settles its reserve; one million cap includes all cache and output tokens
+  ---
+  duration_ms: 35.183078
+  type: 'test'
+  ...
+# Subtest: Seven outstanding or uncertain full envelopes are the maximum without trusted usage
+ok 2 - Seven outstanding or uncertain full envelopes are the maximum without trusted usage
+  ---
+  duration_ms: 2.182644
+  type: 'test'
+  ...
+# Subtest: Large confirmed usage cannot admit calls beyond the unchanged million-token ceiling
+ok 3 - Large confirmed usage cannot admit calls beyond the unchanged million-token ceiling
+  ---
+  duration_ms: 2.489981
+  type: 'test'
+  ...
+# Subtest: Duplicate admission and duplicate settlement cannot trigger another call or debit
+ok 4 - Duplicate admission and duplicate settlement cannot trigger another call or debit
+  ---
+  duration_ms: 1.393838
+  type: 'test'
+  ...
+# Subtest: Interrupted sent request becomes uncertain on WAL reopen and retains the full debit
+ok 5 - Interrupted sent request becomes uncertain on WAL reopen and retains the full debit
+  ---
+  duration_ms: 20.839618
+  type: 'test'
+  ...
+# Subtest: AES-GCM plaintext absent, AAD bound to credential number and corrupted ciphertext rejected
+ok 6 - AES-GCM plaintext absent, AAD bound to credential number and corrupted ciphertext rejected
+  ---
+  duration_ms: 6.325567
+  type: 'test'
+  ...
+# Subtest: Unauthorized caller rejected before reserve and upstream
+ok 7 - Unauthorized caller rejected before reserve and upstream
+  ---
+  duration_ms: 51.271215
+  type: 'test'
+  ...
+# Subtest: Image, unknown model, excessive output and thinking cannot spend tokens
+ok 8 - Image, unknown model, excessive output and thinking cannot spend tokens
+  ---
+  duration_ms: 35.011908
+  type: 'test'
+  ...
+# Subtest: Oversized body rejected before reserve
+ok 9 - Oversized body rejected before reserve
+  ---
+  duration_ms: 24.604797
+  type: 'test'
+  ...
+# Subtest: Fragmented SSE with CRLF crosses chunk boundaries; terminal usage commits before completion
+ok 10 - Fragmented SSE with CRLF crosses chunk boundaries; terminal usage commits before completion
+  ---
+  duration_ms: 34.052955
+  type: 'test'
+  ...
+# Subtest: Same request id is sent upstream once
+ok 11 - Same request id is sent upstream once
+  ---
+  duration_ms: 29.646437
+  type: 'test'
+  ...
+# Subtest: Concurrent attempts across all keys reserve atomically before any provider finishes
+ok 12 - Concurrent attempts across all keys reserve atomically before any provider finishes
+  ---
+  duration_ms: 168.667025
+  type: 'test'
+  ...
+# Subtest: Provider HTTP auth errors are sanitized and full debit stays consumed
+ok 13 - Provider HTTP auth errors are sanitized and full debit stays consumed
+  ---
+  duration_ms: 32.609742
+  type: 'test'
+  ...
+# Subtest: Missing terminal usage and in-band provider error cannot appear as success
+ok 14 - Missing terminal usage and in-band provider error cannot appear as success
+  ---
+  duration_ms: 30.02646
+  type: 'test'
+  ...
+# Subtest: Client disconnect aborts upstream and preserves non-refundable debit
+ok 15 - Client disconnect aborts upstream and preserves non-refundable debit
+  ---
+  duration_ms: 36.022076
+  type: 'test'
+  ...
+# Subtest: In-band provider error text never exposes credential material or final success
+ok 16 - In-band provider error text never exposes credential material or final success
+  ---
+  duration_ms: 29.168012
+  type: 'test'
+  ...
+# Subtest: Credential outside 20 through 27 and arbitrary route cannot dispatch
+ok 17 - Credential outside 20 through 27 and arbitrary route cannot dispatch
+  ---
+  duration_ms: 19.51357
+  type: 'test'
+  ...
+# Subtest: Malformed settlement never releases capacity, duplicate settlement cannot refund twice
+ok 18 - Malformed settlement never releases capacity, duplicate settlement cannot refund twice
+  ---
+  duration_ms: 1.51818
+  type: 'test'
+  ...
+# Subtest: V1 migration keeps the original history, cap and unresolved reservations
+ok 19 - V1 migration keeps the original history, cap and unresolved reservations
+  ---
+  duration_ms: 28.609104
+  type: 'test'
+  ...
+# Subtest: Read-only private status while streaming cannot turn an active request into uncertain
+ok 20 - Read-only private status while streaming cannot turn an active request into uncertain
+  ---
+  duration_ms: 27.845315
+  type: 'test'
+  ...
+# Subtest: 64K output and each reasoning effort reach native Messages with explicit disabled mode
+ok 21 - 64K output and each reasoning effort reach native Messages with explicit disabled mode
+  ---
+  duration_ms: 42.750297
+  type: 'test'
+  ...
+# Subtest: Invalid effort, disabled plus effort and invalid thinking replay cannot dispatch
+ok 22 - Invalid effort, disabled plus effort and invalid thinking replay cannot dispatch
+  ---
+  duration_ms: 17.638201
+  type: 'test'
+  ...
+# Subtest: Reasoning and signatures survive assistant/tool replay without unknown fields
+ok 23 - Reasoning and signatures survive assistant/tool replay without unknown fields
+  ---
+  duration_ms: 0.841205
+  type: 'test'
+  ...
+# Subtest: Variable envelope includes bounded input, 64K output and overhead; unknown reserves stay held
+ok 24 - Variable envelope includes bounded input, 64K output and overhead; unknown reserves stay held
+  ---
+  duration_ms: 1.215907
+  type: 'test'
+  ...
+# Subtest: Strict v2 schema migrates without changing confirmed usage, uncertain envelopes or cap
+ok 25 - Strict v2 schema migrates without changing confirmed usage, uncertain envelopes or cap
+  ---
+  duration_ms: 42.247738
+  type: 'test'
+  ...
+# Subtest: A complete answer larger than the previous 64KiB character cutoff is streamed and settled
+ok 26 - A complete answer larger than the previous 64KiB character cutoff is streamed and settled
+  ---
+  duration_ms: 25.059529
+  type: 'test'
+  ...
+# Subtest: Strict legacy requests with no authorization table can migrate and reserve a 64K request
+ok 27 - Strict legacy requests with no authorization table can migrate and reserve a 64K request
+  ---
+  duration_ms: 31.338338
+  type: 'test'
+  ...
+# Subtest: 72+ content blocks in a normal tool history are valid
+ok 28 - 72+ content blocks in a normal tool history are valid
+  ---
+  duration_ms: 2.34822
+  type: 'test'
+  ...
+# Subtest: More than 32 messages remain valid within the byte budget
+ok 29 - More than 32 messages remain valid within the byte budget
+  ---
+  duration_ms: 0.872166
+  type: 'test'
+  ...
+# Subtest: A batch with more than 16 calls and results is valid
+ok 30 - A batch with more than 16 calls and results is valid
+  ---
+  duration_ms: 0.359183
+  type: 'test'
+  ...
+# Subtest: Malformed and unsupported content still fail validation
+ok 31 - Malformed and unsupported content still fail validation
+  ---
+  duration_ms: 2.158392
+  type: 'test'
+  ...
+# Subtest: Long history reaches the upstream fixture; byte guard and weekly admission still apply
+ok 32 - Long history reaches the upstream fixture; byte guard and weekly admission still apply
+  ---
+  duration_ms: 63.028431
+  type: 'test'
+  ...
+# Subtest: Gateway history failures are distinct from weekly quota, bytes, rate and transport errors
+ok 33 - Gateway history failures are distinct from weekly quota, bytes, rate and transport errors
+  ---
+  duration_ms: 1.710634
+  type: 'test'
+  ...
+# Subtest: Unknown failure text and fabricated codes cannot escape into API errors or logs
+ok 34 - Unknown failure text and fabricated codes cannot escape into API errors or logs
+  ---
+  duration_ms: 0.3322
+  type: 'test'
+  ...
+# Subtest: No fixed output ceiling in gateway validation; allocation is weekly budget and provider driven
+ok 35 - No fixed output ceiling in gateway validation; allocation is weekly budget and provider driven
+  ---
+  duration_ms: 3.411565
+  type: 'test'
+  ...
+# Subtest: Output admission allows the complete provider maximum without a platform answer cap
+ok 36 - Output admission allows the complete provider maximum without a platform answer cap
+  ---
+  duration_ms: 5.140269
+  type: 'test'
+  ...
+# Subtest: Residual quota below old 131072 floor remains usable and output shrinks atomically
+ok 37 - Residual quota below old 131072 floor remains usable and output shrinks atomically
+  ---
+  duration_ms: 5.666517
+  type: 'test'
+  ...
+# Subtest: Adaptive reservations have no fixed 131072 minimum; a final small output fits the weekly remainder
+ok 38 - Adaptive reservations have no fixed 131072 minimum; a final small output fits the weekly remainder
+  ---
+  duration_ms: 2.979111
+  type: 'test'
+  ...
+# Subtest: Context capacity and discovered provider capacity are honoured independently of internal 64K
+ok 39 - Context capacity and discovered provider capacity are honoured independently of internal 64K
+  ---
+  duration_ms: 4.182735
+  type: 'test'
+  ...
+# Subtest: Two simultaneous projects cannot overbook; the next output is resized using the latest reservation
+ok 40 - Two simultaneous projects cannot overbook; the next output is resized using the latest reservation
+  ---
+  duration_ms: 3.596423
+  type: 'test'
+  ...
+# Subtest: Terminal usage refunds unused output allowance; unknown outcome keeps only its admitted weekly envelope
+ok 41 - Terminal usage refunds unused output allowance; unknown outcome keeps only its admitted weekly envelope
+  ---
+  duration_ms: 3.121783
+  type: 'test'
+  ...
+# Subtest: An adaptive response ending after Sunday reset charges its admission week only
+ok 42 - An adaptive response ending after Sunday reset charges its admission week only
+  ---
+  duration_ms: 2.764784
+  type: 'test'
+  ...
+# Subtest: Output envelope validation and failed admission are atomic
+ok 43 - Output envelope validation and failed admission are atomic
+  ---
+  duration_ms: 2.505987
+  type: 'test'
+  ...
+# Subtest: Gateway sends provider maximum and streams a response larger than prior result and frame ceilings
+ok 44 - Gateway sends provider maximum and streams a response larger than prior result and frame ceilings
+  ---
+  duration_ms: 264.473639
+  type: 'test'
+  ...
+# Subtest: Provider discovery can raise output above 393216 without code or student profile changes
+ok 45 - Provider discovery can raise output above 393216 without code or student profile changes
+  ---
+  duration_ms: 12.58623
+  type: 'test'
+  ...
+# Subtest: Gateway dynamically fits an answer to a small remaining week rather than requiring its full configured maximum
+ok 46 - Gateway dynamically fits an answer to a small remaining week rather than requiring its full configured maximum
+  ---
+  duration_ms: 7.890498
+  type: 'test'
+  ...
+# Subtest: Idle timeout is reset by provider traffic and imposes no total response deadline
+ok 47 - Idle timeout is reset by provider traffic and imposes no total response deadline
+  ---
+  duration_ms: 162.00508
+  type: 'test'
+  ...
+# Subtest: A genuinely idle provider is aborted with its weekly reservation retained
+ok 48 - A genuinely idle provider is aborted with its weekly reservation retained
+  ---
+  duration_ms: 39.789648
+  type: 'test'
+  ...
+# Subtest: Sunday 23:59:00 Moscow is the exact boundary, independent of UTC host day
+ok 49 - Sunday 23:59:00 Moscow is the exact boundary, independent of UTC host day
+  ---
+  duration_ms: 2.624925
+  type: 'test'
+  ...
+# Subtest: All five users each have an independent million; combined admission may exceed one million
+ok 50 - All five users each have an independent million; combined admission may exceed one million
+  ---
+  duration_ms: 26.8233
+  type: 'test'
+  ...
+# Subtest: One exhausted user does not consume another quota or the operator test allowance
+ok 51 - One exhausted user does not consume another quota or the operator test allowance
+  ---
+  duration_ms: 6.360404
+  type: 'test'
+  ...
+# Subtest: A fresh week is available exactly at reset, and unused tokens never accumulate
+ok 52 - A fresh week is available exactly at reset, and unused tokens never accumulate
+  ---
+  duration_ms: 3.067975
+  type: 'test'
+  ...
+# Subtest: Late completion settles its original week and leaves the new week untouched
+ok 53 - Late completion settles its original week and leaves the new week untouched
+  ---
+  duration_ms: 3.014272
+  type: 'test'
+  ...
+# Subtest: Cancel, provider failure and uncertain old calls stay in their admitted week
+ok 54 - Cancel, provider failure and uncertain old calls stay in their admitted week
+  ---
+  duration_ms: 2.745433
+  type: 'test'
+  ...
+# Subtest: Global request id prevents duplicate billing or replay across reset or across users
+ok 55 - Global request id prevents duplicate billing or replay across reset or across users
+  ---
+  duration_ms: 2.469596
+  type: 'test'
+  ...
+# Subtest: Restart preserves weekly ownership, confirmed spend and full unresolved reservations
+ok 56 - Restart preserves weekly ownership, confirmed spend and full unresolved reservations
+  ---
+  duration_ms: 36.944501
+  type: 'test'
+  ...
+# Subtest: Clock rollback cannot reopen a previous week after a new period was admitted
+ok 57 - Clock rollback cannot reopen a previous week after a new period was admitted
+  ---
+  duration_ms: 2.875866
+  type: 'test'
+  ...
+# Subtest: Legacy history is attributed once without deleting costs or resetting current week
+ok 58 - Legacy history is attributed once without deleting costs or resetting current week
+  ---
+  duration_ms: 31.245983
+  type: 'test'
+  ...
+# Subtest: Variable body reserve applies only to the correct user and includes cached usage
+ok 59 - Variable body reserve applies only to the correct user and includes cached usage
+  ---
+  duration_ms: 2.718542
+  type: 'test'
+  ...
+# Subtest: Invalid subject is rejected before any scope or request record can be created
+ok 60 - Invalid subject is rejected before any scope or request record can be created
+  ---
+  duration_ms: 2.980997
+  type: 'test'
+  ...
+# Subtest: Weekly ceiling cannot be changed through SQL and scope inserts are atomic
+ok 61 - Weekly ceiling cannot be changed through SQL and scope inserts are atomic
+  ---
+  duration_ms: 2.153936
+  type: 'test'
+  ...
+# Subtest: Student bearer selects its own quota, cannot claim another credential or see the overview
+ok 62 - Student bearer selects its own quota, cannot claim another credential or see the overview
+  ---
+  duration_ms: 51.460385
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 994.648235

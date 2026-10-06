@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T19:44:50.388Z",
+  "paidCalls": 0,
+  "project": "fd956de103f35327278c0128283b33bd",
+  "chat": "4ec2f7c6c3dd3bf64b0dab7ec17675fc",
+  "inspect": {
+    "sessionId": "4ec2f7c6c3dd3bf64b0dab7ec17675fc",
+    "resumed": true,
+    "cursor": 79,
+    "paidCalls": 0,
+    "reasoningMode": "high",
+    "maxTokens": 393216,
+    "maxSteps": null,
+    "outputPolicy": "weekly-budget-and-provider"
+  },
+  "updatedSystemNoticeVisible": true,
+  "currentQuotaLabelVisible": true,
+  "chatInputEnabled": true,
+  "browserErrors": [],
+  "productionBudgetBefore": {
+    "attempts": 41,
+    "confirmed_tokens": 560849,
+    "uncertain_ceiling": 0
+  },
+  "productionBudgetAfter": {
+    "attempts": 41,
+    "confirmed_tokens": 560849,
+    "uncertain_ceiling": 0
+  },
+  "humanWorkspaceUnchanged": true,
+  "humanUserAndAssistantMessagesUnchanged": true,
+  "nativeHistoryOriginalPrefixUnchanged": true,
+  "nativeOriginalBytes": 795689,
+  "nativeMetadataAppended": [
+    "session/end-seed"
+  ],
+  "humanProjectsPreserved": 3,
+  "temporaryProjectsRemaining": 0
+}

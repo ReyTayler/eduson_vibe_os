@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T19:47:04.612871+00:00",
+  "change": "remove artificial tool-history count limits and retain useful safe error causes",
+  "paidCalls": 0,
+  "offlineTests": 62,
+  "nativeToolRounds": 20,
+  "successfulFileToolCalls": 40,
+  "nativeMaximumRequestMessages": 45,
+  "nativeMaximumContentBlocks": 166,
+  "originalChatResume": "passed",
+  "humanProjectsPreserved": 3,
+  "humanWorkspacePreserved": true,
+  "humanMessagesPreserved": true,
+  "productionBudget": {
+    "attempts": 41,
+    "confirmed_tokens": 560849,
+    "uncertain_ceiling": 0
+  },
+  "student1WeeklyBudget": {
+    "generation": 4,
+    "scope": "student",
+    "student": 1,
+    "period": "weekly",
+    "timezone": "Europe/Moscow",
+    "periodStartsAt": "2026-10-04T20:59:00.000Z",
+    "resetsAt": "2026-10-11T20:59:00.000Z",
+    "limitTokens": 1000000,
+    "debitedTokens": 553031,
+    "remainingAuthorizationTokens": 446969,
+    "enabled": true,
+    "clockValid": true,
+    "maxRemainingCalls": 13,
+    "attempts": 26,
+    "confirmed_tokens": 553031,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 6848533
+  },
+  "services": {
+    "vibe-os-model-gateway": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-runner": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-broker": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal-web": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "runtimeMatchesSource": true,
+  "javascriptSyntaxFiles": 35,
+  "documentationLinks": 91,
+  "evidence": [
+    "model-history-diagnosis.json",
+    "model-history-tests.tap",
+    "model-history-harness.json",
+    "model-history-live-check.json",
+    "student-secret-scan.json"
+  ]
+}
