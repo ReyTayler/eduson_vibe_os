@@ -1,0 +1,30 @@
+[Unit]
+Description=Vibe OS public read-only fixture web proxy
+Wants=network-online.target
+After=network-online.target vibe-os-poc-console.service
+Requires=vibe-os-poc-console.service
+StartLimitIntervalSec=30
+StartLimitBurst=3
+
+[Service]
+Type=simple
+RuntimeDirectory=vibe-os-test-web
+RuntimeDirectoryMode=0755
+ExecStartPre=/usr/sbin/nginx -t -c /etc/vibe-os/nginx-poc.conf
+ExecStart=/usr/sbin/nginx -c /etc/vibe-os/nginx-poc.conf
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGQUIT
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/run/vibe-os-test-web /var/log/nginx/error.log
+MemoryMax=128M
+MemorySwapMax=0
+TasksMax=16
+
+[Install]
+WantedBy=multi-user.target

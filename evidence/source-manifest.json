@@ -6,13 +6,13 @@
   },
   {
     "path": "README.md",
-    "bytes": 2356,
-    "sha256": "ff6c4be095e52bb64b7c60c2c6eff48bd2e4c692e16e5a52497ca62b65740a7e"
+    "bytes": 2819,
+    "sha256": "c5963b255fc5c7b9d2eba9ce16e08767f6346f3de3993dd20334d3d8b0c3f109"
   },
   {
     "path": "docs/build-report.md",
-    "bytes": 15071,
-    "sha256": "1fb3e65e70df27f06e1d6edeaa1b53ccb25bf4928d2ca019a5968b34f290756b"
+    "bytes": 17700,
+    "sha256": "c53f8091df45b88680b96ae91230f35c3d4df597627b620d287f6b8ee46676f3"
   },
   {
     "path": "docs/deepseek-integration.md",
@@ -120,6 +120,11 @@
     "sha256": "09a71d725ff5328b9d5f56c01f74700ca1455a759233553a19dd446e15170542"
   },
   {
+    "path": "evidence/public-test-web.json",
+    "bytes": 1527,
+    "sha256": "896e38c1f88e1799196d1bd98c9816767a0f9cbbf3efd0968b15afc9d58f27bb"
+  },
+  {
     "path": "evidence/python-sqlite-validation.json",
     "bytes": 183,
     "sha256": "8591749bf0bcda1da7f644a2136995e772797a145a53dc041687c0e569726a03"
@@ -213,6 +218,11 @@
     "path": "infra/bootstrap/preflight.py",
     "bytes": 4432,
     "sha256": "88ea434f070209b6da8ab2a8fd8b7e4243f5c84f86f6a97910abb808fa6b9b83"
+  },
+  {
+    "path": "infra/nginx/test-web.conf",
+    "bytes": 1769,
+    "sha256": "75ed6ce652ae416f3610faaef801d84d8858b25a137ff6960a239e30fb4a3bfb"
   },
   {
     "path": "infra/nsjail/app-1.cfg",
@@ -311,8 +321,8 @@
   },
   {
     "path": "infra/systemd/vibe-os-poc-console.service",
-    "bytes": 463,
-    "sha256": "63d23e4d7721d657664d80377f58bfd533b2e864a8a6ba16d71ddc662c53e174"
+    "bytes": 470,
+    "sha256": "59068b832c5559d5c4a7e399c82e1db7d8c7d7a11ecbe9d0850bc4af98798190"
   },
   {
     "path": "infra/systemd/vibe-os-poc-runner.service",
@@ -323,6 +333,11 @@
     "path": "infra/systemd/vibe-os-poc-tmpfiles.conf",
     "bytes": 248,
     "sha256": "b497fab50526e7de8d4139bfff8fb56f9d1ccc2bdd8d6eb374dadbaa0a0ed7b5"
+  },
+  {
+    "path": "infra/systemd/vibe-os-test-web.service",
+    "bytes": 748,
+    "sha256": "04756f57885bc1faf36cab53d030bb945469ea8ba27a6b2657d20fd2e3dae9b4"
   },
   {
     "path": "infra/vendor/deepseek-codec-license.txt",
@@ -416,8 +431,8 @@
   },
   {
     "path": "services/hosting/console.mjs",
-    "bytes": 3074,
-    "sha256": "798027469717946f2265bbc1a451bbf53406309dc67eaada0ad671e4fb83d19f"
+    "bytes": 3190,
+    "sha256": "527390485b92b34f9c62fc3cf4b7c123907076549b349d481daa4e58be4f02cc"
   },
   {
     "path": "services/hosting/observe.mjs",

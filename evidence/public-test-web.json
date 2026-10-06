@@ -1,0 +1,79 @@
+{
+  "checkedAtUtc": "2026-10-06T15:55:03.4279648Z",
+  "url": "http://80.249.145.94/",
+  "source": "External HTTP probes from operator PC; all source and build work on server",
+  "passed": true,
+  "requests": [
+    {
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "path": "/projects/1/",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "path": "/projects/2/",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "path": "/projects/3/",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "path": "/projects/4/",
+      "method": "GET",
+      "status": 503,
+      "expected": 503,
+      "passed": true
+    },
+    {
+      "path": "/",
+      "method": "HEAD",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "path": "/",
+      "method": "POST",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "path": "/status.json",
+      "method": "GET",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "path": "/v1/messages",
+      "method": "GET",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "path": "/projects/1/private",
+      "method": "GET",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    }
+  ],
+  "paidModelRequests": 0
+}

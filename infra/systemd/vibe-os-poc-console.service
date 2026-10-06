@@ -1,5 +1,5 @@
 [Unit]
-Description=Vibe OS SSH-only prototype console
+Description=Vibe OS local read-only prototype console
 After=local-fs.target
 StartLimitIntervalSec=30
 StartLimitBurst=3
