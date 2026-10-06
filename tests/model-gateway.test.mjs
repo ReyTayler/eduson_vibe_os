@@ -7,7 +7,7 @@ import {randomUUID,randomBytes} from 'node:crypto'
 import http from 'node:http'
 import {once} from 'node:events'
 import {DatabaseSync} from 'node:sqlite'
-import {Ledger,CALL_DEBIT} from '../services/model-gateway/ledger.mjs'
+import {LegacyLedger as Ledger,CALL_DEBIT} from '../services/model-gateway/ledger.mjs'
 import {createGateway,MAX_BODY,MAX_OUTPUT,reservationFor,validateBody} from '../services/model-gateway/server.mjs'
 import {Vault} from '../packages/credentials/vault.mjs'
 const body={model:'deepseek-flash',stream:true,max_tokens:32,thinking:{type:'disabled'},messages:[{role:'user',content:[{type:'text',text:'Reply OK'}]}]}

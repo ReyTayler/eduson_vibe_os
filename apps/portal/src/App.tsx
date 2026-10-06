@@ -346,6 +346,35 @@ export default function App() {
     if (user) void reload().catch((e) => say(e.message));
   }, [user?.id]);
   useEffect(() => {
+    if (!user) return;
+    let active = true;
+    const refreshBudget = () => {
+      void api<{ model: Budget }>("/status")
+        .then((s) => {
+          if (active) setBudget(s.model);
+        })
+        .catch(() => {});
+    };
+    const interval = setInterval(refreshBudget, 30000);
+    const untilReset = budget?.resetsAt
+      ? Date.parse(budget.resetsAt) - Date.now()
+      : NaN;
+    const reset =
+      Number.isFinite(untilReset) && untilReset >= 0 && untilReset < 2147483647
+        ? setTimeout(refreshBudget, untilReset + 150)
+        : null;
+    const visible = () => {
+      if (document.visibilityState === "visible") refreshBudget();
+    };
+    document.addEventListener("visibilitychange", visible);
+    return () => {
+      active = false;
+      clearInterval(interval);
+      if (reset !== null) clearTimeout(reset);
+      document.removeEventListener("visibilitychange", visible);
+    };
+  }, [user?.id, budget?.resetsAt]);
+  useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(""), 4500);
     return () => clearTimeout(t);
@@ -1377,9 +1406,45 @@ function SettingsPage({
                   : "—"}
               </b>
             </div>
+            <div className="budget-line">
+              <span>Твой лимит на неделю</span>
+              <b>1 000 000</b>
+            </div>
+            <div className="budget-line">
+              <span>Использовано</span>
+              <b>
+                {new Intl.NumberFormat("ru").format(
+                  budget?.confirmedTokens ?? 0,
+                )}
+              </b>
+            </div>
+            {!!budget?.reservedTokens && (
+              <div className="budget-line">
+                <span>В резерве</span>
+                <b>
+                  {new Intl.NumberFormat("ru").format(budget.reservedTokens)}
+                </b>
+              </div>
+            )}
+            <div className="budget-line">
+              <span>Следующий сброс</span>
+              <b>
+                {budget?.resetsAt
+                  ? new Intl.DateTimeFormat("ru", {
+                      timeZone: "Europe/Moscow",
+                      day: "2-digit",
+                      month: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hourCycle: "h23",
+                    }).format(new Date(budget.resetsAt)) + " МСК"
+                  : "—"}
+              </b>
+            </div>
             <small>
-              Считается общий расход всех пяти кабинетов. Для незавершённых
-              запросов сохраняется резерв. Лимит — 1 млн токенов.
+              Личный лимит — 1 млн токенов в неделю на все твои проекты и чаты.
+              Сброс каждое воскресенье в 23:59 по Москве. Для незавершённых
+              запросов сохраняется резерв.
             </small>
           </div>
           <div className="settings-card glass">

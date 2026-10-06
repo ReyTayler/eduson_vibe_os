@@ -1,17 +1,19 @@
 # Reasoning и вывод 64K
 
+> С 6 октября 2026 года действует generation 4: **личный лимит 1 000 000 токенов на ученика в неделю**, сброс воскресенье 23:59 МСК. [Текущая схема, миграция и проверки](weekly-quota.md). Общий lifetime budget ниже описывает предыдущую реализацию.
+
 Обновление 6 октября 2026 года. Доступно на `https://80.249.145.94/`. Модель остаётся DeepSeek V4.1 Flash / `deepseek-flash`.
 
 ## Пользовательский интерфейс
 
 В каждом чате над полем сообщения есть «Рассуждения»:
 
-| Выбор | Native Anthropic Messages |
-|---|---|
-| Выключены | `thinking: {type: "disabled"}`, без output_config |
-| Low | `thinking: {type: "enabled"}`, `output_config: {effort: "low"}` |
-| High | `thinking: {type: "enabled"}`, `output_config: {effort: "high"}` |
-| Max | `thinking: {type: "enabled"}`, `output_config: {effort: "max"}` |
+| Выбор     | Native Anthropic Messages                                        |
+| --------- | ---------------------------------------------------------------- |
+| Выключены | `thinking: {type: "disabled"}`, без output_config                |
+| Low       | `thinking: {type: "enabled"}`, `output_config: {effort: "low"}`  |
+| High      | `thinking: {type: "enabled"}`, `output_config: {effort: "high"}` |
+| Max       | `thinking: {type: "enabled"}`, `output_config: {effort: "max"}`  |
 
 Выбор сохраняется отдельно для чата. Существующие и новые чаты по умолчанию используют «Выключены». Настройка фиксируется в run при отправке; дальнейшее изменение чата не меняет уже принятую работу. Пока помощник работает, UI блокирует выбор. Перезагрузка страницы сохраняет настройку.
 
@@ -40,7 +42,7 @@ Existing root-owned profiles обновлены, новые проекты по�
 - Прежние срезы ответа/partial на 65 536 символах удалены; при превышении byte cap возвращается ошибка, без silent truncation.
 - Один model call: до 20 минут; engine run: до 30 минут. Таймауты broker/API/SSE согласованы с этим временем.
 - Предел protected history 8 MiB и project quota 128 MiB сохраняются. Длинные ответы могут раньше потребовать нового независимого чата.
-- До шести модельных шагов в одной работе; 65 536 — предел каждого вызова, общий token budget отдельно ограничивает всю платформу.
+- До шести модельных шагов в одной работе; 65 536 — предел каждого вызова, личный недельный token budget отдельно ограничивает все проекты и чаты ученика.
 - Отображается итоговый ответ; reasoning history сохраняется для корректного native tool replay и не выводится отдельным полем в UI.
 
 ## Миллион токенов и миграция generation 3

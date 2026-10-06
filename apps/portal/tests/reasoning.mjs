@@ -8,7 +8,7 @@ import{chromium}from'playwright';
 const origin='https://80.249.145.94',account=JSON.parse(readFileSync('/var/lib/vibe-os/portal-private/student-logins.json'))[4];
 const cap=readFileSync('/var/lib/vibe-os/portal-private/broker-capability','utf8').trim();
 let cookie='',csrf='',project,browser;const checks=[],errors=[];
-const budget=()=>JSON.parse(execFileSync('node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).budget;
+const budget=()=>JSON.parse(execFileSync('node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).overview.lifetime;
 const before=budget();
 function assert(ok,msg){if(!ok)throw new Error(msg)}
 async function api(method,path,body,expected=200){

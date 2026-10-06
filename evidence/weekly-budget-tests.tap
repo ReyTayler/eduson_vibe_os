@@ -1,0 +1,256 @@
+TAP version 13
+# Subtest: Confirmed terminal usage settles its reserve; one million cap includes all cache and output tokens
+ok 1 - Confirmed terminal usage settles its reserve; one million cap includes all cache and output tokens
+  ---
+  duration_ms: 23.456131
+  type: 'test'
+  ...
+# Subtest: Seven outstanding or uncertain full envelopes are the maximum without trusted usage
+ok 2 - Seven outstanding or uncertain full envelopes are the maximum without trusted usage
+  ---
+  duration_ms: 2.128329
+  type: 'test'
+  ...
+# Subtest: Large confirmed usage cannot admit calls beyond the unchanged million-token ceiling
+ok 3 - Large confirmed usage cannot admit calls beyond the unchanged million-token ceiling
+  ---
+  duration_ms: 2.213891
+  type: 'test'
+  ...
+# Subtest: Duplicate admission and duplicate settlement cannot trigger another call or debit
+ok 4 - Duplicate admission and duplicate settlement cannot trigger another call or debit
+  ---
+  duration_ms: 1.304664
+  type: 'test'
+  ...
+# Subtest: Interrupted sent request becomes uncertain on WAL reopen and retains the full debit
+ok 5 - Interrupted sent request becomes uncertain on WAL reopen and retains the full debit
+  ---
+  duration_ms: 16.130234
+  type: 'test'
+  ...
+# Subtest: AES-GCM plaintext absent, AAD bound to credential number and corrupted ciphertext rejected
+ok 6 - AES-GCM plaintext absent, AAD bound to credential number and corrupted ciphertext rejected
+  ---
+  duration_ms: 5.160796
+  type: 'test'
+  ...
+# Subtest: Unauthorized caller rejected before reserve and upstream
+ok 7 - Unauthorized caller rejected before reserve and upstream
+  ---
+  duration_ms: 51.274715
+  type: 'test'
+  ...
+# Subtest: Image, unknown model, excessive output and thinking cannot spend tokens
+ok 8 - Image, unknown model, excessive output and thinking cannot spend tokens
+  ---
+  duration_ms: 23.750554
+  type: 'test'
+  ...
+# Subtest: Oversized body rejected before reserve
+ok 9 - Oversized body rejected before reserve
+  ---
+  duration_ms: 23.405426
+  type: 'test'
+  ...
+# Subtest: Fragmented SSE with CRLF crosses chunk boundaries; terminal usage commits before completion
+ok 10 - Fragmented SSE with CRLF crosses chunk boundaries; terminal usage commits before completion
+  ---
+  duration_ms: 31.128004
+  type: 'test'
+  ...
+# Subtest: Same request id is sent upstream once
+ok 11 - Same request id is sent upstream once
+  ---
+  duration_ms: 21.356165
+  type: 'test'
+  ...
+# Subtest: Concurrent attempts across all keys reserve atomically before any provider finishes
+ok 12 - Concurrent attempts across all keys reserve atomically before any provider finishes
+  ---
+  duration_ms: 139.89428
+  type: 'test'
+  ...
+# Subtest: Provider HTTP auth errors are sanitized and full debit stays consumed
+ok 13 - Provider HTTP auth errors are sanitized and full debit stays consumed
+  ---
+  duration_ms: 23.902538
+  type: 'test'
+  ...
+# Subtest: Missing terminal usage and in-band provider error cannot appear as success
+ok 14 - Missing terminal usage and in-band provider error cannot appear as success
+  ---
+  duration_ms: 17.269003
+  type: 'test'
+  ...
+# Subtest: Client disconnect aborts upstream and preserves non-refundable debit
+ok 15 - Client disconnect aborts upstream and preserves non-refundable debit
+  ---
+  duration_ms: 27.963862
+  type: 'test'
+  ...
+# Subtest: In-band provider error text never exposes credential material or final success
+ok 16 - In-band provider error text never exposes credential material or final success
+  ---
+  duration_ms: 16.271092
+  type: 'test'
+  ...
+# Subtest: Credential outside 20 through 27 and arbitrary route cannot dispatch
+ok 17 - Credential outside 20 through 27 and arbitrary route cannot dispatch
+  ---
+  duration_ms: 12.329062
+  type: 'test'
+  ...
+# Subtest: Malformed settlement never releases capacity, duplicate settlement cannot refund twice
+ok 18 - Malformed settlement never releases capacity, duplicate settlement cannot refund twice
+  ---
+  duration_ms: 1.370182
+  type: 'test'
+  ...
+# Subtest: V1 migration keeps the original history, cap and unresolved reservations
+ok 19 - V1 migration keeps the original history, cap and unresolved reservations
+  ---
+  duration_ms: 19.111419
+  type: 'test'
+  ...
+# Subtest: Read-only private status while streaming cannot turn an active request into uncertain
+ok 20 - Read-only private status while streaming cannot turn an active request into uncertain
+  ---
+  duration_ms: 20.071372
+  type: 'test'
+  ...
+# Subtest: 64K output and each reasoning effort reach native Messages with explicit disabled mode
+ok 21 - 64K output and each reasoning effort reach native Messages with explicit disabled mode
+  ---
+  duration_ms: 30.845292
+  type: 'test'
+  ...
+# Subtest: Invalid effort, disabled plus effort and invalid thinking replay cannot dispatch
+ok 22 - Invalid effort, disabled plus effort and invalid thinking replay cannot dispatch
+  ---
+  duration_ms: 13.373218
+  type: 'test'
+  ...
+# Subtest: Reasoning and signatures survive assistant/tool replay without unknown fields
+ok 23 - Reasoning and signatures survive assistant/tool replay without unknown fields
+  ---
+  duration_ms: 0.794429
+  type: 'test'
+  ...
+# Subtest: Variable envelope includes bounded input, 64K output and overhead; unknown reserves stay held
+ok 24 - Variable envelope includes bounded input, 64K output and overhead; unknown reserves stay held
+  ---
+  duration_ms: 1.136038
+  type: 'test'
+  ...
+# Subtest: Strict v2 schema migrates without changing confirmed usage, uncertain envelopes or cap
+ok 25 - Strict v2 schema migrates without changing confirmed usage, uncertain envelopes or cap
+  ---
+  duration_ms: 21.648467
+  type: 'test'
+  ...
+# Subtest: A complete answer larger than the previous 64KiB character cutoff is streamed and settled
+ok 26 - A complete answer larger than the previous 64KiB character cutoff is streamed and settled
+  ---
+  duration_ms: 17.796065
+  type: 'test'
+  ...
+# Subtest: Strict legacy requests with no authorization table can migrate and reserve a 64K request
+ok 27 - Strict legacy requests with no authorization table can migrate and reserve a 64K request
+  ---
+  duration_ms: 17.234263
+  type: 'test'
+  ...
+# Subtest: Sunday 23:59:00 Moscow is the exact boundary, independent of UTC host day
+ok 28 - Sunday 23:59:00 Moscow is the exact boundary, independent of UTC host day
+  ---
+  duration_ms: 2.728945
+  type: 'test'
+  ...
+# Subtest: All five users each have an independent million; combined admission may exceed one million
+ok 29 - All five users each have an independent million; combined admission may exceed one million
+  ---
+  duration_ms: 23.739061
+  type: 'test'
+  ...
+# Subtest: One exhausted user does not consume another quota or the operator test allowance
+ok 30 - One exhausted user does not consume another quota or the operator test allowance
+  ---
+  duration_ms: 5.818095
+  type: 'test'
+  ...
+# Subtest: A fresh week is available exactly at reset, and unused tokens never accumulate
+ok 31 - A fresh week is available exactly at reset, and unused tokens never accumulate
+  ---
+  duration_ms: 5.376379
+  type: 'test'
+  ...
+# Subtest: Late completion settles its original week and leaves the new week untouched
+ok 32 - Late completion settles its original week and leaves the new week untouched
+  ---
+  duration_ms: 3.097911
+  type: 'test'
+  ...
+# Subtest: Cancel, provider failure and uncertain old calls stay in their admitted week
+ok 33 - Cancel, provider failure and uncertain old calls stay in their admitted week
+  ---
+  duration_ms: 4.246873
+  type: 'test'
+  ...
+# Subtest: Global request id prevents duplicate billing or replay across reset or across users
+ok 34 - Global request id prevents duplicate billing or replay across reset or across users
+  ---
+  duration_ms: 2.541829
+  type: 'test'
+  ...
+# Subtest: Restart preserves weekly ownership, confirmed spend and full unresolved reservations
+ok 35 - Restart preserves weekly ownership, confirmed spend and full unresolved reservations
+  ---
+  duration_ms: 21.300077
+  type: 'test'
+  ...
+# Subtest: Clock rollback cannot reopen a previous week after a new period was admitted
+ok 36 - Clock rollback cannot reopen a previous week after a new period was admitted
+  ---
+  duration_ms: 2.750998
+  type: 'test'
+  ...
+# Subtest: Legacy history is attributed once without deleting costs or resetting current week
+ok 37 - Legacy history is attributed once without deleting costs or resetting current week
+  ---
+  duration_ms: 22.443189
+  type: 'test'
+  ...
+# Subtest: Variable body reserve applies only to the correct user and includes cached usage
+ok 38 - Variable body reserve applies only to the correct user and includes cached usage
+  ---
+  duration_ms: 2.326856
+  type: 'test'
+  ...
+# Subtest: Invalid subject is rejected before any scope or request record can be created
+ok 39 - Invalid subject is rejected before any scope or request record can be created
+  ---
+  duration_ms: 2.527629
+  type: 'test'
+  ...
+# Subtest: Weekly ceiling cannot be changed through SQL and scope inserts are atomic
+ok 40 - Weekly ceiling cannot be changed through SQL and scope inserts are atomic
+  ---
+  duration_ms: 1.814456
+  type: 'test'
+  ...
+# Subtest: Student bearer selects its own quota, cannot claim another credential or see the overview
+ok 41 - Student bearer selects its own quota, cannot claim another credential or see the overview
+  ---
+  duration_ms: 46.895449
+  type: 'test'
+  ...
+1..41
+# tests 41
+# suites 0
+# pass 41
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 734.517349

@@ -207,9 +207,26 @@ export function createGateway({
   ledger,
   vault,
   capability,
+  studentCapabilities = [],
   fetchImpl = fetch,
 }) {
   const expected = Buffer.from("Bearer " + capability);
+  const studentTokens = studentCapabilities.map((row) => {
+    if (
+      !Number.isInteger(row.student) ||
+      row.student < 1 ||
+      row.student > 5 ||
+      !/^[a-f0-9]{64}$/.test(row.capability)
+    )
+      throw new Error("INVALID_STUDENT_CAPABILITY");
+    return { ...row, bytes: Buffer.from("Bearer " + row.capability) };
+  });
+  if (
+    new Set([capability, ...studentTokens.map((s) => s.capability)]).size !==
+      studentTokens.length + 1 ||
+    new Set(studentTokens.map((s) => s.student)).size !== studentTokens.length
+  )
+    throw new Error("DUPLICATE_STUDENT_CAPABILITY");
   return http.createServer(async (req, res) => {
     let admitted = false,
       finished = false,
@@ -222,17 +239,32 @@ export function createGateway({
     });
     try {
       const received = Buffer.from(String(req.headers.authorization ?? ""));
+      const operator =
+        received.length === expected.length &&
+        timingSafeEqual(received, expected);
+      const actor = studentTokens.find(
+        (row) =>
+          row.bytes.length === received.length &&
+          timingSafeEqual(received, row.bytes),
+      );
+      if (!operator && !actor) throw fail("UNAUTHORIZED", 403);
       if (
-        received.length !== expected.length ||
-        !timingSafeEqual(received, expected)
+        actor &&
+        req.headers["x-vibe-credential"] !== undefined &&
+        Number(req.headers["x-vibe-credential"]) !== 19 + actor.student
       )
-        throw fail("UNAUTHORIZED", 403);
+        throw fail("CREDENTIAL_SCOPE", 403);
       if (req.method === "GET" && req.url === "/v1/status") {
         res.setHeader("Content-Type", "application/json");
         res.end(
           JSON.stringify({
-            budget: ledger.status(),
-            credentials: vault.metadata(),
+            budget: ledger.status(actor?.student ?? null),
+            ...(operator
+              ? {
+                  credentials: vault.metadata(),
+                  ...(ledger.overview ? { overview: ledger.overview() } : {}),
+                }
+              : {}),
           }),
         );
         return;
@@ -286,6 +318,7 @@ export function createGateway({
         keyId,
         createHash("sha256").update(raw).digest("hex"),
         reservationFor(raw.length, body.max_tokens),
+        actor?.student ?? null,
       );
       admitted = true;
       const response = await fetchImpl(UPSTREAM + "/anthropic/v1/messages", {
@@ -300,7 +333,9 @@ export function createGateway({
         },
         body: JSON.stringify({
           ...body,
-          metadata: { user_id: "vibe-poc-student" },
+          metadata: {
+            user_id: actor ? "vibe-student-" + actor.student : "vibe-operator",
+          },
         }),
       });
       status = response.status;
@@ -455,14 +490,26 @@ export function start() {
     "utf8",
   ).trim();
   if (!/^[a-f0-9]{64}$/.test(capability)) throw new Error("INVALID_CAPABILITY");
-  const ledger = new Ledger("/var/lib/vibe-os/model-budget/tokens.sqlite");
+  const studentCapabilities = JSON.parse(
+    readFileSync(join(credentials, "student-capabilities"), "utf8"),
+  );
+  if (!Array.isArray(studentCapabilities) || studentCapabilities.length !== 5)
+    throw new Error("FIVE_STUDENT_CAPABILITIES_REQUIRED");
+  const ledger = new Ledger("/var/lib/vibe-os/model-budget/tokens.sqlite", {
+    mapLegacyStudents: true,
+  });
   const socket = "/run/vibe-os-model/gateway.sock";
   try {
     unlinkSync(socket);
   } catch (e) {
     if (e.code !== "ENOENT") throw e;
   }
-  const server = createGateway({ ledger, vault, capability });
+  const server = createGateway({
+    ledger,
+    vault,
+    capability,
+    studentCapabilities,
+  });
   server.requestTimeout = 15000;
   server.headersTimeout = 10000;
   server.maxConnections = 4;

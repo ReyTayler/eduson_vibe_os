@@ -3,7 +3,7 @@ import {chromium} from 'playwright'
 import {readFileSync,writeFileSync} from 'node:fs'
 import {execFileSync} from 'node:child_process'
 const account=JSON.parse(readFileSync('/var/lib/vibe-os/portal-private/student-logins.json'))[0]
-const budget=()=>JSON.parse(execFileSync('/usr/local/bin/node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).budget
+const budget=()=>JSON.parse(execFileSync('/usr/local/bin/node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).overview.students.find(row=>row.student===1)
 const before=budget()
 if(before.limitTokens!==1000000||before.remainingAuthorizationTokens<4*65536)throw new Error('No authorized headroom')
 const browser=await chromium.launch({headless:true,args:['--no-sandbox']})
@@ -34,7 +34,7 @@ try{
  await page.locator('.cm-content').filter({hasText:'Добавить красивую анимацию.'}).waitFor()
  const after=budget()
  if(after.confirmed_tokens<=before.confirmed_tokens||after.debitedTokens>1000000||after.attempts-before.attempts>4||after.uncertain_ceiling!==0)throw new Error('Live budget or settlement unexpected')
- report={suite:'student-ui-real-harness-cycle',passed:true,checks:['student-login','new-chat','rename-chat','real-deepseek','real-scoped-write-tool','durable-assistant','created-file','cold-ui-reload','persisted-chat','persisted-file','global-million-token-cap'],budgetBefore:before,budgetAfter:after,answer:answer.slice(0,600),browserErrors:errors}
+ report={suite:'student-ui-real-harness-cycle',passed:true,checks:['student-login','new-chat','rename-chat','real-deepseek','real-scoped-write-tool','durable-assistant','created-file','cold-ui-reload','persisted-chat','persisted-file','personal-weekly-million-token-cap'],budgetBefore:before,budgetAfter:after,answer:answer.slice(0,600),browserErrors:errors}
  console.log(JSON.stringify({passed:true,newPaidCalls:after.attempts-before.attempts,newTokens:after.confirmed_tokens-before.confirmed_tokens,confirmedTotal:after.confirmed_tokens,limit:after.limitTokens}))
 }catch(e){report={passed:false,error:e.message,budgetBefore:before,budgetAfter:budget()};console.error(e.message);process.exitCode=1}
 finally{writeFileSync('/opt/vibe-os/platform/evidence/student-live-harness.json',JSON.stringify(report,null,2)+'\n');await browser.close()}

@@ -1,5 +1,7 @@
 # Vibe OS — сборка пяти ученических кабинетов
 
+> С 6 октября 2026 года действует generation 4: **личный лимит 1 000 000 токенов на ученика в неделю**, сброс воскресенье 23:59 МСК. [Текущая схема, миграция и проверки](weekly-quota.md). Общий lifetime budget ниже описывает предыдущую реализацию.
+
 > Обновлено reasoning и max_tokens: доступны Off/Low/High/Max и вывод до 65 536 на вызов, budget generation 3. Актуальные параметры и новые проверки: [reasoning-settings](reasoning-settings.md). Ограничения 2048/16 KiB/generation 2 ниже описывают исходную версию кабинетов.
 
 Состояние: 6 октября 2026 года. Сервер: Ubuntu 22.04, 4 vCPU / 8 GiB, один SSD. Все исходники, сборки и испытания выполнены на сервере. Пользовательская версия опубликована на `https://80.249.145.94/`.
@@ -25,23 +27,23 @@
 
 ## Фактический стек
 
-| Слой | Реализация |
-|---|---|
-| Интерфейс | React/React DOM 19.3.0, TypeScript 6.0.3 strict |
-| Сборка | Vite 8.3.3, plugin React 6.1.2, pnpm 11.7.0; lockfile |
-| Редактор | @uiw/react-codemirror 4.25.12, CodeMirror 6 language extensions |
-| Иконки | lucide-react 1.52.0 |
-| API | Node 24.21.0, Fastify 5.12.5; отдельный пользователь UID/GID 27000 |
-| Пароли | @node-rs/argon2 2.2.2; Argon2id, 19 MiB, t=2, p=1 |
-| Метаданные | Встроенная SQLite Node 3.53.4, WAL/FULL, foreign keys, busy timeout |
-| Root coordinator | Node builtin API, Unix socket, фиксированный список операций |
-| Файловый Runner | Go 1.27.1, anchored openat2, собственный Unix RPC, SO_PEERCRED |
-| Harness | DeepSeek Harness commit 5badb15009ae1756c3afe0ae0cef1faafc290ccc, штатный `dsh --profile student` |
-| Изоляция | NsJail, отдельные UID, rootfs и workspace mounts, systemd cgroup v2 |
-| Модель | school-deepseek / deepseek-flash, закрытый Anthropic Messages gateway |
-| HTTPS | Nginx, Let’s Encrypt IP short-lived certificate, certbot 5.8.0 |
-| Проверка интерфейса | Playwright 1.63.0, Chromium на сервере |
-| Данные проектов | XFS 16 GiB loop volume на текущем SSD, prjquota/nodev/nosuid/noexec |
+| Слой                | Реализация                                                                                        |
+| ------------------- | ------------------------------------------------------------------------------------------------- |
+| Интерфейс           | React/React DOM 19.3.0, TypeScript 6.0.3 strict                                                   |
+| Сборка              | Vite 8.3.3, plugin React 6.1.2, pnpm 11.7.0; lockfile                                             |
+| Редактор            | @uiw/react-codemirror 4.25.12, CodeMirror 6 language extensions                                   |
+| Иконки              | lucide-react 1.52.0                                                                               |
+| API                 | Node 24.21.0, Fastify 5.12.5; отдельный пользователь UID/GID 27000                                |
+| Пароли              | @node-rs/argon2 2.2.2; Argon2id, 19 MiB, t=2, p=1                                                 |
+| Метаданные          | Встроенная SQLite Node 3.53.4, WAL/FULL, foreign keys, busy timeout                               |
+| Root coordinator    | Node builtin API, Unix socket, фиксированный список операций                                      |
+| Файловый Runner     | Go 1.27.1, anchored openat2, собственный Unix RPC, SO_PEERCRED                                    |
+| Harness             | DeepSeek Harness commit 5badb15009ae1756c3afe0ae0cef1faafc290ccc, штатный `dsh --profile student` |
+| Изоляция            | NsJail, отдельные UID, rootfs и workspace mounts, systemd cgroup v2                               |
+| Модель              | school-deepseek / deepseek-flash, закрытый Anthropic Messages gateway                             |
+| HTTPS               | Nginx, Let’s Encrypt IP short-lived certificate, certbot 5.8.0                                    |
+| Проверка интерфейса | Playwright 1.63.0, Chromium на сервере                                                            |
+| Данные проектов     | XFS 16 GiB loop volume на текущем SSD, prjquota/nodev/nosuid/noexec                               |
 
 Точные версии также закреплены в `apps/portal/package.json` и `pnpm-lock.yaml`. Upstream Harness не переписывался: отдельный школьный SDK/profile заменяет транспорт, FS, shell/subprocess providers и ограничивает agent loop. Codec использует helpers конкретного pinned commit, поэтому обновление upstream требует повторной проверки совместимости.
 
@@ -134,16 +136,16 @@ Logout удаляет сессию и немедленно закрывает о
 
 ## Проверки и доказательства
 
-| Сценарий | Результат | Артефакт |
-|---|---|---|
-| Пять аккаунтов, ownership, CSRF, traversal, file/directory CRUD, Python/Node, slots | 28 проверок, без paid calls | [API](../evidence/student-api-acceptance.json) |
-| HTTPS, вход, workspace, interactive iframe, hosting, Python, mobile dashboard | 9 проверок | [Первый UI](../evidence/portal-ui-first.json) |
-| Folder/project modal, focus, directories/files, save/run/rename/delete, chats/settings/mobile editor | 9 проверок; fixtures удалены | [Editor UI](../evidence/student-ui-editor.json) |
-| Cold resumes пяти engine, outage, logout SSE, password epochs, пустые кабинеты | 9 проверок, без paid calls | [Lifecycle](../evidence/student-lifecycle.json) |
-| Настоящий чат → DeepSeek → write_file → durable ответ/файл → reload | 11 проверок; 2 запроса, 2175 новых токенов | [Live UI Harness](../evidence/student-live-harness.json) |
-| Budget generation 2, parallel admission, settlement, uncertainty, restart, vault, wire | 20 offline tests | [Gateway TAP](../evidence/model-gateway-v2-tests.tap) |
-| Реальные keys/passwords/capabilities в source, bundles, history, args/env и journal | Утечек не найдено | [Secret scan](../evidence/student-secret-scan.json) |
-| Старые демосервисы остановлены, slots освобождены после empty cgroup ACK | Пройдено | [Services](../evidence/student-services.json) |
+| Сценарий                                                                                             | Результат                                  | Артефакт                                                 |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------------------------------------------- |
+| Пять аккаунтов, ownership, CSRF, traversal, file/directory CRUD, Python/Node, slots                  | 28 проверок, без paid calls                | [API](../evidence/student-api-acceptance.json)           |
+| HTTPS, вход, workspace, interactive iframe, hosting, Python, mobile dashboard                        | 9 проверок                                 | [Первый UI](../evidence/portal-ui-first.json)            |
+| Folder/project modal, focus, directories/files, save/run/rename/delete, chats/settings/mobile editor | 9 проверок; fixtures удалены               | [Editor UI](../evidence/student-ui-editor.json)          |
+| Cold resumes пяти engine, outage, logout SSE, password epochs, пустые кабинеты                       | 9 проверок, без paid calls                 | [Lifecycle](../evidence/student-lifecycle.json)          |
+| Настоящий чат → DeepSeek → write_file → durable ответ/файл → reload                                  | 11 проверок; 2 запроса, 2175 новых токенов | [Live UI Harness](../evidence/student-live-harness.json) |
+| Budget generation 2, parallel admission, settlement, uncertainty, restart, vault, wire               | 20 offline tests                           | [Gateway TAP](../evidence/model-gateway-v2-tests.tap)    |
+| Реальные keys/passwords/capabilities в source, bundles, history, args/env и journal                  | Утечек не найдено                          | [Secret scan](../evidence/student-secret-scan.json)      |
+| Старые демосервисы остановлены, slots освобождены после empty cgroup ACK                             | Пройдено                                   | [Services](../evidence/student-services.json)            |
 
 Снимки интерфейса находятся в `evidence/portal-ui/`. Проверки различного уровня пересекаются; количество не складывается в число независимых гарантий. Ранние диагностические файлы сохраняют исходные ошибки; окончательные passing suites перечислены здесь.
 

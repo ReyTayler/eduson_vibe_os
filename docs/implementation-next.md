@@ -4,9 +4,9 @@
 
 ## Что уже реализовано
 
-На сервере работают пять независимых ученических кабинетов, React UI, authenticated Fastify API, проекты/папки/файлы/директории, CodeMirror, guarded saves, изолированный Python/Node, реальные отдельные Harness sessions, durable messages/runs, fair queue, scoped multi-project Runner, ciphertext keys 20–27, общий budget generation 2, статический preview и постоянная публикация с тремя слотами на ученика. Есть trusted HTTPS на IP и renewal timer. Старый публичный тестовый стенд отключён.
+На сервере работают пять независимых ученических кабинетов, React UI, authenticated Fastify API, проекты/папки/файлы/директории, CodeMirror, guarded saves, изолированный Python/Node, реальные отдельные Harness sessions, durable messages/runs, fair queue, scoped multi-project Runner, ciphertext keys 20–27, личные недельные квоты generation 4 (1 млн на ученика, воскресенье 23:59 МСК), статический preview и постоянная публикация с тремя слотами на ученика. Есть trusted HTTPS на IP и renewal timer. Старый публичный тестовый стенд отключён.
 
-Приёмочные suites перечислены в [отчёте кабинетов](student-portal.md). Кабинеты подходят для просмотра UI и пробной работы пяти учеников. Ниже перечислены реальные незавершённые части.
+[Недельные квоты и их проверки](weekly-quota.md). Приёмочные suites перечислены в [отчёте кабинетов](student-portal.md). Кабинеты подходят для просмотра UI и пробной работы пяти учеников. Ниже перечислены реальные незавершённые части.
 
 ## 1. Приглашения, классы и преподаватель
 

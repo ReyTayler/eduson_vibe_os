@@ -12,6 +12,7 @@ ExecStartPost=/usr/local/bin/node /opt/vibe-os/model-gateway/services/model-gate
 TimeoutStartSec=15
 LoadCredential=master-key:/etc/vibe-os/credentials/master.key
 LoadCredential=engine-capability:/var/lib/vibe-os/poc-model/capability
+LoadCredential=student-capabilities:/etc/vibe-os/credentials/student-capabilities.json
 RuntimeDirectory=vibe-os-model
 RuntimeDirectoryMode=0750
 RuntimeDirectoryPreserve=yes

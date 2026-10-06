@@ -9,7 +9,7 @@ const origin='https://80.249.145.94';
 const accounts=JSON.parse(readFileSync('/var/lib/vibe-os/portal-private/student-logins.json'));
 const seed=JSON.parse(readFileSync('/opt/vibe-os/platform/evidence/student-seed.json'));
 const capability=readFileSync('/var/lib/vibe-os/portal-private/broker-capability','utf8').trim();
-const budget=()=>JSON.parse(execFileSync('/usr/local/bin/node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).budget;
+const budget=()=>JSON.parse(execFileSync('/usr/local/bin/node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).overview.lifetime;
 const checks=[],before=budget();
 function assert(value,message){if(!value)throw new Error(message)}
 class Student{

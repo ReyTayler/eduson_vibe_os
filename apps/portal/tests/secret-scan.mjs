@@ -7,6 +7,7 @@ const repo='/opt/vibe-os/platform',vault=new Vault(readFileSync('/etc/vibe-os/cr
 const values=Array.from({length:8},(_,i)=>vault.get(i+20));
 const passwords=JSON.parse(readFileSync('/var/lib/vibe-os/portal-private/student-logins.json')).map(a=>a.password);
 const capabilities=['/var/lib/vibe-os/portal-private/broker-capability','/var/lib/vibe-os/portal-private/csrf-secret','/var/lib/vibe-os/poc-engine/model-capability'].map(p=>readFileSync(p,'utf8').trim());
+capabilities.push(...JSON.parse(readFileSync('/etc/vibe-os/credentials/student-capabilities.json','utf8')).map(row=>row.capability));
 for(const name of readdirSync('/var/lib/vibe-os/student-registry')){
  if(name.endsWith('.json')){
   const r=JSON.parse(readFileSync('/var/lib/vibe-os/student-registry/'+name));

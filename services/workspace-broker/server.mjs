@@ -42,10 +42,13 @@ const templatePackage = readFileSync(
   "/opt/vibe-os/portal-broker/templates/package.json",
   "utf8",
 );
-const modelCapability = readFileSync(
-  "/var/lib/vibe-os/poc-engine/model-capability",
-  "utf8",
+const studentModelCapabilities = new Map(
+  JSON.parse(
+    readFileSync("/etc/vibe-os/credentials/student-capabilities.json", "utf8"),
+  ).map((row) => [row.student, row.capability]),
 );
+if (studentModelCapabilities.size !== 5)
+  throw new Error("FIVE_STUDENT_CAPABILITIES_REQUIRED");
 const db = new DatabaseSync(state + "/runtime.sqlite");
 db.exec(
   "PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL; PRAGMA foreign_keys=ON; PRAGMA trusted_schema=OFF; PRAGMA busy_timeout=5000",
@@ -58,60 +61,87 @@ db.exec(
 );
 const engines = new Map(),
   locks = new Set();
-let budgetCache = null,
-  budgetAt = 0,
-  budgetPending;
-async function budget() {
-  if (budgetCache && Date.now() - budgetAt < 1000) return budgetCache;
-  if (budgetPending) return budgetPending;
-  budgetPending = new Promise((resolve, reject) => {
-    const req = http.get(
-      {
-        socketPath: "/run/vibe-os-model/gateway.sock",
-        path: "/v1/status",
-        headers: { Authorization: "Bearer " + modelCapability.trim() },
-      },
-      (res) => {
-        const parts = [];
-        let n = 0;
-        res.on("data", (c) => {
-          n += c.length;
-          if (n > 32768) req.destroy();
-          else parts.push(c);
-        });
-        res.on("error", reject);
-        res.on("end", () => {
-          try {
-            if (res.statusCode !== 200) throw error("BUDGET_UNAVAILABLE", 503);
-            const v = JSON.parse(Buffer.concat(parts)).budget;
-            budgetCache = {
-              limitTokens: v.limitTokens,
-              confirmedTokens: v.confirmed_tokens,
-              remainingTokens: v.remainingAuthorizationTokens,
-              maxRemainingCalls: v.maxRemainingCalls,
-              ready: v.enabled === true,
-            };
-            budgetAt = Date.now();
-            resolve(budgetCache);
-          } catch (e) {
-            reject(e);
-          }
-        });
-      },
-    );
-    req.on("error", () => reject(error("BUDGET_UNAVAILABLE", 503)));
-    req.setTimeout(3000, () => req.destroy());
-  }).finally(() => {
-    budgetPending = undefined;
-  });
+
+const budgets = new Map();
+async function budget(student) {
+  if (!Number.isInteger(student) || student < 1 || student > 5)
+    throw error("INVALID_STUDENT");
+  const item = budgets.get(student) ?? { at: 0, value: null, pending: null };
+  budgets.set(student, item);
+  if (
+    item.value &&
+    Date.now() - item.at < 1000 &&
+    Date.now() < Date.parse(item.value.resetsAt)
+  )
+    return item.value;
+  if (!item.pending)
+    item.pending = new Promise((resolve, reject) => {
+      const req = http.get(
+        {
+          socketPath: "/run/vibe-os-model/gateway.sock",
+          path: "/v1/status",
+          headers: {
+            Authorization: "Bearer " + studentModelCapabilities.get(student),
+            "X-Vibe-Credential": String(19 + student),
+          },
+        },
+        (res) => {
+          const parts = [];
+          let bytes = 0;
+          res.on("data", (c) => {
+            bytes += c.length;
+            if (bytes > 32768) req.destroy();
+            else parts.push(c);
+          });
+          res.on("error", reject);
+          res.on("end", () => {
+            try {
+              if (res.statusCode !== 200)
+                throw error("BUDGET_UNAVAILABLE", 503);
+              const v = JSON.parse(Buffer.concat(parts)).budget;
+              if (
+                v.student !== student ||
+                v.period !== "weekly" ||
+                v.limitTokens !== 1000000
+              )
+                throw error("BUDGET_SCOPE_MISMATCH", 503);
+              item.value = {
+                limitTokens: v.limitTokens,
+                confirmedTokens: v.confirmed_tokens,
+                reservedTokens: v.uncertain_ceiling,
+                remainingTokens: v.remainingAuthorizationTokens,
+                maxRemainingCalls: v.maxRemainingCalls,
+                ready: v.enabled === true,
+                period: "weekly",
+                timezone: v.timezone,
+                periodStartsAt: v.periodStartsAt,
+                resetsAt: v.resetsAt,
+              };
+              item.at = Date.now();
+              resolve(item.value);
+            } catch (e) {
+              reject(e);
+            }
+          });
+        },
+      );
+      req.on("error", () => reject(error("BUDGET_UNAVAILABLE", 503)));
+      req.setTimeout(3000, () => req.destroy());
+    }).finally(() => {
+      item.pending = null;
+    });
   try {
-    return await budgetPending;
-  } catch (e) {
+    return await item.pending;
+  } catch {
     return {
-      ...(budgetCache ?? {
+      ...(item.value ?? {
         limitTokens: 1000000,
         confirmedTokens: 0,
+        reservedTokens: 0,
         remainingTokens: 0,
+        period: "weekly",
+        timezone: "Europe/Moscow",
+        resetsAt: null,
       }),
       ready: false,
       maxRemainingCalls: 0,
@@ -212,7 +242,12 @@ function provision(id, student) {
   }
   const token = randomBytes(32).toString("hex");
   writeOwned(base + "/capability", token + "\n", engineUID, 23000);
-  writeOwned(base + "/model-capability", modelCapability, engineUID, 23000);
+  writeOwned(
+    base + "/model-capability",
+    studentModelCapabilities.get(student) + "\n",
+    engineUID,
+    23000,
+  );
   writeOwned(base + "/project-id", id + "\n", engineUID, 23000);
   mkdirSync(base + "/engine/profiles", { mode: 0o700 });
   chownSync(base + "/engine/profiles", engineUID, 23000);
@@ -782,7 +817,7 @@ async function ai(params, res) {
 async function dispatch(p) {
   switch (p.op) {
     case "budget":
-      return budget();
+      return budget(p.student);
     case "provision":
       return provision(p.project, p.student);
     case "fs": {

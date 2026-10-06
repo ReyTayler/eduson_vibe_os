@@ -55,6 +55,11 @@ export interface FileEntry {
   version: string;
 }
 export interface Budget {
+  reservedTokens: number;
+  period: "weekly";
+  timezone: "Europe/Moscow";
+  periodStartsAt: string;
+  resetsAt: string | null;
   limitTokens: number;
   confirmedTokens: number;
   remainingTokens: number;

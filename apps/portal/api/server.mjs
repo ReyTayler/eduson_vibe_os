@@ -831,11 +831,11 @@ app.patch("/api/chats/:id", async (req) => {
   );
   return { ok: true };
 });
-async function modelBudget() {
-  return callBroker({ op: "budget" });
+async function modelBudget(student) {
+  return callBroker({ op: "budget", student });
 }
 app.get("/api/status", async (req) => ({
-  model: await modelBudget(),
+  model: await modelBudget(req.student.student),
   hostingLimit: 3,
   projectLimit: 10,
 }));
@@ -878,7 +878,7 @@ app.post("/api/chats/:id/messages", async (req) => {
   }
   unlocked(c.project_id);
   rate("ai:" + req.student.user_id, 10);
-  const budget = await modelBudget();
+  const budget = await modelBudget(req.student.student);
   if (!budget.ready) throw fail("AI_UNAVAILABLE", 503);
   if (budget.maxRemainingCalls < 1) throw fail("AI_BUDGET_EXHAUSTED", 409);
   unlocked(c.project_id);

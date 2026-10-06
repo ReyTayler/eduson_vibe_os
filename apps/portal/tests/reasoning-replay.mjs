@@ -6,7 +6,7 @@ import{execFileSync}from'node:child_process';
 import{DatabaseSync}from'node:sqlite';
 const origin='https://80.249.145.94',account=JSON.parse(readFileSync('/var/lib/vibe-os/portal-private/student-logins.json'))[4];
 let cookie='',csrf='',project;
-const budget=()=>JSON.parse(execFileSync('node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).budget;
+const budget=()=>JSON.parse(execFileSync('node',['/opt/vibe-os/model-gateway/services/model-gateway/operator.mjs','status'])).overview.students.find(row=>row.student===5);
 const before=budget(),checks=[],runs=[];
 function assert(ok,msg){if(!ok)throw new Error(msg)}
 assert(before.limitTokens===1000000&&before.remainingAuthorizationTokens>6*131072,'Insufficient bounded authorization for canary');

@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T18:30:04.288096+00:00",
+  "portalUrl": "https://80.249.145.94/",
+  "students": 5,
+  "tokenPolicy": {
+    "generation": 4,
+    "scope": "per-student across all own projects and chats",
+    "limitTokens": 1000000,
+    "period": "weekly",
+    "timezone": "Europe/Moscow",
+    "resetWeekday": "Sunday",
+    "resetTime": "23:59:00",
+    "carryover": false
+  },
+  "nextReset": "2026-10-11T20:59:00.000Z",
+  "offlineTests": {
+    "passed": 41,
+    "failed": 0,
+    "evidence": "weekly-budget-tests.tap"
+  },
+  "serverAcceptance": {
+    "checks": 8,
+    "paidCalls": 0,
+    "evidence": "weekly-quota-acceptance.json"
+  },
+  "lifetimeTokensPreserved": {
+    "attempts": 31,
+    "confirmed_tokens": 240599,
+    "uncertain_ceiling": 0
+  },
+  "humanProjectCountsPreserved": [
+    3,
+    0,
+    0,
+    0,
+    0
+  ],
+  "internalOperatorCapabilityRevoked": true,
+  "studentCapabilities": 5,
+  "strictProductionBuild": "passed",
+  "javascriptSyntaxFiles": 30,
+  "documentationLinks": 73,
+  "runtimeMatchesSource": true,
+  "services": "5 active and enabled",
+  "credentialsInSource": false,
+  "paidCallsForThisFeature": 0
+}

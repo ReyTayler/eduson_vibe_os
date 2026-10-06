@@ -2,7 +2,7 @@
 import { DatabaseSync } from "node:sqlite";
 export const TOKEN_CEILING = 1_000_000;
 export const CALL_DEBIT = 131_072;
-export class Ledger {
+export class LegacyLedger {
   constructor(path) {
     this.db = new DatabaseSync(path);
     this.db.exec(
@@ -168,5 +168,256 @@ INSERT INTO budget_authorization SELECT id,3,limit_tokens,enabled FROM budget_au
   }
   close() {
     this.db.close();
+  }
+}
+
+/** Explicit Moscow wall-clock periods, Sunday 23:59:00; independent of process/host timezone. */
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+const moscow = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Europe/Moscow",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hourCycle: "h23",
+});
+function localWall(ms) {
+  const fields = Object.fromEntries(
+    moscow
+      .formatToParts(new Date(ms))
+      .filter((x) => x.type !== "literal")
+      .map((x) => [x.type, Number(x.value)]),
+  );
+  return Date.UTC(
+    fields.year,
+    fields.month - 1,
+    fields.day,
+    fields.hour,
+    fields.minute,
+    fields.second,
+  );
+}
+function moscowUtc(wall) {
+  let guess = wall;
+  for (let i = 0; i < 4; i++) {
+    const difference = wall - localWall(guess);
+    if (!difference) return guess;
+    guess += difference;
+  }
+  throw new Error("TIMEZONE_RESOLUTION_FAILED");
+}
+export function weekWindow(ms = Date.now()) {
+  if (!Number.isFinite(ms)) throw new Error("INVALID_CLOCK");
+  const wall = localWall(ms),
+    d = new Date(wall);
+  let reset = Date.UTC(
+    d.getUTCFullYear(),
+    d.getUTCMonth(),
+    d.getUTCDate() - d.getUTCDay(),
+    23,
+    59,
+    0,
+  );
+  if (ms < moscowUtc(reset)) reset -= WEEK_MS;
+  return {
+    start: moscowUtc(reset) / 1000,
+    end: moscowUtc(reset + WEEK_MS) / 1000,
+  };
+}
+function studentId(student) {
+  if (student === null) return null;
+  if (!Number.isInteger(student) || student < 1 || student > 5)
+    throw new Error("BUDGET_SUBJECT_INVALID");
+  return student;
+}
+/** Generation 4. Legacy global policy is archived and retained only for the operator's lifetime test allowance. */
+export class Ledger extends LegacyLedger {
+  constructor(
+    path,
+    { clock = () => Date.now(), mapLegacyStudents = false } = {},
+  ) {
+    super(path);
+    this.clock = clock;
+    const window = weekWindow(clock());
+    this.db.exec("PRAGMA foreign_keys=ON");
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      this.db.exec(`
+CREATE TABLE IF NOT EXISTS weekly_policy(id INTEGER PRIMARY KEY CHECK(id=1),generation INTEGER NOT NULL CHECK(generation=4),timezone TEXT NOT NULL CHECK(timezone='Europe/Moscow'),latest_period_start INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS weekly_budgets(student INTEGER NOT NULL CHECK(student BETWEEN 1 AND 5),period_start INTEGER NOT NULL,period_end INTEGER NOT NULL CHECK(period_end>period_start),limit_tokens INTEGER NOT NULL CHECK(limit_tokens=1000000),PRIMARY KEY(student,period_start));
+CREATE TABLE IF NOT EXISTS request_scopes(request_id TEXT PRIMARY KEY REFERENCES model_requests(id),student INTEGER CHECK(student BETWEEN 1 AND 5),period_start INTEGER,CHECK((student IS NULL AND period_start IS NULL) OR (student IS NOT NULL AND period_start IS NOT NULL)));
+CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,period_start,request_id);
+`);
+      this.db
+        .prepare(
+          "INSERT OR IGNORE INTO weekly_policy VALUES(1,4,'Europe/Moscow',?)",
+        )
+        .run(window.start);
+      const policy = this.db
+        .prepare("SELECT * FROM weekly_policy WHERE id=1")
+        .get();
+      if (policy.generation !== 4 || policy.timezone !== "Europe/Moscow")
+        throw new Error("UNSUPPORTED_WEEKLY_POLICY");
+      const missing = this.db
+        .prepare(
+          "SELECT m.id,m.credential_id,m.created_at FROM model_requests m LEFT JOIN request_scopes s ON s.request_id=m.id WHERE s.request_id IS NULL",
+        )
+        .all();
+      for (const row of missing) {
+        const student =
+          mapLegacyStudents &&
+          row.credential_id >= 20 &&
+          row.credential_id <= 24
+            ? row.credential_id - 19
+            : null;
+        const period =
+          student === null ? null : weekWindow(row.created_at * 1000);
+        if (period) this.bucket(student, period);
+        this.db
+          .prepare("INSERT INTO request_scopes VALUES(?,?,?)")
+          .run(row.id, student, period?.start ?? null);
+      }
+      for (let student = 1; student <= 5; student++)
+        this.bucket(student, window);
+      this.db
+        .prepare(
+          "UPDATE weekly_policy SET latest_period_start=max(latest_period_start,coalesce((SELECT max(period_start) FROM request_scopes),latest_period_start)) WHERE id=1",
+        )
+        .run();
+      this.db.exec("COMMIT");
+    } catch (e) {
+      this.db.exec("ROLLBACK");
+      this.db.close();
+      throw e;
+    }
+  }
+  bucket(student, window) {
+    this.db
+      .prepare("INSERT OR IGNORE INTO weekly_budgets VALUES(?,?,?,1000000)")
+      .run(student, window.start, window.end);
+    const b = this.db
+      .prepare(
+        "SELECT limit_tokens,period_end FROM weekly_budgets WHERE student=? AND period_start=?",
+      )
+      .get(student, window.start);
+    if (b.limit_tokens !== TOKEN_CEILING || b.period_end !== window.end)
+      throw new Error("WEEKLY_LIMIT_INVALID");
+  }
+  totals(student = null, period = null) {
+    studentId(student);
+    const filter =
+      student === null
+        ? "s.student IS NULL"
+        : "s.student=? AND s.period_start=?";
+    const args = student === null ? [] : [student, period];
+    return this.db
+      .prepare(
+        "SELECT count(*) attempts,coalesce(sum(CASE WHEN m.state='settled' THEN m.total_tokens ELSE 0 END),0) confirmed_tokens,coalesce(sum(CASE WHEN m.state!='settled' OR m.total_tokens IS NULL THEN m.debit ELSE 0 END),0) uncertain_ceiling,coalesce(sum(m.debit),0) admittedCeilingTotal FROM model_requests m JOIN request_scopes s ON s.request_id=m.id WHERE " +
+          filter,
+      )
+      .get(...args);
+  }
+  accounted(student = null, period = null) {
+    const t = this.totals(student, period);
+    return t.confirmed_tokens + t.uncertain_ceiling;
+  }
+  reserve(id, keyId, hash, debit = CALL_DEBIT, student = null) {
+    studentId(student);
+    if (
+      !Number.isSafeInteger(debit) ||
+      debit < CALL_DEBIT ||
+      debit > TOKEN_CEILING
+    )
+      throw new Error("INVALID_RESERVATION");
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const admissionAt = this.clock(),
+        window = weekWindow(admissionAt);
+      if (this.db.prepare("SELECT 1 FROM model_requests WHERE id=?").get(id))
+        throw new Error("REQUEST_ALREADY_ADMITTED");
+      const auth = this.db
+        .prepare("SELECT enabled FROM budget_authorization WHERE id=1")
+        .get();
+      const policy = this.db
+        .prepare("SELECT latest_period_start FROM weekly_policy WHERE id=1")
+        .get();
+      if (!auth.enabled) throw new Error("TOKEN_BUDGET_EXHAUSTED");
+      if (student !== null && window.start < policy.latest_period_start)
+        throw new Error("BUDGET_CLOCK_ROLLBACK");
+      if (student !== null) this.bucket(student, window);
+      if (
+        this.accounted(student, student === null ? null : window.start) +
+          debit >
+        TOKEN_CEILING
+      )
+        throw new Error("TOKEN_BUDGET_EXHAUSTED");
+      this.db
+        .prepare(
+          "INSERT INTO model_requests(id,credential_id,body_hash,state,debit,created_at) VALUES(?,?,?,'sent',?,?)",
+        )
+        .run(id, keyId, hash, debit, Math.floor(admissionAt / 1000));
+      this.db
+        .prepare("INSERT INTO request_scopes VALUES(?,?,?)")
+        .run(id, student, student === null ? null : window.start);
+      if (student !== null)
+        this.db
+          .prepare(
+            "UPDATE weekly_policy SET latest_period_start=max(latest_period_start,?) WHERE id=1",
+          )
+          .run(window.start);
+      this.db.exec("COMMIT");
+    } catch (e) {
+      this.db.exec("ROLLBACK");
+      throw e;
+    }
+  }
+  status(student = null) {
+    studentId(student);
+    const window = weekWindow(this.clock());
+    const totals = this.totals(student, student === null ? null : window.start),
+      accounted = totals.confirmed_tokens + totals.uncertain_ceiling;
+    const auth = this.db
+      .prepare("SELECT enabled FROM budget_authorization WHERE id=1")
+      .get();
+    const latest = this.db
+      .prepare("SELECT latest_period_start FROM weekly_policy WHERE id=1")
+      .get().latest_period_start;
+    const clockValid = student === null || window.start >= latest,
+      enabled = !!auth.enabled && clockValid;
+    const remaining = Math.max(0, TOKEN_CEILING - accounted);
+    return {
+      generation: 4,
+      scope: student === null ? "operator" : "student",
+      student,
+      period: student === null ? "lifetime" : "weekly",
+      timezone: "Europe/Moscow",
+      periodStartsAt:
+        student === null ? null : new Date(window.start * 1000).toISOString(),
+      resetsAt:
+        student === null ? null : new Date(window.end * 1000).toISOString(),
+      limitTokens: TOKEN_CEILING,
+      debitedTokens: accounted,
+      remainingAuthorizationTokens: remaining,
+      enabled,
+      clockValid,
+      maxRemainingCalls: enabled ? Math.floor(remaining / CALL_DEBIT) : 0,
+      ...totals,
+    };
+  }
+  overview() {
+    const lifetime = this.db
+      .prepare(
+        "SELECT count(*) attempts,coalesce(sum(CASE WHEN state='settled' THEN total_tokens ELSE 0 END),0) confirmed_tokens,coalesce(sum(CASE WHEN state!='settled' OR total_tokens IS NULL THEN debit ELSE 0 END),0) uncertain_ceiling FROM model_requests",
+      )
+      .get();
+    return {
+      generation: 4,
+      policy: "one-million-per-student-per-moscow-week",
+      lifetime,
+      operator: this.status(),
+      students: Array.from({ length: 5 }, (_, i) => this.status(i + 1)),
+    };
   }
 }
