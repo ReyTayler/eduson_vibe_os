@@ -6,8 +6,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 4278,
-    "sha256": "9d7c773eb1d4a34c635a4f3a96b79ef02ef6c617d0525f87bcdc4db6db5fecf9"
+    "bytes": 4726,
+    "sha256": "da5b633333b0eabbce84f1d8014555ccaff5eb18232729c977620e2fc69ae034"
   },
   {
     "path": "apps/portal/api/bootstrap.mjs",
@@ -16,8 +16,8 @@
   },
   {
     "path": "apps/portal/api/server.mjs",
-    "bytes": 40769,
-    "sha256": "e31a43882fd432fdb8525cb80364f74981064a8420c23d98a5ffde5332050c49"
+    "bytes": 41938,
+    "sha256": "92a7d93b14cae7d8f2bc5ed5f54b1eebb9feadf30b8391977f32a9e09c8346e5"
   },
   {
     "path": "apps/portal/api/templates.mjs",
@@ -86,13 +86,13 @@
   },
   {
     "path": "apps/portal/src/Workspace.tsx",
-    "bytes": 41855,
-    "sha256": "1b0160911e8ebf91437b398f2ca275a5c66d4bbdb85b07fefe6e9d4b9e964913"
+    "bytes": 43669,
+    "sha256": "5ed34a2bb13997dd9149c8182d1e977b80af5d4986043696760239ff03d8a207"
   },
   {
     "path": "apps/portal/src/api.ts",
-    "bytes": 2382,
-    "sha256": "55a175499ad4e4b99a737e40e74e177e12bb0c6263f12849f4e7986315979648"
+    "bytes": 2475,
+    "sha256": "483adfe70bc80621e2eb5bab775f6158a38b25bbdc47a0124661d1527ebedaa5"
   },
   {
     "path": "apps/portal/src/main.tsx",
@@ -101,8 +101,8 @@
   },
   {
     "path": "apps/portal/src/style.css",
-    "bytes": 75540,
-    "sha256": "857eb4c5613502ac421f025c319ba4d215cce11486262863cc6938713d55756c"
+    "bytes": 76192,
+    "sha256": "a816b82e913ac1f88c1f9d50a7bd0d484f6a22e2ea42220de32109c01da58aa1"
   },
   {
     "path": "apps/portal/src/vite-env.d.ts",
@@ -123,6 +123,21 @@
     "path": "apps/portal/tests/live-ui.mjs",
     "bytes": 4599,
     "sha256": "55a63f09065bdb423f628a4a317c7fcf28b07c33ab30294dd3de322042eaefe6"
+  },
+  {
+    "path": "apps/portal/tests/reasoning-live.mjs",
+    "bytes": 5650,
+    "sha256": "bc4b88bd02c3f7f761da8817d3bf76884e0b0fdbfe50125e50a8036491ad4ebf"
+  },
+  {
+    "path": "apps/portal/tests/reasoning-replay.mjs",
+    "bytes": 4784,
+    "sha256": "c84b21d5b61fc96e0e013b70dc4ac65276a39db46eae8fc85f87609682b1c9a9"
+  },
+  {
+    "path": "apps/portal/tests/reasoning.mjs",
+    "bytes": 5774,
+    "sha256": "bd71801ff389090a964884079642a0236d35c4e2e6817bf25d0e6807ceaf10f9"
   },
   {
     "path": "apps/portal/tests/secret-scan.mjs",
@@ -156,8 +171,8 @@
   },
   {
     "path": "docs/deepseek-integration.md",
-    "bytes": 9800,
-    "sha256": "85a7b23d754c21162a171057bd0833da356a72a10906e187bcfdcd9c5b0be280"
+    "bytes": 10188,
+    "sha256": "590259b5504e56457462ed88a180dae1b99eee207167f9c430ff8be72763a543"
   },
   {
     "path": "docs/implementation-next-generation1.md",
@@ -166,13 +181,18 @@
   },
   {
     "path": "docs/implementation-next.md",
-    "bytes": 9932,
-    "sha256": "12182a227ca40d92be2b4eab258df529c8a3dcdabe50d68bd18df2206931f3e3"
+    "bytes": 9934,
+    "sha256": "f5b895b9c4955ec1e4a92fd2edd63c0fbb2aa9613d21386bad25c38c2bcc0d40"
+  },
+  {
+    "path": "docs/reasoning-settings.md",
+    "bytes": 8320,
+    "sha256": "fc3c3aa04b30319517d89f14d3047ddb367aec41ba98d3601e1d05eb9d6b5cc9"
   },
   {
     "path": "docs/student-portal.md",
-    "bytes": 21021,
-    "sha256": "9bc55609cf13490e2806ba724d7f24f1d765d40bd547ef28e46444b31e78ffe6"
+    "bytes": 21409,
+    "sha256": "ca498de8be489610c58ecbb0af184107274c449a0101428da1150f2feff79236"
   },
   {
     "path": "evidence/control-tests.tap",
@@ -260,6 +280,11 @@
     "sha256": "8d1a3c554170e7a68c5a5724e2c3d6cb2c5b7fc59304117a474f5804de06909e"
   },
   {
+    "path": "evidence/model-gateway-v3-tests.tap",
+    "bytes": 2715,
+    "sha256": "8c11efae27cf0c64f36a1d9dc9a6988fcbdd8ff19405db32a5c42a212a8619f2"
+  },
+  {
     "path": "evidence/nsjail.json",
     "bytes": 192,
     "sha256": "dbc74ccf0306bb3303f5025016d69f281ec9726a2395b6eadc12630bcd6a80da"
@@ -315,6 +340,11 @@
     "sha256": "fad4108d3119781d8dd7bd80c7bc0edca8334cf00d353a9a3c52796a37d567a4"
   },
   {
+    "path": "evidence/portal-ui/mobile-reasoning.png",
+    "bytes": 184127,
+    "sha256": "6cf41771726787c42e8ba5193b1e7a2c02eee08174a8329f3dd613db7dad882a"
+  },
+  {
     "path": "evidence/portal-ui/new-project.png",
     "bytes": 235331,
     "sha256": "af3846665eccc406995c2cdbe43da23b5eca24ca01a9d00da5345e235a8548b5"
@@ -328,6 +358,11 @@
     "path": "evidence/portal-ui/python.png",
     "bytes": 474285,
     "sha256": "30876893efc9d8ddf7578bdb9ca4e9a9001c577cea3e321ceaa2900c75709a92"
+  },
+  {
+    "path": "evidence/portal-ui/reasoning.png",
+    "bytes": 445032,
+    "sha256": "dff55a27db3784b23f36db712ec358b983304749b20f5d95db22c5ca26097f79"
   },
   {
     "path": "evidence/portal-ui/settings.png",
@@ -368,6 +403,26 @@
     "path": "evidence/python-sqlite.json",
     "bytes": 441,
     "sha256": "838ec1156999a5ddb3d406d32dec322716ecc8743a67ef5759d90419d99e225b"
+  },
+  {
+    "path": "evidence/reasoning-final.json",
+    "bytes": 1238,
+    "sha256": "63e7e8f7814372aba03bd8a447563cf78e4bbee3aff4969c6a08f201d1e12ce5"
+  },
+  {
+    "path": "evidence/reasoning-free-acceptance.json",
+    "bytes": 1168,
+    "sha256": "0a2aee6b82446e5b1b2e3458f7af8b8c5645d68454bec44a054bb77fd5002729"
+  },
+  {
+    "path": "evidence/reasoning-live-acceptance.json",
+    "bytes": 1418,
+    "sha256": "7a6c323604524c0781cee1865a9f4b84faf05638d56fc8e8782a27f4fb34d28a"
+  },
+  {
+    "path": "evidence/reasoning-replay-acceptance.json",
+    "bytes": 1287,
+    "sha256": "a09dc75deb0f61a65330ef109b659323b9291af81a1c199e9d0d70ded6cca14a"
   },
   {
     "path": "evidence/reboot-after.json",
@@ -432,7 +487,7 @@
   {
     "path": "evidence/student-secret-scan.json",
     "bytes": 325,
-    "sha256": "241c7236e8a8bdd8c7c38d2b830f2e052f219f25bb0c4b5588e6a2033493ea71"
+    "sha256": "cf1e904e33ce1026b4c6dcd9a1f2dc98887215000ece64a5a914e349a1041c3f"
   },
   {
     "path": "evidence/student-seed.json",
@@ -461,8 +516,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 2640,
-    "sha256": "045f4f77f7856be8b31ca615c4edce9ea6bb068f39cb23c89757ce1100ac1aa2"
+    "bytes": 3781,
+    "sha256": "d7557cc5c856cdb3f6e5c99ce5341837ad91de7f7888aaa4b7dd70d3a1676a38"
   },
   {
     "path": "evidence/toolchain.json",
@@ -721,8 +776,8 @@
   },
   {
     "path": "profiles/deepseek-model.ts",
-    "bytes": 4235,
-    "sha256": "d43efb760d3d3600fa20257e921a2611b52df5222a0654f6c290473fc5d22603"
+    "bytes": 4464,
+    "sha256": "ea2f44d0cd1f6263c12e1b9db2ffc34c057e85792da4306df7f216436cf9627f"
   },
   {
     "path": "profiles/fs-provider.ts",
@@ -741,8 +796,8 @@
   },
   {
     "path": "profiles/school-sdk.ts",
-    "bytes": 10651,
-    "sha256": "fb15ed21373ba2cfaa76db64892effee427751057c70191bd6b0ff368385b4f2"
+    "bytes": 11004,
+    "sha256": "284acdaf99d31f82baf9094feb9e1e21130ff1a9d8e5758e4abaf0442c8c0897"
   },
   {
     "path": "profiles/shell-provider.ts",
@@ -796,33 +851,33 @@
   },
   {
     "path": "services/model-gateway/codec-entry.ts",
-    "bytes": 410,
-    "sha256": "524bfee20087226919d7f8cd8a7295ca0fe1f04a8205aef66152d95f2e179ce2"
+    "bytes": 419,
+    "sha256": "e2904eab8c25dde0c2bc331e835246175d9c42f41e98d22c24296348aafcdcc5"
   },
   {
     "path": "services/model-gateway/import-keys.mjs",
-    "bytes": 194,
-    "sha256": "380ab03ee99067794ee4d8026e7b9ff3c21dfb095bad16c68436dce3bfc7fa33"
+    "bytes": 229,
+    "sha256": "e8aca15c236dabaae4c43e87f01dbc38c52fab06f227e2e99846560c7dbc2138"
   },
   {
     "path": "services/model-gateway/ledger.mjs",
-    "bytes": 5893,
-    "sha256": "c26adbf6b1d6b35de82d921489540644da7ecb3031624374c888fdda40c069fd"
+    "bytes": 7773,
+    "sha256": "70a886089a63db1a17d73609bd27a34771479f55fc6d9efdc4c2478c44685ba5"
   },
   {
     "path": "services/model-gateway/operator.mjs",
-    "bytes": 3674,
-    "sha256": "d0c7ff5b4e4c70acba3e375c6121cd101c89a9f3220ee23382ac19105eb6f142"
+    "bytes": 5038,
+    "sha256": "d6de0d158973f9e94ffb4221ad11b69ff25962be8fa4f3268435d42e61334ebb"
   },
   {
     "path": "services/model-gateway/server.mjs",
-    "bytes": 11090,
-    "sha256": "ab1f328f646501982f6fa5f6fa8edc4fbba778908bc0cf2cbbb5a75016a304f5"
+    "bytes": 16135,
+    "sha256": "f038fa97343efef00fc78cfc050a16b14ed861d3bcc9731cf8b08e6e55e9bc81"
   },
   {
     "path": "services/model-gateway/wait-ready.mjs",
-    "bytes": 630,
-    "sha256": "cbeb28836e542ffc8a0d55bf6bb92f1843647ca91f7783d4c5097f1784f6bc00"
+    "bytes": 773,
+    "sha256": "7a471afc0d3c3cfbb223c0f8ee1bcb9b7a0285aba4055d4afd103a52f010415c"
   },
   {
     "path": "services/runner/go.mod",
@@ -841,8 +896,8 @@
   },
   {
     "path": "services/workspace-broker/server.mjs",
-    "bytes": 30879,
-    "sha256": "6fc667af54d4345fdb82fc902c566a6a14fe91c40dc0a265f04f384b227bdecf"
+    "bytes": 31309,
+    "sha256": "a2254bbdd909f00ec1a54b78d5fc0ac0761ca9653efdf05b1d756a81016319dd"
   },
   {
     "path": "services/workspace-broker/templates/engine.cfg",
@@ -896,8 +951,8 @@
   },
   {
     "path": "tests/model-gateway.test.mjs",
-    "bytes": 11891,
-    "sha256": "09882d09520676cd45a226ed1dc56d239f2525b37573f5f1c5186b318ebed7f5"
+    "bytes": 17480,
+    "sha256": "2c9dc6c61cf8b24cba416890994d06ef197c8cdde7b846b8803ddaed326e184c"
   },
   {
     "path": "tests/poc_client.py",

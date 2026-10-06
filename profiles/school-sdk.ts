@@ -6,7 +6,7 @@ import {JsonRpcLineTransport} from '@deepseek-ai/dsh-sdk-protocol'
 import type {AgentHandle} from '@deepseek-ai/dsh-agent'
 import type {Session,SessionId} from '@deepseek-ai/dsh-session'
 import {brandString} from '@deepseek-ai/dsh-brand'
-import {createUserMessage} from '@deepseek-ai/dsh-llm'
+import {createUserMessage,ReasoningEffortId} from '@deepseek-ai/dsh-llm'
 import type {} from '@deepseek-ai/dsh-session-persistence'
 import {Transform} from 'node:stream'
 import {RunnerClient,object,text} from './runner-client.js'
@@ -22,7 +22,7 @@ export const Config:Schema<Config>=Schema.object({
  maxSteps:Schema.number().default(12),
  provider:Schema.string().default('school-mock'),
  model:Schema.string().default('poc-fixed'),
- maxTokens:Schema.number().step(1).min(1).max(2048).default(1024),
+ maxTokens:Schema.number().step(1).min(1).max(65536).default(1024),
 })
 interface Entry { handle:AgentHandle;run?:{id:string;done:Promise<void>};error?:string }
 class BoundedLines extends Transform {
@@ -60,6 +60,7 @@ export function apply(ctx:Context,config:Config):void{
  process.stdin.pipe(input)
  const transport=new JsonRpcLineTransport(input,process.stdout)
  input.on('error',()=>{void ctx.root.fiber.dispose().finally(()=>process.exit(1))})
+ let reasoningMode='off'
  let initialized=false,closing=false,serial:Promise<unknown>=Promise.resolve()
  async function bounded(sid:SessionId,allowPending=false):Promise<void>{
   const stat=await ctx.sessionPersistence.stat(sid)
@@ -88,7 +89,7 @@ export function apply(ctx:Context,config:Config):void{
   const branded=brandString<SessionId>(sid)
   await bounded(branded)
   const stat=await ctx.sessionPersistence.stat(branded)
-  const options={provider:config.provider,model:config.model,maxTokens:config.maxTokens}
+  const options={provider:config.provider,model:config.model,maxTokens:config.maxTokens,...(config.provider==='school-deepseek'?{reasoningEffort:ReasoningEffortId(reasoningMode)}:{})}
   const handle=stat?await ctx.agents.resume({resumeSessionId:branded,agentOptions:options}):await ctx.agents.create({sessionId:branded,meta:{cwd:'/workspace'},agentOptions:options})
   entries.set(sid,{handle})
   const persistedCursor=await checkpoint(handle.agent.session)
@@ -97,10 +98,11 @@ export function apply(ctx:Context,config:Config):void{
  async function request(method:string,params:Record<string,unknown>):Promise<unknown>{
   if(method==='initialize'){
    await ctx.loader.await()
+   const mode=params.reasoningMode??'off';if(typeof mode!=='string'||!['off','low','high','max'].includes(mode))throw new Error('INVALID_REASONING_MODE');reasoningMode=mode
    if(params.provider!==config.provider||params.model!==config.model)throw new Error(config.provider==='school-mock'?'Only the keyless school-mock route is enabled':'Only the configured school model route is enabled')
    await ctx.llm.resolveModelInfo(config.provider,config.model)
    initialized=true
-   return {serverInfo:{name:'vibe-os-school-poc',version:'0.0.1'},features:['open','read','cancel','delta','durable-settlement'],paidCalls:config.provider==='school-deepseek'}
+   return {reasoningMode,maxTokens:config.maxTokens,serverInfo:{name:'vibe-os-school-poc',version:'0.0.1'},features:['open','read','cancel','delta','durable-settlement'],paidCalls:config.provider==='school-deepseek'}
   }
   if(!initialized||closing)throw new Error('Runtime not available')
   if(method==='session/open')return open(params)

@@ -224,11 +224,13 @@ function provision(id, student) {
     if (p.id === "sdk-app-startup") p.config.profile = "student";
     if (p.id === "school-deepseek") {
       p.config.credentialId = 19 + student;
-      p.config.maxTokens = 2048;
+      p.config.maxTokens = 65536;
     }
     if (p.id === "sdk-jsonrpc-server") {
       p.config.maxSteps = 6;
-      p.config.maxTokens = 2048;
+      p.config.maxEventBytes = 4194304;
+      p.config.maxReadBytes = 6291456;
+      p.config.maxTokens = 65536;
     }
     if (p.id === "system-prompt")
       p.config.personaPrefix =
@@ -525,6 +527,9 @@ async function ai(params, res) {
   const id = identifier(params.project),
     sid = identifier(params.chat),
     run = identifier(params.run);
+  const reasoningMode = params.reasoningMode ?? "off";
+  if (!["off", "low", "high", "max"].includes(reasoningMode))
+    throw error("INVALID_REASONING_MODE");
   record(id);
   checkUnlocked(id);
   if (engines.size) throw error("AI_WORKER_BUSY", 423);
@@ -557,7 +562,7 @@ async function ai(params, res) {
       "-p",
       "CPUQuota=100%",
       "-p",
-      "RuntimeMaxSec=240s",
+      "RuntimeMaxSec=1800s",
       "-p",
       "KillMode=control-group",
       "/opt/vibe-os/bin/nsjail",
@@ -619,7 +624,7 @@ async function ai(params, res) {
   });
   child.stdout.on("data", (chunk) => {
     buffer += chunk.toString();
-    if (buffer.length > 524288) {
+    if (buffer.length > 8388608) {
       settledReject(error("ENGINE_OUTPUT_LIMIT", 503));
       return;
     }
@@ -641,7 +646,7 @@ async function ai(params, res) {
           const f = msg.params.frame;
           const chunk = f?.chunk ?? f;
           if (chunk?.type === "text-delta" && typeof chunk.text === "string")
-            emit(res, "delta", { text: chunk.text.slice(0, 16384) });
+            emit(res, "delta", { text: chunk.text });
         }
         if (
           (msg.method === "session.settled" ||
@@ -666,13 +671,14 @@ async function ai(params, res) {
   });
   const deadline = setTimeout(
     () => settledReject(error("AI_TIMEOUT", 503)),
-    220000,
+    1780000,
   );
   try {
     emit(res, "phase", { text: "Запускаю помощника" });
-    await rpc("initialize", {
+    const initialized = await rpc("initialize", {
       provider: "school-deepseek",
       model: "deepseek-flash",
+      reasoningMode,
     });
     const opened = await rpc("session/open", { sessionId: sid });
     if (
@@ -689,6 +695,8 @@ async function ai(params, res) {
         resumed: opened.resumed,
         cursor: startCursor,
         paidCalls: 0,
+        reasoningMode: initialized.reasoningMode,
+        maxTokens: initialized.maxTokens,
       });
       return;
     }
@@ -715,8 +723,9 @@ async function ai(params, res) {
       .flat()
       .filter((b) => b.type === "text")
       .map((b) => b.text)
-      .join("\n\n")
-      .slice(0, 65536);
+      .join("\n\n");
+    if (Buffer.byteLength(answer) > 8388608)
+      throw error("RESULT_BYTES_LIMIT", 409);
     const tools = events
       .filter((e) => e.type === "tool/call")
       .map((e) => ({ name: e.data.name, arguments: e.data.arguments }))
@@ -923,7 +932,7 @@ const server = http.createServer(async (req, res) => {
     } else res.end();
   }
 });
-server.requestTimeout = 250000;
+server.requestTimeout = 1850000;
 server.headersTimeout = 5000;
 server.maxHeadersCount = 32;
 server.listen(socket, () => {

@@ -1,5 +1,5 @@
 {
-  "timeUtc": "2026-10-06T17:19:32.800436+00:00",
+  "timeUtc": "2026-10-06T18:08:51.997838+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
@@ -12,20 +12,20 @@
     0
   ],
   "hostingSlotsPerStudent": 3,
-  "paidCallsTotal": 12,
-  "confirmedTokensTotal": 3135,
+  "paidCallsTotal": 25,
+  "confirmedTokensTotal": 30722,
   "modelTestingBudget": {
-    "generation": 2,
+    "generation": 3,
     "limitTokens": 1000000,
-    "debitedTokens": 3135,
+    "debitedTokens": 30722,
     "legacyDebitedTokens": 655360,
-    "remainingAuthorizationTokens": 996865,
+    "remainingAuthorizationTokens": 969278,
     "enabled": true,
-    "maxRemainingCalls": 15,
-    "attempts": 12,
-    "confirmed_tokens": 3135,
+    "maxRemainingCalls": 7,
+    "attempts": 25,
+    "confirmed_tokens": 30722,
     "uncertain_ceiling": 0,
-    "admittedCeilingTotal": 786432
+    "admittedCeilingTotal": 2162688
   },
   "suiteResults": {
     "portal-api": {
@@ -62,6 +62,26 @@
       "passed": true,
       "checks": 20,
       "evidence": "model-gateway-v2-tests.tap"
+    },
+    "model-gateway-v3": {
+      "passed": true,
+      "checks": 27,
+      "evidence": "model-gateway-v3-tests.tap"
+    },
+    "reasoning-free-ui": {
+      "passed": true,
+      "checks": 5,
+      "evidence": "reasoning-free-acceptance.json"
+    },
+    "reasoning-real": {
+      "passed": true,
+      "paidCalls": 5,
+      "evidence": "reasoning-live-acceptance.json"
+    },
+    "reasoning-replay": {
+      "passed": true,
+      "paidCalls": 3,
+      "evidence": "reasoning-replay-acceptance.json"
     }
   },
   "staticChecks": {
@@ -102,5 +122,40 @@
     "static HTML/CSS/JS publication; Python/Node command execution",
     "no classroom/teacher registration or staging commit yet",
     "single SSD; external backup/restore not yet configured"
-  ]
+  ],
+  "currentStudentProjects": [
+    {
+      "login": "student01",
+      "projects": 3
+    },
+    {
+      "login": "student02",
+      "projects": 0
+    },
+    {
+      "login": "student03",
+      "projects": 0
+    },
+    {
+      "login": "student04",
+      "projects": 0
+    },
+    {
+      "login": "student05",
+      "projects": 0
+    }
+  ],
+  "modelSettings": {
+    "model": "deepseek-flash",
+    "reasoningModes": [
+      "off",
+      "low",
+      "high",
+      "max"
+    ],
+    "default": "off",
+    "maxTokens": 65536,
+    "scope": "per-chat persisted; immutable run snapshot"
+  },
+  "latestFeatureEvidence": "reasoning-final.json"
 }

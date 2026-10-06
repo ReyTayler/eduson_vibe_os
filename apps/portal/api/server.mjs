@@ -53,6 +53,23 @@ CREATE INDEX IF NOT EXISTS user_projects ON projects(user_id,updated);
 CREATE TRIGGER IF NOT EXISTS folder_owner_insert BEFORE INSERT ON projects WHEN NEW.folder_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM folders WHERE id=NEW.folder_id AND user_id=NEW.user_id) BEGIN SELECT RAISE(ABORT,'FOLDER_OWNER');END;
 CREATE TRIGGER IF NOT EXISTS folder_owner_update BEFORE UPDATE OF folder_id ON projects WHEN NEW.folder_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM folders WHERE id=NEW.folder_id AND user_id=NEW.user_id) BEGIN SELECT RAISE(ABORT,'FOLDER_OWNER');END;
 `);
+for (const table of ["chats", "runs"]) {
+  if (
+    !db
+      .prepare("PRAGMA table_info(" + table + ")")
+      .all()
+      .some((c) => c.name === "reasoning_mode")
+  )
+    db.exec(
+      "ALTER TABLE " +
+        table +
+        " ADD COLUMN reasoning_mode TEXT NOT NULL DEFAULT 'off' CHECK(reasoning_mode IN('off','low','high','max'))",
+    );
+}
+function reasoning(v) {
+  if (!["off", "low", "high", "max"].includes(v)) throw fail("INVALID_INPUT");
+  return v;
+}
 const rid = () => randomBytes(16).toString("hex"),
   sha = (v) => createHash("sha256").update(v).digest("hex");
 function fail(code, status = 400) {
@@ -178,7 +195,7 @@ function callBroker(body, { stream = false } = {}) {
       },
     );
     req.on("error", () => reject(fail("BROKER_UNAVAILABLE", 503)));
-    req.setTimeout(stream ? 250000 : 20000, () => req.destroy());
+    req.setTimeout(stream ? 1850000 : 20000, () => req.destroy());
     req.end(bytes);
   });
 }
@@ -313,16 +330,14 @@ app.setErrorHandler((err, req, reply) => {
       : err.code?.startsWith("FST_")
         ? "INVALID_INPUT"
         : err.message;
-  reply
-    .code(status)
-    .send({
-      error: code,
-      message:
-        ru[code] ??
-        (status >= 500
-          ? "Сервис временно недоступен. Повторите позже."
-          : "Не удалось выполнить действие. Проверьте данные."),
-    });
+  reply.code(status).send({
+    error: code,
+    message:
+      ru[code] ??
+      (status >= 500
+        ? "Сервис временно недоступен. Повторите позже."
+        : "Не удалось выполнить действие. Проверьте данные."),
+  });
 });
 app.post("/api/auth/login", async (req, reply) => {
   if (req.headers.origin !== ORIGIN) throw fail("CSRF_DENIED", 403);
@@ -524,14 +539,9 @@ async function createProject(user, b) {
     now,
   );
   const chat = rid();
-  db.prepare("INSERT INTO chats VALUES(?,?,?,?,?,?)").run(
-    chat,
-    project,
-    "Первый разговор",
-    0,
-    now,
-    now,
-  );
+  db.prepare(
+    "INSERT INTO chats(id,project_id,name,cursor,created,updated) VALUES(?,?,?,?,?,?)",
+  ).run(chat, project, "Первый разговор", 0, now, now);
   return { id: project, chat };
 }
 app.post("/api/projects", async (req) =>
@@ -767,7 +777,7 @@ app.get("/api/projects/:id/chats", async (req) => {
   const p = ownProject(req.student, req.params.id);
   return db
     .prepare(
-      "SELECT id,name,created,updated FROM chats WHERE project_id=? ORDER BY updated DESC",
+      "SELECT id,name,reasoning_mode,created,updated FROM chats WHERE project_id=? ORDER BY updated DESC",
     )
     .all(p.id);
 });
@@ -781,14 +791,9 @@ app.post("/api/projects/:id/chats", async (req) => {
     throw fail("CHAT_LIMIT", 409);
   const chat = rid(),
     now = Date.now();
-  db.prepare("INSERT INTO chats VALUES(?,?,?,?,?,?)").run(
-    chat,
-    p.id,
-    b.name ? str(b.name, 80) : "Новый разговор",
-    0,
-    now,
-    now,
-  );
+  db.prepare(
+    "INSERT INTO chats(id,project_id,name,cursor,created,updated) VALUES(?,?,?,?,?,?)",
+  ).run(chat, p.id, b.name ? str(b.name, 80) : "Новый разговор", 0, now, now);
   return { id: chat };
 });
 app.get("/api/chats/:id", async (req) => {
@@ -811,9 +816,16 @@ app.get("/api/chats/:id", async (req) => {
 });
 app.patch("/api/chats/:id", async (req) => {
   const c = ownChat(req.student, req.params.id),
-    b = fields(req.body, ["name"], ["name"]);
-  db.prepare("UPDATE chats SET name=?,updated=? WHERE id=?").run(
-    str(b.name, 80),
+    b = fields(req.body, ["name", "reasoningMode"]);
+  if (b.name === undefined && b.reasoningMode === undefined)
+    throw fail("INVALID_INPUT");
+  db.prepare(
+    "UPDATE chats SET name=?,reasoning_mode=?,updated=? WHERE id=?",
+  ).run(
+    b.name === undefined ? c.name : str(b.name, 80),
+    b.reasoningMode === undefined
+      ? c.reasoning_mode
+      : reasoning(b.reasoningMode),
     Date.now(),
     c.id,
   );
@@ -848,7 +860,8 @@ function notify(run, event, data) {
 }
 app.post("/api/chats/:id/messages", async (req) => {
   const c = ownChat(req.student, req.params.id),
-    b = fields(req.body, ["text", "requestId"], ["text"]);
+    b = fields(req.body, ["text", "requestId", "reasoningMode"], ["text"]);
+  const reasoningMode = reasoning(b.reasoningMode ?? c.reasoning_mode);
   const text = str(b.text, 8192);
   if (Buffer.byteLength(text) > 8192) throw fail("INVALID_INPUT");
   const run = b.requestId ? id(b.requestId) : rid(),
@@ -857,7 +870,8 @@ app.post("/api/chats/:id/messages", async (req) => {
     if (
       existing.user_id !== req.student.user_id ||
       existing.chat_id !== c.id ||
-      existing.prompt !== text
+      existing.prompt !== text ||
+      existing.reasoning_mode !== reasoningMode
     )
       throw fail("INVALID_INPUT", 409);
     return { id: run, state: existing.state };
@@ -878,7 +892,9 @@ app.post("/api/chats/:id/messages", async (req) => {
     fresh = ownChat(req.student, c.id);
   db.exec("BEGIN IMMEDIATE");
   try {
-    db.prepare("INSERT INTO runs VALUES(?,?,?,?,?,?,?,?,?,?,?)").run(
+    db.prepare(
+      "INSERT INTO runs(id,chat_id,project_id,user_id,state,prompt,base_revision,partial,error,created,updated,reasoning_mode) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+    ).run(
       run,
       c.id,
       c.project_id,
@@ -890,6 +906,7 @@ app.post("/api/chats/:id/messages", async (req) => {
       null,
       now,
       now,
+      reasoningMode,
     );
     message(c.id, "user", text);
     db.prepare("UPDATE chats SET updated=? WHERE id=?").run(now, c.id);
@@ -969,7 +986,7 @@ app.get("/api/runs/:id/events", async (req, reply) => {
       }
       if (!res.destroyed) res.write(": alive\n\n");
     }, 15000),
-    end = setTimeout(() => res.end(), 300000);
+    end = setTimeout(() => res.end(), 1850000);
   res.on("close", () => {
     clearInterval(keep);
     clearTimeout(end);
@@ -1040,6 +1057,7 @@ async function pump() {
             run: run.id,
             text: run.prompt,
             cursor: chat.cursor,
+            reasoningMode: run.reasoning_mode,
           },
           { stream: true },
         );
@@ -1047,7 +1065,7 @@ async function pump() {
         let buffer = "";
         for await (const data of response) {
           buffer += data.toString();
-          if (buffer.length > 300000) throw fail("BROKER_UNAVAILABLE", 503);
+          if (buffer.length > 8388608) throw fail("BROKER_UNAVAILABLE", 503);
           let at;
           while ((at = buffer.indexOf("\n\n")) >= 0) {
             const frame = buffer.slice(0, at);
@@ -1063,7 +1081,9 @@ async function pump() {
             if (!event || !line) continue;
             const value = JSON.parse(line);
             if (event === "delta") {
-              partial = (partial + (value.text ?? "")).slice(0, 65536);
+              partial += value.text ?? "";
+              if (Buffer.byteLength(partial) > 8388608)
+                throw fail("RESULT_BYTES_LIMIT", 409);
               if (Date.now() - lastSaved > 150) {
                 db.prepare(
                   "UPDATE runs SET partial=?,updated=? WHERE id=?",

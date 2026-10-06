@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "mode": "high",
+      "completed": true,
+      "sameChat": true,
+      "maxTokens": 65536
+    },
+    {
+      "mode": "off",
+      "completed": true,
+      "sameChat": true,
+      "maxTokens": 65536
+    },
+    {
+      "mode": "max",
+      "completed": true,
+      "sameChat": true,
+      "maxTokens": 65536
+    }
+  ],
+  "runSnapshotModes": [
+    "high",
+    "off",
+    "max"
+  ],
+  "nativeReasoningBlocks": 8,
+  "budgetBefore": {
+    "generation": 3,
+    "limitTokens": 1000000,
+    "debitedTokens": 27977,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 972023,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 22,
+    "confirmed_tokens": 27977,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 1769472
+  },
+  "budgetAfter": {
+    "generation": 3,
+    "limitTokens": 1000000,
+    "debitedTokens": 30722,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 969278,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 25,
+    "confirmed_tokens": 30722,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 2162688
+  },
+  "newPaidCalls": 3,
+  "newConfirmedTokens": 2745,
+  "paidProof": "same existing chat switched high -> off -> max; native history preserved"
+}

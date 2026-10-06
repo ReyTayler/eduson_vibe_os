@@ -48,6 +48,7 @@ import {
   type ChatDetail,
   type Message,
   type Tool,
+  type ReasoningMode,
 } from "./api";
 import { TextDialog, ConfirmDialog } from "./App";
 const CodeMirror = lazy(() => import("@uiw/react-codemirror"));
@@ -95,6 +96,7 @@ export default function Workspace({
     [chat, setChat] = useState<ChatDetail | null>(null),
     [draft, setDraft] = useState(""),
     [sending, setSending] = useState(false),
+    [reasoningSaving, setReasoningSaving] = useState(false),
     [activeRun, setActiveRun] = useState<string | null>(null),
     [partial, setPartial] = useState(""),
     [phase, setPhase] = useState(""),
@@ -116,6 +118,7 @@ export default function Workspace({
     busy =
       !!activeRun ||
       sending ||
+      reasoningSaving ||
       project.runState === "running" ||
       project.runState === "queued";
   useEffect(() => {
@@ -360,8 +363,25 @@ export default function Workspace({
       say((e as Error).message);
     }
   }
+  async function changeReasoning(mode: ReasoningMode) {
+    if (!chat || chat.id !== selectedChat || busy) return;
+    const current = selectedChat;
+    setReasoningSaving(true);
+    try {
+      await api("/chats/" + current, "PATCH", { reasoningMode: mode });
+      if (chatRef.current === current) {
+        await loadChat(current);
+        await loadChats(current);
+      } else await loadChats();
+    } catch (e) {
+      say((e as Error).message);
+    } finally {
+      setReasoningSaving(false);
+    }
+  }
   async function send() {
-    if (!draft.trim() || !selectedChat || busy) return;
+    if (!draft.trim() || !selectedChat || chat?.id !== selectedChat || busy)
+      return;
     setSending(true);
     try {
       if (dirty) await saveFile();
@@ -369,7 +389,11 @@ export default function Workspace({
       const r = await api<{ id: string }>(
         "/chats/" + selectedChat + "/messages",
         "POST",
-        { text: value, requestId: crypto.randomUUID().replaceAll("-", "") },
+        {
+          text: value,
+          reasoningMode: chat?.reasoning_mode ?? "off",
+          requestId: crypto.randomUUID().replaceAll("-", ""),
+        },
       );
       setDraft("");
       setActiveRun(r.id);
@@ -1087,6 +1111,29 @@ export default function Workspace({
               )}
             </div>
             <div className="chat-composer">
+              <div className="reasoning-controls">
+                <label htmlFor="reasoning-mode">
+                  <Sparkles size={13} />
+                  Рассуждения
+                </label>
+                <select
+                  id="reasoning-mode"
+                  aria-label="Режим рассуждений"
+                  value={chat?.reasoning_mode ?? "off"}
+                  disabled={busy || !chat || chat.id !== selectedChat}
+                  onChange={(e) =>
+                    void changeReasoning(e.target.value as ReasoningMode)
+                  }
+                >
+                  <option value="off">Выключены</option>
+                  <option value="low">Low</option>
+                  <option value="high">High</option>
+                  <option value="max">Max</option>
+                </select>
+                <span title="Верхний предел одного ответа модели, включая рассуждения">
+                  Ответ до 64K
+                </span>
+              </div>
               <div className="composer-box">
                 <textarea
                   aria-label="Сообщение помощнику"

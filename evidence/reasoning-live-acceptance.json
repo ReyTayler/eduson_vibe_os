@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "mode": "off",
+      "completed": true,
+      "realToolCycle": false,
+      "maxTokens": 65536
+    },
+    {
+      "mode": "low",
+      "completed": true,
+      "realToolCycle": true,
+      "maxTokens": 65536
+    },
+    {
+      "mode": "high",
+      "completed": true,
+      "realToolCycle": false,
+      "maxTokens": 65536
+    },
+    {
+      "mode": "max",
+      "completed": true,
+      "realToolCycle": false,
+      "maxTokens": 65536
+    }
+  ],
+  "runSnapshotModes": [
+    "off",
+    "low",
+    "high",
+    "max"
+  ],
+  "nativeReasoningBlocks": 16,
+  "budgetBefore": {
+    "generation": 3,
+    "limitTokens": 1000000,
+    "debitedTokens": 23037,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 976963,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 17,
+    "confirmed_tokens": 23037,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 1114112
+  },
+  "budgetAfter": {
+    "generation": 3,
+    "limitTokens": 1000000,
+    "debitedTokens": 27977,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 972023,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 22,
+    "confirmed_tokens": 27977,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 1769472
+  },
+  "newPaidCalls": 5,
+  "newConfirmedTokens": 4940,
+  "paidProof": "four efforts; explicit off; thinking plus tool-result replay"
+}

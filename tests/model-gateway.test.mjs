@@ -6,8 +6,9 @@ import {join} from 'node:path'
 import {randomUUID,randomBytes} from 'node:crypto'
 import http from 'node:http'
 import {once} from 'node:events'
+import {DatabaseSync} from 'node:sqlite'
 import {Ledger,CALL_DEBIT} from '../services/model-gateway/ledger.mjs'
-import {createGateway} from '../services/model-gateway/server.mjs'
+import {createGateway,MAX_BODY,MAX_OUTPUT,reservationFor,validateBody} from '../services/model-gateway/server.mjs'
 import {Vault} from '../packages/credentials/vault.mjs'
 const body={model:'deepseek-flash',stream:true,max_tokens:32,thinking:{type:'disabled'},messages:[{role:'user',content:[{type:'text',text:'Reply OK'}]}]}
 const cap='a'.repeat(64),fakeKey='sk-'+'x'.repeat(32)
@@ -22,7 +23,7 @@ const events=[
 function stream(list=events){
  const bytes=Buffer.from(list.map(x=>'event: '+x.type+'\r\ndata: '+JSON.stringify(x)+'\r\n\r\n').join(''))
  let offset=0
- return new Response(new ReadableStream({pull(c){if(offset===bytes.length){c.close();return}c.enqueue(bytes.subarray(offset,offset+3));offset=Math.min(offset+3,bytes.length)}}),{headers:{'Content-Type':'text/event-stream'}})
+ return new Response(new ReadableStream({pull(c){if(offset===bytes.length){c.close();return}c.enqueue(bytes.subarray(offset,offset+(bytes.length>100000?65536:3)));offset=Math.min(offset+(bytes.length>100000?65536:3),bytes.length)}}),{headers:{'Content-Type':'text/event-stream'}})
 }
 async function fixture(t,provider){
  const dir=mkdtempSync(join(tmpdir(),'vibe-gateway-test-')),ledger=new Ledger(join(dir,'db.sqlite')),socket=join(dir,'api.sock')
@@ -47,17 +48,17 @@ test('Confirmed terminal usage settles its reserve; one million cap includes all
  assert.equal(ledger.status().remainingAuthorizationTokens,998300)
  ledger.close()
 })
-test('Fifteen outstanding or uncertain full envelopes are the maximum without trusted usage',()=>{
+test('Seven outstanding or uncertain full envelopes are the maximum without trusted usage',()=>{
  const ledger=new Ledger(':memory:')
- for(let i=0;i<15;i++)ledger.reserve(randomUUID(),20+i%8,'h')
+ for(let i=0;i<7;i++)ledger.reserve(randomUUID(),20+i%8,'h')
  assert.throws(()=>ledger.reserve(randomUUID(),27,'h'),/TOKEN_BUDGET_EXHAUSTED/)
- assert.equal(ledger.status().uncertain_ceiling,983040);ledger.close()
+ assert.equal(ledger.status().uncertain_ceiling,917504);ledger.close()
 })
 test('Large confirmed usage cannot admit calls beyond the unchanged million-token ceiling',()=>{
  const ledger=new Ledger(':memory:')
- for(let i=0;i<15;i++){const id=randomUUID();ledger.reserve(id,20+i%8,'h');ledger.finish(id,'settled',{input:CALL_DEBIT-2,output:2,cacheRead:0,cacheWrite:0,total:CALL_DEBIT},200)}
+ for(let i=0;i<7;i++){const id=randomUUID();ledger.reserve(id,20+i%8,'h');ledger.finish(id,'settled',{input:CALL_DEBIT-2,output:2,cacheRead:0,cacheWrite:0,total:CALL_DEBIT},200)}
  assert.throws(()=>ledger.reserve(randomUUID(),27,'h'),/TOKEN_BUDGET_EXHAUSTED/)
- assert.equal(ledger.status().confirmed_tokens,983040);ledger.close()
+ assert.equal(ledger.status().confirmed_tokens,917504);ledger.close()
 })
 
 test('Duplicate admission and duplicate settlement cannot trigger another call or debit',()=>{
@@ -86,13 +87,13 @@ test('Unauthorized caller rejected before reserve and upstream',async t=>{
 })
 test('Image, unknown model, excessive output and thinking cannot spend tokens',async t=>{
  const f=await fixture(t)
- for(const x of [{...body,model:'deepseek-v4-pro'},{...body,max_tokens:2049},{...body,thinking:{type:'enabled'}},{...body,messages:[{role:'user',content:[{type:'image',source:{type:'url',url:'http://evil'}}]}]}]){
+ for(const x of [{...body,model:'deepseek-v4-pro'},{...body,max_tokens:65537},{...body,thinking:{type:'enabled'}},{...body,messages:[{role:'user',content:[{type:'image',source:{type:'url',url:'http://evil'}}]}]}]){
   assert.equal((await f.request(x)).status,400)
  }
  assert.equal(f.calls(),0)
 })
 test('Oversized body rejected before reserve',async t=>{
- const f=await fixture(t);const r=await f.request({...body,system:'x'.repeat(17000)});assert.equal(r.status,413);assert.equal(f.ledger.status().attempts,0)
+ const f=await fixture(t);const r=await f.request({...body,system:'x'.repeat(MAX_BODY+1)});assert.equal(r.status,413);assert.equal(f.ledger.status().attempts,0)
 })
 test('Fragmented SSE with CRLF crosses chunk boundaries; terminal usage commits before completion',async t=>{
  const f=await fixture(t),r=await f.request();assert.equal(r.status,200);assert.match(r.text,/"type":"message_stop"/);assert.equal(f.ledger.status().confirmed_tokens,17)
@@ -108,9 +109,9 @@ test('Concurrent attempts across all keys reserve atomically before any provider
  const f=await fixture(t,async()=>{await gate;return stream()})
  const all=Promise.all(Array.from({length:24},(_,i)=>f.request(body,{'X-Vibe-Credential':String(20+i%8)})))
  await new Promise(r=>setTimeout(r,100))
- assert.equal(f.calls(),15);assert.equal(f.ledger.status().uncertain_ceiling,983040)
+ assert.equal(f.calls(),7);assert.equal(f.ledger.status().uncertain_ceiling,917504)
  release();const responses=await all
- assert.equal(responses.filter(r=>r.status===200).length,15);assert.equal(f.ledger.status().debitedTokens,255)
+ assert.equal(responses.filter(r=>r.status===200).length,7);assert.equal(f.ledger.status().debitedTokens,119)
 })
 
 test('Provider HTTP auth errors are sanitized and full debit stays consumed',async t=>{
@@ -154,7 +155,7 @@ test('V1 migration keeps the original history, cap and unresolved reservations',
  const dir=mkdtempSync(join(tmpdir(),'vibe-v2-')),p=join(dir,'db')
  let l=new Ledger(p),a=randomUUID(),b=randomUUID();l.reserve(a,20,'a');l.finish(a,'settled',{input:10,output:2,cacheRead:0,cacheWrite:0,total:12},200);l.reserve(b,21,'b')
  l.db.exec('DROP TABLE budget_authorization;UPDATE token_budget SET debited_tokens=131072');l.close()
- l=new Ledger(p);assert.equal(l.status().generation,2);assert.equal(l.status().attempts,2);assert.equal(l.status().confirmed_tokens,12);assert.equal(l.status().uncertain_ceiling,CALL_DEBIT);assert.equal(l.status().legacyDebitedTokens,131072);assert.equal(l.status().limitTokens,1000000)
+ l=new Ledger(p);assert.equal(l.status().generation,3);assert.equal(l.status().attempts,2);assert.equal(l.status().confirmed_tokens,12);assert.equal(l.status().uncertain_ceiling,CALL_DEBIT);assert.equal(l.status().legacyDebitedTokens,131072);assert.equal(l.status().limitTokens,1000000)
  l.close();rmSync(dir,{recursive:true,force:true})
 })
 test('Read-only private status while streaming cannot turn an active request into uncertain',async t=>{
@@ -165,3 +166,66 @@ test('Read-only private status while streaming cannot turn an active request int
  assert.equal(s.status,200);assert.equal(f.ledger.db.prepare('SELECT state FROM model_requests').get().state,'sent')
  release();assert.equal((await inflight).status,200)
 })
+
+test('64K output and each reasoning effort reach native Messages with explicit disabled mode',async t=>{
+ const sent=[];
+ const f=await fixture(t,(_url,opts)=>{sent.push(JSON.parse(opts.body));return stream()});
+ for(const effort of ['off','low','high','max']){
+  const b={...body,max_tokens:65536,thinking:{type:effort==='off'?'disabled':'enabled'},...(effort==='off'?{}:{output_config:{effort}})};
+  assert.equal((await f.request(b)).status,200);
+  assert.equal(sent.at(-1).max_tokens,65536);assert.equal(sent.at(-1).thinking.type,b.thinking.type);
+  if(effort!=='off')assert.equal(sent.at(-1).output_config.effort,effort);
+ }
+ assert.equal(f.calls(),4);
+});
+test('Invalid effort, disabled plus effort and invalid thinking replay cannot dispatch',async t=>{
+ const f=await fixture(t);
+ for(const b of [
+  {...body,thinking:{type:'enabled'},output_config:{effort:'ultra'}},
+  {...body,output_config:{effort:'high'}},
+  {...body,thinking:{type:'adaptive'}},
+  {...body,messages:[{role:'user',content:[{type:'thinking',thinking:'spoofed'}]}]}
+ ])assert.equal((await f.request(b)).status,400);
+ assert.equal(f.calls(),0);
+});
+test('Reasoning and signatures survive assistant/tool replay without unknown fields',()=>{
+ const b={...body,thinking:{type:'enabled'},output_config:{effort:'high'},messages:[
+  {role:'user',content:[{type:'text',text:'Write a file'}]},
+  {role:'assistant',content:[{type:'thinking',thinking:'Preserved native reasoning',signature:'signature'}, {type:'tool_use',id:'call1',name:'write_file',input:{path:'x.txt',text:'OK'}}]},
+  {role:'user',content:[{type:'tool_result',tool_use_id:'call1',content:'Saved'}]}
+ ]};
+ assert.deepEqual(validateBody(b),b);
+});
+test('Variable envelope includes bounded input, 64K output and overhead; unknown reserves stay held',()=>{
+ assert.equal(MAX_OUTPUT,65536);assert.equal(reservationFor(100,65536),CALL_DEBIT);
+ const debit=reservationFor(200000,65536),l=new Ledger(':memory:'),id=randomUUID();
+ assert.ok(debit>CALL_DEBIT);l.reserve(id,20,'h',debit);l.finish(id,'uncertain');
+ assert.equal(l.status().uncertain_ceiling,debit);
+ assert.throws(()=>l.reserve(randomUUID(),21,'h',1000001),/INVALID_RESERVATION/);
+ l.close();
+});
+test('Strict v2 schema migrates without changing confirmed usage, uncertain envelopes or cap',()=>{
+ const dir=mkdtempSync(join(tmpdir(),'vibe-migrate-')),file=join(dir,'db');
+ const db=new DatabaseSync(file);
+ db.exec("CREATE TABLE token_budget(id INTEGER PRIMARY KEY,limit_tokens INTEGER NOT NULL,debited_tokens INTEGER NOT NULL,enabled INTEGER NOT NULL);INSERT INTO token_budget VALUES(1,1000000,131072,1);CREATE TABLE budget_authorization(id INTEGER PRIMARY KEY,generation INTEGER NOT NULL CHECK(generation=2),limit_tokens INTEGER NOT NULL CHECK(limit_tokens=1000000),enabled INTEGER NOT NULL);INSERT INTO budget_authorization VALUES(1,2,1000000,1);CREATE TABLE model_requests(id TEXT PRIMARY KEY,credential_id INTEGER,body_hash TEXT,state TEXT,debit INTEGER NOT NULL CHECK(debit=65536),input_tokens INTEGER,output_tokens INTEGER,cache_read INTEGER,cache_write INTEGER,total_tokens INTEGER,http_status INTEGER,created_at INTEGER,ended_at INTEGER);");
+ db.prepare("INSERT INTO model_requests VALUES(?,20,'h','settled',65536,10,2,0,0,12,200,1,2)").run(randomUUID());
+ db.prepare("INSERT INTO model_requests VALUES(?,21,'h','sent',65536,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL)").run(randomUUID());db.close();
+ const l=new Ledger(file);assert.equal(l.status().generation,3);assert.equal(l.status().confirmed_tokens,12);assert.equal(l.status().uncertain_ceiling,65536);assert.equal(l.status().limitTokens,1000000);
+ assert.equal(l.db.prepare('SELECT count(*) n FROM model_requests_generation2').get().n,2);
+ l.reserve(randomUUID(),22,'new',reservationFor(200000,65536));
+ l.close();rmSync(dir,{recursive:true,force:true});
+});
+test('A complete answer larger than the previous 64KiB character cutoff is streamed and settled',async t=>{
+ const big='long text '.repeat(17000),large=[...events];
+ large[2]={type:'content_block_delta',index:0,delta:{type:'text_delta',text:big}};
+ large[4]={type:'message_delta',delta:{stop_reason:'end_turn'},usage:{output_tokens:50000}};
+ const f=await fixture(t,()=>stream(large)),r=await f.request({...body,max_tokens:65536});
+ assert.equal(r.status,200);assert.ok(r.text.includes(big));assert.equal(f.ledger.status().confirmed_tokens,50015);
+});
+
+test('Strict legacy requests with no authorization table can migrate and reserve a 64K request',()=>{
+ const dir=mkdtempSync(join(tmpdir(),'vibe-v1-strict-')),file=join(dir,'db'),db=new DatabaseSync(file);
+ db.exec("CREATE TABLE token_budget(id INTEGER PRIMARY KEY,limit_tokens INTEGER NOT NULL,debited_tokens INTEGER NOT NULL,enabled INTEGER NOT NULL);INSERT INTO token_budget VALUES(1,1000000,65536,1);CREATE TABLE model_requests(id TEXT PRIMARY KEY,credential_id INTEGER,body_hash TEXT,state TEXT,debit INTEGER NOT NULL CHECK(debit=65536),input_tokens INTEGER,output_tokens INTEGER,cache_read INTEGER,cache_write INTEGER,total_tokens INTEGER,http_status INTEGER,created_at INTEGER,ended_at INTEGER);");
+ db.prepare("INSERT INTO model_requests VALUES(?,21,'h','uncertain',65536,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL)").run(randomUUID());db.close();
+ const l=new Ledger(file);assert.equal(l.status().uncertain_ceiling,65536);l.reserve(randomUUID(),20,'new',CALL_DEBIT);assert.equal(l.status().debitedTokens,65536+CALL_DEBIT);l.close();rmSync(dir,{recursive:true,force:true});
+});

@@ -50,7 +50,7 @@
 
 ## 4. Более длинные чаты и dependency tooling
 
-Текущий gateway intentionally bounded: request до 16 KiB, output до 2048, один engine, до 6 модельных шагов. Это может ограничивать длинную переписку и генерацию большого проекта.
+Текущий gateway intentionally bounded: request до 512 KiB, output до 65536, один engine, до 6 модельных шагов. Это может ограничивать длинную переписку и генерацию большого проекта.
 
 - Ввести archive index, bounded stream reader и summary/rollover sessions; полный history decode под hard RSS cap не разрешать.
 - При расширении payload/output заново обосновать worst-case token reservation до изменения cap.

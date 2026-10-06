@@ -16,21 +16,21 @@ export const Config:Schema<Config>=Schema.object({
  credentialId:Schema.number().step(1).min(20).max(27).default(20),
  socketPath:Schema.string().default('/model/gateway.sock'),
  capabilityFile:Schema.string().default('/model-capability'),
- maxTokens:Schema.number().step(1).min(1).max(2048).default(1024),
+ maxTokens:Schema.number().step(1).min(1).max(65536).default(65536),
 })
 class SchoolDeepSeek extends LlmAdapter {
  private readonly capability:string
  constructor(private readonly config:Config){super();this.capability=readFileSync(config.capabilityFile,'utf8').trim();if(!/^[a-f0-9]{64}$/.test(this.capability))throw new Error('Invalid model capability')}
  async resolveModel(provider:string,model:string):Promise<LlmResolvedModelInfo>{
   if(provider!=='school-deepseek'||model!=='deepseek-flash')throw new LlmError('School route unavailable','INVALID_REQUEST')
-  return {provider,id:model,name:'DeepSeek Flash via bounded gateway',context:{contextWindow:16384}}
+  return {provider,id:model,name:'DeepSeek Flash via bounded gateway',context:{contextWindow:1048576},defaultMaxTokens:this.config.maxTokens,reasoning:{efforts:['off','low','high','max'].map(id=>({id:ReasoningEffortId(id),name:id})),defaultEffort:ReasoningEffortId('off')}}
  }
  async *stream(options:GenerateOptions):AsyncIterable<StreamChunk>{
   await this.resolveModel(options.provider,options.model)
-  const connection=resolveAdapterOptions({thinking:'disabled',maxTokens:this.config.maxTokens,models:[{id:'deepseek-flash',contextWindow:16384,maxTokens:this.config.maxTokens}],retryPolicy:{mode:'normal',maxRetries:0}})
-  const body=JSON.stringify(serialize({...options,reasoningEffort:ReasoningEffortId('off'),maxTokens:Math.min(options.maxTokens??this.config.maxTokens,this.config.maxTokens)},connection,options.messages,new Map(),()=>undefined))
-  if(Buffer.byteLength(body)>16384)throw new LlmError('School model request exceeds 16 KiB','INVALID_REQUEST')
-  const signal=options.signal?AbortSignal.any([options.signal,AbortSignal.timeout(60000)]):AbortSignal.timeout(60000)
+  const connection=resolveAdapterOptions({thinking:'enabled',reasoningEffort:'off',maxTokens:this.config.maxTokens,models:[{id:'deepseek-flash',contextWindow:1048576,maxTokens:this.config.maxTokens}],retryPolicy:{mode:'normal',maxRetries:0}})
+  const body=JSON.stringify(serialize({...options,reasoningEffort:options.reasoningEffort??ReasoningEffortId('off'),maxTokens:Math.min(options.maxTokens??this.config.maxTokens,this.config.maxTokens)},connection,options.messages,new Map(),()=>undefined))
+  if(Buffer.byteLength(body)>524288)throw new LlmError('School model request exceeds 512 KiB','INVALID_REQUEST')
+  const signal=options.signal?AbortSignal.any([options.signal,AbortSignal.timeout(1200000)]):AbortSignal.timeout(1200000)
   const request=http.request({socketPath:this.config.socketPath,path:'/v1/messages',method:'POST',signal,headers:{
    Authorization:'Bearer '+this.capability,'Content-Type':'application/json','Content-Length':Buffer.byteLength(body),
    'X-Vibe-Credential':String(this.config.credentialId),'X-Vibe-Request-Id':randomUUID(),

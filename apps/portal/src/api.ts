@@ -24,7 +24,9 @@ export interface Folder {
   name: string;
   created: number;
 }
+export type ReasoningMode = "off" | "low" | "high" | "max";
 export interface Chat {
+  reasoning_mode: ReasoningMode;
   id: string;
   name: string;
   project_id?: string;

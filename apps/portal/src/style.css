@@ -4325,3 +4325,41 @@ p {
     font-size: 10px;
   }
 }
+
+.reasoning-controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 0 0 10px;
+  color: #587f9a;
+  font-size: 11px;
+}
+.reasoning-controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.reasoning-controls select {
+  flex: 1;
+  min-width: 76px;
+  max-width: 130px;
+  border: 1px solid #d6eaf5;
+  background: #f4faff;
+  color: #215e86;
+  border-radius: 9px;
+  padding: 7px;
+  font:
+    600 11px Manrope,
+    sans-serif;
+  cursor: pointer;
+}
+.reasoning-controls select:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.reasoning-controls > span {
+  font-size: 10px;
+  color: #7697b0;
+  white-space: nowrap;
+}

@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "checks": [
+    "persisted off setting and native engine initialization with 65536 max_tokens",
+    "persisted low setting and native engine initialization with 65536 max_tokens",
+    "persisted high setting and native engine initialization with 65536 max_tokens",
+    "persisted max setting and native engine initialization with 65536 max_tokens",
+    "four UI choices; persisted change; cold reload; mobile layout"
+  ],
+  "paidCalls": 0,
+  "budgetBefore": {
+    "generation": 3,
+    "limitTokens": 1000000,
+    "debitedTokens": 30722,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 969278,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 25,
+    "confirmed_tokens": 30722,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 2162688
+  },
+  "budgetAfter": {
+    "generation": 3,
+    "limitTokens": 1000000,
+    "debitedTokens": 30722,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 969278,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 25,
+    "confirmed_tokens": 30722,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 2162688
+  },
+  "errors": []
+}

@@ -1,0 +1,59 @@
+{
+  "timeUtc": "2026-10-06T18:08:51.997838+00:00",
+  "passed": true,
+  "reasoningModes": [
+    "off",
+    "low",
+    "high",
+    "max"
+  ],
+  "defaultReasoning": "off",
+  "maxTokensPerCall": 65536,
+  "gatewayGeneration": 3,
+  "globalLimitUnchanged": 1000000,
+  "newTestPaidCalls": 8,
+  "newTestConfirmedTokens": 7685,
+  "budget": {
+    "generation": 3,
+    "limitTokens": 1000000,
+    "debitedTokens": 30722,
+    "legacyDebitedTokens": 655360,
+    "remainingAuthorizationTokens": 969278,
+    "enabled": true,
+    "maxRemainingCalls": 7,
+    "attempts": 25,
+    "confirmed_tokens": 30722,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 2162688
+  },
+  "studentProjects": [
+    {
+      "login": "student01",
+      "projects": 3
+    },
+    {
+      "login": "student02",
+      "projects": 0
+    },
+    {
+      "login": "student03",
+      "projects": 0
+    },
+    {
+      "login": "student04",
+      "projects": 0
+    },
+    {
+      "login": "student05",
+      "projects": 0
+    }
+  ],
+  "activeRuns": 0,
+  "gatewayOfflineTests": 27,
+  "freeUIAndHarnessInitializationChecks": 5,
+  "realFourModes": true,
+  "realSameChatSwitch": true,
+  "realThinkingToolReplay": true,
+  "credentialsUnchanged": true,
+  "fixtureCleanupComplete": true
+}
