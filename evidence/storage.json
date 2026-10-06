@@ -1,0 +1,15 @@
+{
+  "prototype_only": true,
+  "backing": "regular file on /dev/sda1 ext4",
+  "image_bytes": 17179869184,
+  "mount": {
+    "filesystems": [
+      {
+        "target": "/srv/vibe-os/data",
+        "source": "/dev/loop0",
+        "fstype": "xfs",
+        "options": "rw,nosuid,nodev,noexec,noatime,attr2,inode64,logbufs=8,logbsize=32k,prjquota"
+      }
+    ]
+  }
+}

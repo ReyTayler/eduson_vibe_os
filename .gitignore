@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.cache/
+.env
+.env.*
+*.key
+*.pem
+*.sqlite*
+evidence/raw/

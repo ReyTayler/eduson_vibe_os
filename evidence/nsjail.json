@@ -1,0 +1,5 @@
+{
+  "commit": "4ff54a6e0d5b65a0e1633d6e2fd1425ba6c882ce",
+  "binary_sha256": "b87bc0b11dbb323f0765175572dde1b75db0bebeec20559553302f87efdb3132",
+  "patch": "infra/nsjail/ubuntu-22.04.patch"
+}

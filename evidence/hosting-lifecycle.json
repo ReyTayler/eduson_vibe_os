@@ -1,0 +1,43 @@
+{
+  "suite": "real-hosting-lifecycle",
+  "cases": [
+    {
+      "name": "three real isolated services respond",
+      "passed": true,
+      "detail": {
+        "held": 3,
+        "activeProjects": [
+          "demo1",
+          "demo2",
+          "demo3"
+        ]
+      }
+    },
+    {
+      "name": "fourth real service cannot start into an occupied slot",
+      "passed": true,
+      "detail": {
+        "fourthStartRejected": true
+      }
+    },
+    {
+      "name": "manual switch retains SQLite and never occupies four slots",
+      "passed": true,
+      "detail": {
+        "oldCount": 3,
+        "restoredCount": 5,
+        "dataPreserved": true
+      }
+    },
+    {
+      "name": "durable teacher restriction blocks a real re-enable",
+      "passed": true,
+      "detail": {
+        "restrictionPersists": true,
+        "project1DisabledForRebootCheck": true
+      }
+    }
+  ],
+  "passed": 4,
+  "total": 4
+}

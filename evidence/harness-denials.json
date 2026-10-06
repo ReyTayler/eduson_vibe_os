@@ -1,0 +1,47 @@
+{
+  "suite": "school-protocol-and-engine-denials",
+  "cases": [
+    {
+      "name": "engine itself cannot read host data or create Internet sockets",
+      "passed": true,
+      "detail": {
+        "uid1000": true,
+        "noHostData": true,
+        "INETDenied": true,
+        "INET6Denied": true
+      }
+    },
+    {
+      "name": "real model route cannot trigger SDK fallback",
+      "passed": true,
+      "detail": {
+        "noFallback": true,
+        "paidCalls": 0
+      }
+    },
+    {
+      "name": "oversized prompt is rejected before model dispatch",
+      "passed": true,
+      "detail": {
+        "8193BytePromptRejected": true
+      }
+    },
+    {
+      "name": "cold history limit is checked before event decoding",
+      "passed": true,
+      "detail": {
+        "over8MiBRejectedBeforeDecode": true
+      }
+    },
+    {
+      "name": "oversized wire frame terminates the private runtime",
+      "passed": true,
+      "detail": {
+        "over64KiBFrameRejected": true,
+        "exitCode": 1
+      }
+    }
+  ],
+  "passed": 5,
+  "total": 5
+}

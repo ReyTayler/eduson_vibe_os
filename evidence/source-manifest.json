@@ -1,0 +1,397 @@
+[
+  {
+    "path": ".gitignore",
+    "bytes": 76,
+    "sha256": "4583a7146969072a8de8c2612c9313b1e7f380760ebe7d713168cff89a50cae4"
+  },
+  {
+    "path": "README.md",
+    "bytes": 2186,
+    "sha256": "7cfeafa2a5e6720c94c3884294aaaf085de99567c783bcaa8a9472f83e93fd06"
+  },
+  {
+    "path": "docs/build-report.md",
+    "bytes": 14512,
+    "sha256": "50997aeb32521ae511ee73485cd43885e898a2ea31a5305d0be4a520de41bd35"
+  },
+  {
+    "path": "docs/implementation-next.md",
+    "bytes": 12485,
+    "sha256": "1f6f4589b03ce1ede151aa767d33a97c65f8d24aba316f4e1f9bdc7497009fae"
+  },
+  {
+    "path": "evidence/control-tests.tap",
+    "bytes": 4750,
+    "sha256": "212ce745194e7a3b274a2747c5b3a9f53d4fe232df650c2821b1099a84a9eca0"
+  },
+  {
+    "path": "evidence/harness-build.json",
+    "bytes": 175,
+    "sha256": "3be9aa57de39de8ddf08c63e309091a712f8b0c226757881756bdea6658eb2f8"
+  },
+  {
+    "path": "evidence/harness-composition.json",
+    "bytes": 530,
+    "sha256": "4e51b6b60b1ddf816fca8678edb1c56b4ae013bfd50c67d4cd69bb458c763bc7"
+  },
+  {
+    "path": "evidence/harness-denials.json",
+    "bytes": 1057,
+    "sha256": "ae08cab3659dc8b0f6cc0d0df08cdc80673e1560f621b2986fd85f43d1ed042a"
+  },
+  {
+    "path": "evidence/hosting-lifecycle.json",
+    "bytes": 915,
+    "sha256": "641895001395efff39f58f47ca68a49f433719dd4b5de6bc8948b435a5a3ec0f"
+  },
+  {
+    "path": "evidence/nsjail.json",
+    "bytes": 192,
+    "sha256": "dbc74ccf0306bb3303f5025016d69f281ec9726a2395b6eadc12630bcd6a80da"
+  },
+  {
+    "path": "evidence/preflight-after.json",
+    "bytes": 3073,
+    "sha256": "bb35e6ed1c44f0ca57a23155154185fb27819530629dc3c68021768f88c244fe"
+  },
+  {
+    "path": "evidence/preflight-before.json",
+    "bytes": 3073,
+    "sha256": "09a71d725ff5328b9d5f56c01f74700ca1455a759233553a19dd446e15170542"
+  },
+  {
+    "path": "evidence/python-sqlite-validation.json",
+    "bytes": 183,
+    "sha256": "8591749bf0bcda1da7f644a2136995e772797a145a53dc041687c0e569726a03"
+  },
+  {
+    "path": "evidence/python-sqlite.json",
+    "bytes": 441,
+    "sha256": "838ec1156999a5ddb3d406d32dec322716ecc8743a67ef5759d90419d99e225b"
+  },
+  {
+    "path": "evidence/reboot-after.json",
+    "bytes": 1178,
+    "sha256": "ae7bc9aceb92c8782886aaa68760fbf03c4b5977414e8bb7cfaab74eeab1a202"
+  },
+  {
+    "path": "evidence/reboot-before.json",
+    "bytes": 874,
+    "sha256": "f7886b0964b9f050ddf2b419b7db57e1b741ce167fd035842951a96040db5143"
+  },
+  {
+    "path": "evidence/runner-isolation-first.json",
+    "bytes": 7864,
+    "sha256": "3ce7c02ad4116213e11a8bca97a5f5b0bc3bb3edcf5bc99e8028dcc98321072a"
+  },
+  {
+    "path": "evidence/runner-isolation.json",
+    "bytes": 7095,
+    "sha256": "732c8a8f9e0c9d265e2022756b754d1dfcb272a84a0580814b91ebef3951bfc1"
+  },
+  {
+    "path": "evidence/runner-recovery.json",
+    "bytes": 222,
+    "sha256": "cf315763b3d0cbe5f9159370f8e9d88c9ef6fb2b7a72e174f9f3061be79393d2"
+  },
+  {
+    "path": "evidence/school-profile-dump.txt",
+    "bytes": 2327,
+    "sha256": "bb154e2c3b2a04006f34e0db0dacf528676e16ceff41932b7e760af153579673"
+  },
+  {
+    "path": "evidence/storage.json",
+    "bytes": 361,
+    "sha256": "a86f7a453ae06e9c84a0557dd37e92d86d39caf26c9d4c39e5b66c123c0560a9"
+  },
+  {
+    "path": "evidence/summary.json",
+    "bytes": 1955,
+    "sha256": "d3ac2af474d99d3416ede8d9cf9c18ad5b2018708f24c8d04a4cda7d7698bb54"
+  },
+  {
+    "path": "evidence/toolchain.json",
+    "bytes": 289,
+    "sha256": "6f5d49f7e52f3452d7f8a1940f555ba250ed0c63c5ce4636d16ae3b6b221d3f0"
+  },
+  {
+    "path": "infra/bootstrap/01-host.sh",
+    "bytes": 1043,
+    "sha256": "5be7d6959fdf33da0697563740c6350a68378b5565f5e569f19cef2ca8021ba1"
+  },
+  {
+    "path": "infra/bootstrap/02-toolchain.py",
+    "bytes": 2774,
+    "sha256": "84d982c7940694cb7f428d2c1ea538ff0619fe4d20e49b86b89661904d7fee7a"
+  },
+  {
+    "path": "infra/bootstrap/03-source.sh",
+    "bytes": 1207,
+    "sha256": "9d25e4c79ad02eb91325f23a910943bb57aaf9d6a61b97967b323b6a3b83b9d0"
+  },
+  {
+    "path": "infra/bootstrap/04-harness-build.sh",
+    "bytes": 292,
+    "sha256": "5f6343d572399a317666ca6466b856269938305963f0b2bb0aba485626527eae"
+  },
+  {
+    "path": "infra/bootstrap/05-data.py",
+    "bytes": 1766,
+    "sha256": "fa8c05b2476870018670ce1421bb22e0108b4919a3b5395ae80db099d1bb7888"
+  },
+  {
+    "path": "infra/bootstrap/06-rootfs.py",
+    "bytes": 2642,
+    "sha256": "14db5b20d7b84efb4bf8bd67c9d9c65131331f3b9140237a1240e68f8e93b93b"
+  },
+  {
+    "path": "infra/bootstrap/08-python-sqlite.py",
+    "bytes": 1853,
+    "sha256": "fafc07d459f243764c63c0440925cdc12b26397b0576f7f14a30597b17c8baba"
+  },
+  {
+    "path": "infra/bootstrap/preflight.py",
+    "bytes": 4432,
+    "sha256": "88ea434f070209b6da8ab2a8fd8b7e4243f5c84f86f6a97910abb808fa6b9b83"
+  },
+  {
+    "path": "infra/nsjail/app-1.cfg",
+    "bytes": 1497,
+    "sha256": "ee80262011878cee3626d9c7d4b33fbaedb829ea48f809b792634a4b6fc54fd3"
+  },
+  {
+    "path": "infra/nsjail/app-2.cfg",
+    "bytes": 1497,
+    "sha256": "0431c8cb654a7c644d8eafec4cfec8241fe11ab65d2c025af0d9a1724bccecd8"
+  },
+  {
+    "path": "infra/nsjail/app-3.cfg",
+    "bytes": 1497,
+    "sha256": "71fda8cbf72e6cd03eba2232ac743b26cf22022b1f5ed2999cd2bc1eb60216f1"
+  },
+  {
+    "path": "infra/nsjail/app-4.cfg",
+    "bytes": 1497,
+    "sha256": "4178dae0ac5f6eeee10cd93af4dadd746df556267e2f4c14944bdc14c2b14209"
+  },
+  {
+    "path": "infra/nsjail/engine.cfg",
+    "bytes": 2180,
+    "sha256": "5887a955d4b4aa74cf2ad15f17ba95d32e533aee923fd8d13e05560e6489ec77"
+  },
+  {
+    "path": "infra/nsjail/engine.policy",
+    "bytes": 1675,
+    "sha256": "e2fa5b03be43092965c10283493f22cb5ff2330832af9263014bbd058a470859"
+  },
+  {
+    "path": "infra/nsjail/school.policy",
+    "bytes": 1646,
+    "sha256": "91dc8b8950d1c577f884eaac85c0d2666860207834c326c01467e90928738ae2"
+  },
+  {
+    "path": "infra/nsjail/tool-1.cfg",
+    "bytes": 1277,
+    "sha256": "80620780ce56b8ca8f82b77872ebc7738b8d84d39c82e9007ac47fa1631c402d"
+  },
+  {
+    "path": "infra/nsjail/tool-2.cfg",
+    "bytes": 1277,
+    "sha256": "f4a7ae2265f529fc50781fdbaf1809520a7ff9927855594562d5eb58c5ec33bb"
+  },
+  {
+    "path": "infra/nsjail/tool-3.cfg",
+    "bytes": 1277,
+    "sha256": "8ae1935d282394bdbe3484834f57f593576e75de9a3c7d32919f0229aae36e9e"
+  },
+  {
+    "path": "infra/nsjail/tool-4.cfg",
+    "bytes": 1277,
+    "sha256": "884fae160a0a01d6e49ffffb6c66598cdc38a187c86fc8f9b7dcce40919f80fd"
+  },
+  {
+    "path": "infra/nsjail/ubuntu-22.04.patch",
+    "bytes": 527,
+    "sha256": "37795389a293b8ac73a9c895fe0e5a2b9e6f49e4cdbc03846a1a9c4e7bd51ff0"
+  },
+  {
+    "path": "infra/systemd/srv-vibe\\x2dos-data.mount",
+    "bytes": 266,
+    "sha256": "69bb8456448945182313861cbee32702d8115979d4e1cdca5f27c426ff93555f"
+  },
+  {
+    "path": "infra/systemd/vibe-os-poc-app1.service",
+    "bytes": 640,
+    "sha256": "b5ea18f407dc0df3164cbd6ed9608cdaf1460cf3ff602cf5439bdc972b9074ed"
+  },
+  {
+    "path": "infra/systemd/vibe-os-poc-app2.service",
+    "bytes": 640,
+    "sha256": "322426b8a123c74933b0c48d1cfd17d061e822531ee5b48f9a111fc69c0c7df2"
+  },
+  {
+    "path": "infra/systemd/vibe-os-poc-app3.service",
+    "bytes": 640,
+    "sha256": "baef7054a58eb4a797615c8465f0b68e0c8e0c462d061f7a369a41705a4c50e5"
+  },
+  {
+    "path": "infra/systemd/vibe-os-poc-app4.service",
+    "bytes": 640,
+    "sha256": "41ec61e6c75dc9b7a04b1c3cf65cf17156fa4f591110eb78807ca56687f41133"
+  },
+  {
+    "path": "infra/systemd/vibe-os-poc-console.service",
+    "bytes": 463,
+    "sha256": "63d23e4d7721d657664d80377f58bfd533b2e864a8a6ba16d71ddc662c53e174"
+  },
+  {
+    "path": "infra/systemd/vibe-os-poc-runner.service",
+    "bytes": 632,
+    "sha256": "b0dc6de1c79f717cf074c8beb641bc80ba82628546b5d8122df7bcddee6cedcd"
+  },
+  {
+    "path": "infra/systemd/vibe-os-poc-tmpfiles.conf",
+    "bytes": 248,
+    "sha256": "b497fab50526e7de8d4139bfff8fb56f9d1ccc2bdd8d6eb374dadbaa0a0ed7b5"
+  },
+  {
+    "path": "package.json",
+    "bytes": 283,
+    "sha256": "6da71c7b7a7984b36175e4745ed763538bfc5e0c54beaf55a09972f19f24294a"
+  },
+  {
+    "path": "packages/control/index.mjs",
+    "bytes": 8514,
+    "sha256": "872d2e90a932b2a6dbb1ff486212351339d4ce24acb2d99b42e4a41eb53b32f0"
+  },
+  {
+    "path": "packages/control/schema.sql",
+    "bytes": 7037,
+    "sha256": "1779dc24423a63cd2d5006fd88460a80c77a8fcf95cb295f378fda99dd62e422"
+  },
+  {
+    "path": "profiles/cordis.patch.yml",
+    "bytes": 3087,
+    "sha256": "917de85eaf4dc87d9839eeb732d8890bd011ea570c97e8a2f7630f3f7ae1a374"
+  },
+  {
+    "path": "profiles/fs-provider.ts",
+    "bytes": 5047,
+    "sha256": "ce2a1b590ee6bd3f4d8a3f1b358b3ab5f53479dfbd0b2a987d949a3d669d3295"
+  },
+  {
+    "path": "profiles/mock-model.ts",
+    "bytes": 4120,
+    "sha256": "cc7988095bddc5f8f44d75ed1aa46270d7f6d49f3b5eb367d024aa840e85f009"
+  },
+  {
+    "path": "profiles/runner-client.ts",
+    "bytes": 3160,
+    "sha256": "06e8d935c40961faa289e520b1e6792a47adc28e2b6f1667744c5047df1705dd"
+  },
+  {
+    "path": "profiles/school-sdk.ts",
+    "bytes": 9995,
+    "sha256": "2af15c7fb3039b73c7e980795c9817f2e115b699f9a87eebda8962fb95380d7d"
+  },
+  {
+    "path": "profiles/shell-provider.ts",
+    "bytes": 2848,
+    "sha256": "7b9f519b815a936f14d178db39588db6e0d50b64704c27a81c2f2c64283bc632"
+  },
+  {
+    "path": "profiles/subprocess-provider.ts",
+    "bytes": 3284,
+    "sha256": "a4148338c50f2e124c58d0aee983e25e5ab05361c8bde9e8a1121a5ab635f7c7"
+  },
+  {
+    "path": "services/hosting/authorize.mjs",
+    "bytes": 1444,
+    "sha256": "ed56e43e50684474e6392e94e36e0a6c6c0c6323c65b8e82b9e7e30f14258cc6"
+  },
+  {
+    "path": "services/hosting/canary.mjs",
+    "bytes": 1760,
+    "sha256": "86d94020cf6d998cc06da87d8676687d2cf5e338e58c3d6f6ec965e4b20e990c"
+  },
+  {
+    "path": "services/hosting/cli.mjs",
+    "bytes": 3250,
+    "sha256": "61df542e85f39fb7cc26c1e516e085a3a33a66582da41219517ca10e825d27fb"
+  },
+  {
+    "path": "services/hosting/console.mjs",
+    "bytes": 3074,
+    "sha256": "798027469717946f2265bbc1a451bbf53406309dc67eaada0ad671e4fb83d19f"
+  },
+  {
+    "path": "services/hosting/observe.mjs",
+    "bytes": 1007,
+    "sha256": "35b2da17cb174c38d2756589745f57a56891703349ed22372e7550bfd9bce629"
+  },
+  {
+    "path": "services/hosting/setup.mjs",
+    "bytes": 782,
+    "sha256": "42d07e0cb36491e8f5d78299d3cf81de872b772efb299e1e05d1cbd453094797"
+  },
+  {
+    "path": "services/hosting/status.mjs",
+    "bytes": 618,
+    "sha256": "1bbd00b17dc2063bb76bfdc3e9679f1894673a62a427cc5762e5dddf8bfd41f9"
+  },
+  {
+    "path": "services/runner/go.mod",
+    "bytes": 79,
+    "sha256": "0471716c008482fcd28411ecd230649a1fb693277f04830fa392f85123bdf893"
+  },
+  {
+    "path": "services/runner/go.sum",
+    "bytes": 153,
+    "sha256": "c5aa31f1f2b470a810c0dc6bf49bcc63eb42a100ad9b093ba23a54895bf63f64"
+  },
+  {
+    "path": "services/runner/main.go",
+    "bytes": 16714,
+    "sha256": "bcd2252a02152c8a76c89c5fb560d4193f83e23e082d5a946fefd891ded726bf"
+  },
+  {
+    "path": "tests/control.test.mjs",
+    "bytes": 9346,
+    "sha256": "85bb470ea9fe4e2438f15d092991d1c85296e2ad31c31d59d01fb637887b1b42"
+  },
+  {
+    "path": "tests/harness_composition.py",
+    "bytes": 4913,
+    "sha256": "9a6dda594a3c88d81885474af7aa1374320f4ff5bda712850d207a40dc729e86"
+  },
+  {
+    "path": "tests/harness_denials.py",
+    "bytes": 4980,
+    "sha256": "95c9262e2eb4644bb453867455db066ec28026ee5fbc591c42dac8dcd760a2fc"
+  },
+  {
+    "path": "tests/hosting_lifecycle.py",
+    "bytes": 2755,
+    "sha256": "624b99f73fbd59e7db1c0f82f2b0117ea19f3d61c272fe1ccd2bb48d239c524a"
+  },
+  {
+    "path": "tests/isolation.py",
+    "bytes": 5711,
+    "sha256": "7981d0c2c149827c5326ad56be274ad5cfeba72118ad65f0ca7af39b7483dbf4"
+  },
+  {
+    "path": "tests/poc_client.py",
+    "bytes": 912,
+    "sha256": "91aa9f2d8cb66a8b7685be5dfac6c000d713749c56e022e85619f10a6e6a9ab0"
+  },
+  {
+    "path": "tests/runner_recovery.py",
+    "bytes": 2057,
+    "sha256": "ef969f5c7a99bcc07f1ff65916cca43258213bcf96cfbf0b758a52cdaa3e5938"
+  },
+  {
+    "path": "tsconfig.profiles.json",
+    "bytes": 352,
+    "sha256": "e2e31b3f5ed9b55f1f03951c49ff549fc2ee79b4cfc81829ad2039a81d9657b9"
+  }
+]

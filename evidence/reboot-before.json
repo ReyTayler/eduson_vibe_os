@@ -1,0 +1,46 @@
+{
+  "counter": {
+    "2": 2,
+    "3": 2
+  },
+  "restriction": true,
+  "approvedActive": [
+    2,
+    3
+  ],
+  "slots": [
+    {
+      "user_id": "poc-student",
+      "slot_no": 1,
+      "project_id": null,
+      "release_id": null,
+      "grant_id": null,
+      "generation": 6,
+      "desired": "off",
+      "observed": "empty",
+      "resource_held": 0
+    },
+    {
+      "user_id": "poc-student",
+      "slot_no": 2,
+      "project_id": "demo2",
+      "release_id": "demo-r2",
+      "grant_id": "demo-g2",
+      "generation": 2,
+      "desired": "on",
+      "observed": "running",
+      "resource_held": 1
+    },
+    {
+      "user_id": "poc-student",
+      "slot_no": 3,
+      "project_id": "demo3",
+      "release_id": "demo-r3",
+      "grant_id": "demo-g3",
+      "generation": 2,
+      "desired": "on",
+      "observed": "running",
+      "resource_held": 1
+    }
+  ]
+}

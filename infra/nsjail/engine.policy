@@ -1,0 +1,27 @@
+POLICY school {
+  ALLOW {
+    read, write, close, open, openat, newfstatat, statx, newstat, newfstat, newlstat,
+    access, faccessat, faccessat2, readlink, readlinkat, getcwd, chdir, fchdir,
+    lseek, pread64, pwrite64, readv, writev, preadv, pwritev,
+    dup, dup2, dup3, fcntl, ioctl, mmap, mprotect, munmap, madvise, brk, mremap,
+    futex, getpgrp, getpgid, setpgid, setsid, getpid, getppid, gettid, getuid, geteuid, getgid, getegid,
+    set_tid_address, set_robust_list, rseq, rt_sigaction, rt_sigprocmask,
+    rt_sigreturn, rt_sigpending, rt_sigsuspend, rt_sigtimedwait, sigaltstack,
+    kill, tkill, tgkill, fork, vfork, execve, exit, exit_group, wait4, waitid,
+    pipe, pipe2, eventfd, eventfd2, epoll_create, epoll_create1, epoll_ctl,
+    epoll_wait, epoll_pwait, poll, select, pselect6, ppoll,
+    clock_gettime, gettimeofday, clock_nanosleep, nanosleep, sched_yield,
+    sched_getaffinity, sched_getparam, sched_getscheduler, newuname, sysinfo, prlimit64, getrlimit, setrlimit,
+    getrusage, times, getdents64, getdents, umask, mkdir, mkdirat, rmdir,
+    link, linkat, unlink, unlinkat, rename, renameat, renameat2, fsync, fdatasync,
+    ftruncate, truncate, chmod, fchmod, fchmodat, utimes, utimensat, utime,
+    getrandom, arch_prctl, close_range, flock, fadvise64, sync_file_range,
+    msync, capget, prctl, getitimer, setitimer, alarm,
+    connect, bind, listen, accept, accept4, getsockname, getpeername,
+    setsockopt, getsockopt, shutdown, sendto, recvfrom, sendmsg, recvmsg
+  },
+  ALLOW { clone { (clone_flags & 0x7e020080) == 0 } },
+  ALLOW { socket { family == 1 }, socketpair { family == 1 } },
+  ERRNO(38) { clone3 }
+}
+USE school DEFAULT ERRNO(1)

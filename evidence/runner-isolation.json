@@ -1,0 +1,289 @@
+{
+  "suite": "runner-isolation-poc",
+  "cases": [
+    {
+      "name": "python runs as uid 1000",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 126,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "/workspace\n",
+          "totalBytes": 11,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-03f7ba9e02a4127628c527bb556e3b69.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "node runs with address-space limit unlimited",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 87,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "v24.21.0\n",
+          "totalBytes": 9,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-f2562b058345fb2f5df7670183e01777.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "tool filesystem excludes host and other projects",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 292,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "confined\n",
+          "totalBytes": 9,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-a09d78b705d9e35638db3ffd443f4ef7.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "INET and INET6 sockets denied",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 200,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "egress denied\n",
+          "totalBytes": 14,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-60fc217567e3bda201dfcdfa8048c9f1.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "tool environment contains no engine configuration",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 99,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "scrubbed\n",
+          "totalBytes": 9,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-ff5d89e5132b4b3d78923c51a7681605.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "broker absolute escape denied",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_SANDBOX_DENIED'}"
+      }
+    },
+    {
+      "name": "broker parent traversal denied",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_SANDBOX_DENIED'}"
+      }
+    },
+    {
+      "name": "broker symlink escape denied by openat2",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'too many levels of symbolic links'}"
+      }
+    },
+    {
+      "name": "stale observed version rejected",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_STALE_VERSION'}"
+      }
+    },
+    {
+      "name": "edit expansion rejected before allocation",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_TOO_LARGE'}"
+      }
+    },
+    {
+      "name": "stdout and stderr capture bounded",
+      "passed": true,
+      "detail": {
+        "exitCode": 0,
+        "cgroupEmpty": true,
+        "stdoutTotalBytes": 1048576,
+        "capturedBytes": 65536
+      }
+    },
+    {
+      "name": "deadline stops entire cgroup",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 348,
+        "exitCode": 1,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "start\n",
+          "totalBytes": 6,
+          "truncated": false
+        },
+        "timedOut": true,
+        "unit": "vibe-tool-7a062ba308e993d7d7c008a77e98abd0.service",
+        "unitResult": "timeout"
+      }
+    },
+    {
+      "name": "double-fork background cannot survive command",
+      "passed": true,
+      "detail": {
+        "markerAbsent": true
+      }
+    },
+    {
+      "name": "256 MiB cgroup kills memory exhaustion",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 567,
+        "exitCode": 1,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-ea63271cc58ff09d46902d13165cd7fc.service",
+        "unitResult": "oom-kill"
+      }
+    },
+    {
+      "name": "64 task cgroup bounds fork flood",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 185,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "pid-limit 62\n",
+          "totalBytes": 13,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-7f2d8fede78cba7a64bab870e51bba2f.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "XFS project hard byte quota enforced",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 173,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "byte-quota\n",
+          "totalBytes": 11,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-d9ad0a2249cf16d019041117a44e9cc0.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "XFS project hard inode quota enforced",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 145,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "inode-quota 487\n",
+          "totalBytes": 16,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-e06af623e785383c0276173b20c34483.service",
+        "unitResult": "success"
+      }
+    }
+  ],
+  "passed": 17,
+  "total": 17
+}

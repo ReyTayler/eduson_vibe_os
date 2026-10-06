@@ -1,0 +1,12 @@
+{
+  "name": "vibe-os-platform-poc",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "build:profiles": "node /opt/vibe-os/build/deepseek-harness/node_modules/typescript/bin/tsc -p tsconfig.profiles.json"
+  },
+  "engines": {
+    "node": "24.21.0"
+  }
+}

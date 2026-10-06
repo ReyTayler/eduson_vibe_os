@@ -1,0 +1,8 @@
+{
+  "suite": "runner-crash-recovery",
+  "passed": true,
+  "workloadInterrupted": true,
+  "stableBindMountReconnected": true,
+  "ownedCgroupsEmpty": true,
+  "engineStdout": "firstInterrupted\nreconnected-and-quiescent\n"
+}

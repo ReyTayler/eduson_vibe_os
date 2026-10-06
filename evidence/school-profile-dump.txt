@@ -1,0 +1,68 @@
+# == /engine/profiles/school-poc/cordis.patch.yml
+- id: sdk-app-startup
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/bundle/sdk-app/lib/index.js
+  config:
+    profile: school-poc
+- id: timer
+  name: file:///opt/vibe-os/build/deepseek-harness/vendor/timer/lib/index.js
+- id: llm
+  name: file:///opt/vibe-os/build/deepseek-harness/packages/llm/llm/lib/index.js
+- id: session
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/core/session/lib/index.js
+- id: session-projection
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/session/session-projection/lib/index.js
+- id: session-title
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/session/session-title/lib/index.js
+  config:
+    fallbackMaxWords: 5
+    fallbackMaxBytes: 40
+    maxTitleBytes: 80
+- id: system-prompt
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/core/system-prompt/lib/index.js
+  config:
+    includeHarnessIdentity: false
+    includeRuntimeContext: false
+    personaPrefix: You are a school coding assistant. Work only in the provided project.
+- id: tools
+  name: file:///opt/vibe-os/build/deepseek-harness/packages/core/tools/lib/index.js
+- id: agent
+  name: file:///opt/vibe-os/build/deepseek-harness/packages/core/agent/lib/index.js
+- id: agent-loop
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/core/agent-loop/lib/index.js
+  config:
+    agents: []
+- id: sessions
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/session/session-persistence-jsonl/lib/index.js
+  config:
+    root: /engine/sessions
+    compression: none
+- id: fs
+  name: file:///opt/vibe-os/poc-profile/fs-provider.js
+- id: subprocess
+  name: file:///opt/vibe-os/poc-profile/subprocess-provider.js
+- id: shell
+  name: file:///opt/vibe-os/poc-profile/shell-provider.js
+- id: school-mock
+  name: file:///opt/vibe-os/poc-profile/mock-model.js
+- id: session-checkpoint-policy
+  name: >-
+    file:///opt/vibe-os/build/deepseek-harness/packages/session/session-checkpoint-policy/lib/index.js
+- id: sdk-jsonrpc-server
+  name: file:///opt/vibe-os/poc-profile/school-sdk.js
+  inject:
+    - sdkAppStartup
+    - loader
+  config:
+    maxLogBytes: 8388608
+    maxLogEvents: 20000
+    maxEventBytes: 131072
+    maxSessions: 16
+    maxReadBytes: 235520
+    maxSteps: 12

@@ -1,0 +1,30 @@
+[Unit]
+Description=Vibe OS prototype scoped Runner
+After=local-fs.target
+StartLimitIntervalSec=30
+StartLimitBurst=3
+RequiresMountsFor=/srv/vibe-os/data
+
+[Service]
+Type=simple
+ExecStart=/opt/vibe-os/bin/vibe-poc-runner
+Restart=on-failure
+RestartSec=2
+User=root
+RuntimeDirectory=vibe-os-poc
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/srv/vibe-os/data/poc-project-1 /run/vibe-os-poc /sys/fs/cgroup
+MemoryMax=192M
+MemorySwapMax=0
+TasksMax=64
+CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,251 @@
+{
+  "suite": "runner-isolation-poc",
+  "cases": [
+    {
+      "name": "python runs as uid 1000",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 117,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "/workspace\n",
+          "totalBytes": 11,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-c7738576548e56dfc1946aadbc6980bb.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "node runs with address-space limit unlimited",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 184,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "v24.21.0\n",
+          "totalBytes": 9,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-a7c312bf67fc2b1c3558ca28a5a35f73.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "tool filesystem excludes host and other projects",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 305,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "confined\n",
+          "totalBytes": 9,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-d6865b4fbd01ed8be862afb1b7e74067.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "INET and INET6 sockets denied",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 199,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "egress denied\n",
+          "totalBytes": 14,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-66bd98ea13ae5cd08fa2eb8215516ff3.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "tool environment contains no engine configuration",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 102,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "scrubbed\n",
+          "totalBytes": 9,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-b452d435b69abe7a1d8fda22ff507107.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "broker absolute escape denied",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_SANDBOX_DENIED'}"
+      }
+    },
+    {
+      "name": "broker parent traversal denied",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_SANDBOX_DENIED'}"
+      }
+    },
+    {
+      "name": "broker symlink escape denied by openat2",
+      "passed": false,
+      "error": "{'aborted': False, 'cgroupEmpty': True, 'durationMs': 130, 'exitCode': 1, 'stderr': {'text': 'Traceback (most recent call last):\\n  File \"<string>\", line 4, in <module>\\nPermissionError: [Errno 1] Operation not permitted: \\'/etc/shadow\\' -> \\'escape-link\\'\\n', 'totalBytes': 157, 'truncated': False}, 'stdout': {'text': '', 'totalBytes': 0, 'truncated': False}, 'timedOut': False, 'unit': 'vibe-tool-02e46e8a4f6f9b71d6610ce7cf1c1d25.service', 'unitResult': 'exit-code'}"
+    },
+    {
+      "name": "stale observed version rejected",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_STALE_VERSION'}"
+      }
+    },
+    {
+      "name": "edit expansion rejected before allocation",
+      "passed": true,
+      "detail": {
+        "rejected": "{'error': 'FS_TOO_LARGE'}"
+      }
+    },
+    {
+      "name": "stdout and stderr capture bounded",
+      "passed": true,
+      "detail": {
+        "exitCode": 0,
+        "cgroupEmpty": true,
+        "stdoutTotalBytes": 1048576,
+        "capturedBytes": 65536
+      }
+    },
+    {
+      "name": "deadline stops entire cgroup",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 400,
+        "exitCode": 1,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "start\n",
+          "totalBytes": 6,
+          "truncated": false
+        },
+        "timedOut": true,
+        "unit": "vibe-tool-ee954067eec50f9c3504d23218762727.service",
+        "unitResult": "timeout"
+      }
+    },
+    {
+      "name": "double-fork background cannot survive command",
+      "passed": true,
+      "detail": {
+        "markerAbsent": true
+      }
+    },
+    {
+      "name": "256 MiB cgroup kills memory exhaustion",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 619,
+        "exitCode": 1,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-17077729befd2488f8220c15e92892bd.service",
+        "unitResult": "oom-kill"
+      }
+    },
+    {
+      "name": "64 task cgroup bounds fork flood",
+      "passed": true,
+      "detail": {
+        "aborted": false,
+        "cgroupEmpty": true,
+        "durationMs": 173,
+        "exitCode": 0,
+        "stderr": {
+          "text": "",
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stdout": {
+          "text": "pid-limit 62\n",
+          "totalBytes": 13,
+          "truncated": false
+        },
+        "timedOut": false,
+        "unit": "vibe-tool-e4a226d5f4f607b2aa15be85a55d92f2.service",
+        "unitResult": "success"
+      }
+    },
+    {
+      "name": "XFS project hard byte quota enforced",
+      "passed": false,
+      "error": "{'aborted': False, 'cgroupEmpty': True, 'durationMs': 201, 'exitCode': 1, 'stderr': {'text': 'Traceback (most recent call last):\\n  File \"<string>\", line 4, in <module>\\nOSError: [Errno 28] No space left on device\\n\\nDuring handling of the above exception, another exception occurred:\\n\\nTraceback (most recent call last):\\n  File \"<string>\", line 6, in <module>\\nAssertionError: [Errno 28] No space left on device\\n', 'totalBytes': 313, 'truncated': False}, 'stdout': {'text': '', 'totalBytes': 0, 'truncated': False}, 'timedOut': False, 'unit': 'vibe-tool-01153dfe4f35344bf4bba9eb53b2df74.service', 'unitResult': 'exit-code'}"
+    },
+    {
+      "name": "XFS project hard inode quota enforced",
+      "passed": false,
+      "error": "{'aborted': False, 'cgroupEmpty': True, 'durationMs': 130, 'exitCode': 1, 'stderr': {'text': 'Traceback (most recent call last):\\n  File \"<string>\", line 5, in <module>\\nOSError: [Errno 28] No space left on device: \\'inode-509\\'\\n\\nDuring handling of the above exception, another exception occurred:\\n\\nTraceback (most recent call last):\\n  File \"<string>\", line 7, in <module>\\nAssertionError: [Errno 28] No space left on device: \\'inode-509\\'\\n', 'totalBytes': 339, 'truncated': False}, 'stdout': {'text': '', 'totalBytes': 0, 'truncated': False}, 'timedOut': False, 'unit': 'vibe-tool-f0f4ab2ff6869ea19a0395766c1fcef3.service', 'unitResult': 'exit-code'}"
+    }
+  ],
+  "passed": 14,
+  "total": 17
+}

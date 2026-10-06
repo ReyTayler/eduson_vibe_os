@@ -1,0 +1,14 @@
+diff --git a/missing_defs.h b/missing_defs.h
+index 55da17f..4a4bab9 100644
+--- a/missing_defs.h
++++ b/missing_defs.h
+@@ -500,3 +500,9 @@ struct mount_attr {
++/* Ubuntu 22.04 headers declare PR_SCHED_CORE without scope constants. */
++#if !defined(PR_SCHED_CORE_SCOPE_THREAD_GROUP)
++#define PR_SCHED_CORE_SCOPE_THREAD_GROUP 1
++#endif
++
++
+ /* =========================================================================
+  * SECCOMP_FILTER_FLAG_* flags
+  * ========================================================================= */

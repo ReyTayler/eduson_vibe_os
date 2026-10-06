@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: three permanent project slots; slot four is rejected
+ok 1 - three permanent project slots; slot four is rejected
+  ---
+  duration_ms: 11.225177
+  type: 'test'
+  ...
+# Subtest: foreign owner cannot occupy a project
+ok 2 - foreign owner cannot occupy a project
+  ---
+  duration_ms: 3.655345
+  type: 'test'
+  ...
+# Subtest: release and grant are tied to exactly one project
+ok 3 - release and grant are tied to exactly one project
+  ---
+  duration_ms: 3.666242
+  type: 'test'
+  ...
+# Subtest: revoked approval allows observations and stopping but blocks restart
+ok 4 - revoked approval allows observations and stopping but blocks restart
+  ---
+  duration_ms: 4.235624
+  type: 'test'
+  ...
+# Subtest: teacher restriction survives reconciling and pupil re-enable
+ok 5 - teacher restriction survives reconciling and pupil re-enable
+  ---
+  duration_ms: 5.006736
+  type: 'test'
+  ...
+# Subtest: failed and unknown workloads still occupy capacity
+ok 6 - failed and unknown workloads still occupy capacity
+  ---
+  duration_ms: 3.777247
+  type: 'test'
+  ...
+# Subtest: freeing capacity requires a matching stop receipt
+ok 7 - freeing capacity requires a matching stop receipt
+  ---
+  duration_ms: 4.769088
+  type: 'test'
+  ...
+# Subtest: INSERT OR REPLACE is rejected through every writer statement
+ok 8 - INSERT OR REPLACE is rejected through every writer statement
+  ---
+  duration_ms: 3.758484
+  type: 'test'
+  ...
+# Subtest: REPLACE INTO is rejected through every writer statement
+ok 9 - REPLACE INTO is rejected through every writer statement
+  ---
+  duration_ms: 3.540791
+  type: 'test'
+  ...
+# Subtest: UPDATE OR REPLACE is rejected through every writer statement
+ok 10 - UPDATE OR REPLACE is rejected through every writer statement
+  ---
+  duration_ms: 7.009785
+  type: 'test'
+  ...
+# Subtest: comment-obscured REPLACE is rejected through every writer statement
+ok 11 - comment-obscured REPLACE is rejected through every writer statement
+  ---
+  duration_ms: 3.373229
+  type: 'test'
+  ...
+# Subtest: DDL conflict REPLACE is rejected through every writer statement
+ok 12 - DDL conflict REPLACE is rejected through every writer statement
+  ---
+  duration_ms: 3.687437
+  type: 'test'
+  ...
+# Subtest: parent project REPLACE is rejected through every writer statement
+ok 13 - parent project REPLACE is rejected through every writer statement
+  ---
+  duration_ms: 3.550696
+  type: 'test'
+  ...
+# Subtest: approval REPLACE is rejected through every writer statement
+ok 14 - approval REPLACE is rejected through every writer statement
+  ---
+  duration_ms: 3.408074
+  type: 'test'
+  ...
+# Subtest: quoted strings and the scalar replace function are permitted
+ok 15 - quoted strings and the scalar replace function are permitted
+  ---
+  duration_ms: 3.098443
+  type: 'test'
+  ...
+# Subtest: writer cannot disable FK or recursive triggers
+ok 16 - writer cannot disable FK or recursive triggers
+  ---
+  duration_ms: 3.187333
+  type: 'test'
+  ...
+# Subtest: job cannot reference an agent run from another project
+ok 17 - job cannot reference an agent run from another project
+  ---
+  duration_ms: 3.123937
+  type: 'test'
+  ...
+# Subtest: queued intentions do not lock manual edits; dispatch validates the revision
+ok 18 - queued intentions do not lock manual edits; dispatch validates the revision
+  ---
+  duration_ms: 3.520475
+  type: 'test'
+  ...
+# Subtest: leased workspace excludes both manual edit and concurrent run
+ok 19 - leased workspace excludes both manual edit and concurrent run
+  ---
+  duration_ms: 3.489983
+  type: 'test'
+  ...
+# Subtest: project count is bounded outside disk quotas
+ok 20 - project count is bounded outside disk quotas
+  ---
+  duration_ms: 3.881803
+  type: 'test'
+  ...
+# Subtest: budget pre-reservation is atomic across all scopes
+ok 21 - budget pre-reservation is atomic across all scopes
+  ---
+  duration_ms: 3.797072
+  type: 'test'
+  ...
+# Subtest: unknown provider outcome keeps every hold
+ok 22 - unknown provider outcome keeps every hold
+  ---
+  duration_ms: 3.927849
+  type: 'test'
+  ...
+# Subtest: settlement uses reserved window ids after midnight and rejects double settlement
+ok 23 - settlement uses reserved window ids after midnight and rejects double settlement
+  ---
+  duration_ms: 4.127348
+  type: 'test'
+  ...
+# Subtest: budget window and hold identities cannot be moved
+ok 24 - budget window and hold identities cannot be moved
+  ---
+  duration_ms: 3.40323
+  type: 'test'
+  ...
+# Subtest: WAL reopen retains uncertain holds and mandatory writer settings
+ok 25 - WAL reopen retains uncertain holds and mandatory writer settings
+  ---
+  duration_ms: 20.011045
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 242.941529

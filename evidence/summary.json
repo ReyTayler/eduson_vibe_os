@@ -1,0 +1,89 @@
+{
+  "timeUtc": "2026-10-06T14:58:17.917537+00:00",
+  "server": "80.249.145.94",
+  "scope": "technical prototype, not school MVP",
+  "paidCalls": 0,
+  "passedChecks": 57,
+  "suiteResults": {
+    "runner-isolation": {
+      "passed": 17,
+      "total": 17
+    },
+    "harness-denials": {
+      "passed": 5,
+      "total": 5
+    },
+    "hosting-lifecycle": {
+      "passed": 4,
+      "total": 4
+    },
+    "reboot-after": {
+      "passed": 4,
+      "total": 4
+    },
+    "control": {
+      "passed": 25,
+      "total": 25
+    },
+    "harness-composition": {
+      "passed": true
+    },
+    "runner-recovery": {
+      "passed": true
+    },
+    "python-sqlite": {
+      "passed": true
+    }
+  },
+  "services": {
+    "vibe-os-poc-runner": "active",
+    "vibe-os-poc-console": "active",
+    "vibe-os-poc-app1": "active",
+    "vibe-os-poc-app2": "active",
+    "vibe-os-poc-app3": "active"
+  },
+  "slots": [
+    {
+      "user_id": "poc-student",
+      "slot_no": 1,
+      "project_id": "demo1",
+      "release_id": "demo-r1",
+      "grant_id": "demo-g1",
+      "generation": 8,
+      "desired": "on",
+      "observed": "running",
+      "resource_held": 1
+    },
+    {
+      "user_id": "poc-student",
+      "slot_no": 2,
+      "project_id": "demo2",
+      "release_id": "demo-r2",
+      "grant_id": "demo-g2",
+      "generation": 3,
+      "desired": "on",
+      "observed": "running",
+      "resource_held": 1
+    },
+    {
+      "user_id": "poc-student",
+      "slot_no": 3,
+      "project_id": "demo3",
+      "release_id": "demo-r3",
+      "grant_id": "demo-g3",
+      "generation": 3,
+      "desired": "on",
+      "observed": "running",
+      "resource_held": 1
+    }
+  ],
+  "sshOnlyConsole": "127.0.0.1:8810",
+  "harnessCompositionScenarios": 2,
+  "staticChecks": {
+    "goVet": "passed",
+    "strictTypeScript": "passed",
+    "documentationLinks": "passed",
+    "capabilityAbsentFromRepo": "passed"
+  },
+  "finalReviewUtc": "2026-10-06T15:01:10.944087+00:00"
+}

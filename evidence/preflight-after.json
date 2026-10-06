@@ -1,0 +1,82 @@
+{
+  "scope": "read-only preflight; no deployment or isolation gate passed",
+  "os": {
+    "PRETTY_NAME": "Ubuntu 22.04.5 LTS",
+    "VERSION_ID": "22.04",
+    "ID": "ubuntu"
+  },
+  "architecture": "x86_64",
+  "kernel": "5.15.0-198-generic",
+  "effective_uid": 0,
+  "cpu_count": 4,
+  "memory_mib": 7937,
+  "root_disk_free_gib": 70.64,
+  "systemd": {
+    "status": "ok",
+    "exit_code": 0,
+    "stdout": "systemd 249 (249.11-0ubuntu3.22)\n+PAM +AUDIT +SELINUX +APPARMOR +IMA +SMACK +SECCOMP +GCRYPT +GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN +IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY -P11KIT -QRENCODE +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified",
+    "stderr": ""
+  },
+  "cgroup_mount": {
+    "status": "ok",
+    "exit_code": 0,
+    "stdout": "{\n   \"filesystems\": [\n      {\n         \"source\": \"cgroup2\",\n         \"target\": \"/sys/fs/cgroup\",\n         \"fstype\": \"cgroup2\",\n         \"options\": \"rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot\"\n      }\n   ]\n}",
+    "stderr": ""
+  },
+  "cgroup_v2_controllers": [
+    "cpu",
+    "cpuset",
+    "hugetlb",
+    "io",
+    "memory",
+    "misc",
+    "pids",
+    "rdma"
+  ],
+  "required_controllers_missing": [],
+  "block_devices": {
+    "status": "ok",
+    "exit_code": 0,
+    "stdout": "{\n   \"blockdevices\": [\n      {\n         \"name\": \"sda\",\n         \"size\": \"80G\",\n         \"type\": \"disk\",\n         \"fstype\": null,\n         \"mountpoint\": null,\n         \"children\": [\n            {\n               \"name\": \"sda1\",\n               \"size\": \"80G\",\n               \"type\": \"part\",\n               \"fstype\": \"ext4\",\n               \"mountpoint\": \"/\"\n            },{\n               \"name\": \"sda14\",\n               \"size\": \"8M\",\n               \"type\": \"part\",\n               \"fstype\": null,\n               \"mountpoint\": null\n            }\n         ]\n      },{\n         \"name\": \"sr0\",\n         \"size\": \"512K\",\n         \"type\": \"rom\",\n         \"fstype\": \"iso9660\",\n         \"mountpoint\": null\n      }\n   ]\n}",
+    "stderr": ""
+  },
+  "kernel_options": {
+    "CONFIG_CGROUPS": "y",
+    "CONFIG_MEMCG": "y",
+    "CONFIG_CGROUP_PIDS": "y",
+    "CONFIG_BLK_CGROUP": "y",
+    "CONFIG_NAMESPACES": "y",
+    "CONFIG_NET_NS": "y",
+    "CONFIG_PID_NS": "y",
+    "CONFIG_SECCOMP": "y",
+    "CONFIG_SECCOMP_FILTER": "y",
+    "CONFIG_XFS_FS": "m",
+    "CONFIG_XFS_QUOTA": "y"
+  },
+  "tools_available": {
+    "git": true,
+    "node": false,
+    "pnpm": false,
+    "python3": true,
+    "go": false,
+    "cc": true,
+    "make": true,
+    "nsjail": false,
+    "nft": true,
+    "unshare": true,
+    "xfs_quota": true,
+    "mkfs.xfs": true
+  },
+  "python": "3.10.12",
+  "node": {
+    "status": "missing",
+    "tool": "node"
+  },
+  "namespace_probe": {
+    "status": "ok",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "note": "Unknown kernel options require later verification; an existing device is not permission to format it."
+}

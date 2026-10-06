@@ -1,0 +1,50 @@
+{
+  "suite": "full-host-reboot",
+  "cases": [
+    {
+      "name": "XFS image with project quotas mounts automatically",
+      "passed": true,
+      "detail": {
+        "target": "/srv/vibe-os/data",
+        "source": "/dev/loop0",
+        "fstype": "xfs",
+        "options": "rw,nosuid,nodev,noexec,noatime,attr2,inode64,logbufs=8,logbsize=32k,prjquota"
+      }
+    },
+    {
+      "name": "approved projects restore without new approval and retain SQLite",
+      "passed": true,
+      "detail": {
+        "2": {
+          "before": 2,
+          "after": 4,
+          "autoStarted": true
+        },
+        "3": {
+          "before": 2,
+          "after": 4,
+          "autoStarted": true
+        }
+      }
+    },
+    {
+      "name": "teacher restriction survives full host reboot",
+      "passed": true,
+      "detail": {
+        "restrictedAfterReboot": true,
+        "pupilReenableDenied": true
+      }
+    },
+    {
+      "name": "private Runner and namespaces restore after reboot",
+      "passed": true,
+      "detail": {
+        "runnerRestored": true,
+        "jailUID": "1000 /workspace"
+      }
+    }
+  ],
+  "passed": 4,
+  "total": 4,
+  "kernel": "5.15.0-198-generic"
+}

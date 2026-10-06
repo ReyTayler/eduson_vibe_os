@@ -1,0 +1,23 @@
+[Unit]
+Description=Vibe OS permanently hosted prototype project 4
+After=local-fs.target systemd-tmpfiles-setup.service
+StartLimitIntervalSec=30
+StartLimitBurst=3
+RequiresMountsFor=/srv/vibe-os/data
+
+[Service]
+Type=simple
+ExecStartPre=/usr/local/bin/node /opt/vibe-os/poc-hosting/authorize.mjs 4
+ExecStart=/opt/vibe-os/bin/nsjail --quiet --config /etc/vibe-os/app-4.cfg -- /usr/bin/node /code/server.mjs
+ExecStartPost=/usr/local/bin/node /opt/vibe-os/poc-hosting/observe.mjs 4
+Restart=on-failure
+RestartSec=3
+KillMode=control-group
+MemoryMax=256M
+MemorySwapMax=0
+TasksMax=64
+CPUQuota=25%
+OOMPolicy=stop
+
+[Install]
+WantedBy=multi-user.target
