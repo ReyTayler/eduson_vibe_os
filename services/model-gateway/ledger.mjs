@@ -536,9 +536,9 @@ CREATE TRIGGER IF NOT EXISTS immutable_grant_delete BEFORE DELETE ON weekly_gran
       throw e;
     }
   }
-  status(student = null) {
+  status(student = null, at = this.clock()) {
     studentId(student);
-    const window = weekWindow(this.clock());
+    const window = weekWindow(at);
     const totals = this.totals(student, student === null ? null : window.start),
       accounted = totals.confirmed_tokens + totals.uncertain_ceiling;
     const auth = this.db

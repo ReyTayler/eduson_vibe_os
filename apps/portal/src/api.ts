@@ -54,7 +54,29 @@ export interface FileEntry {
   size: number;
   version: string;
 }
+export interface TokenUsage {
+  inputTokens: number;
+  cacheReadTokens: number;
+  cacheWriteTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  cacheOfInputPercent: number;
+  inputCredits: number;
+  cacheCredits: number;
+  outputCredits: number;
+}
 export interface Budget {
+  unit: "credits" | "tokens";
+  baseLimitCredits: number;
+  extraLimitCredits: number;
+  limitCredits: number;
+  spentCredits: number;
+  reservedCredits: number;
+  remainingCredits: number;
+  costUsd: number;
+  costBasis: string;
+  pricingVersion: string;
+  usage?: TokenUsage;
   baseLimitTokens: number;
   extraLimitTokens: number;
   reservedTokens: number;

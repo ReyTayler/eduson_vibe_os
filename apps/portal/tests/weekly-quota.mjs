@@ -1,4 +1,4 @@
-/** Root-operated weekly quota acceptance. Does not send model prompts. */
+/** Root-operated weekly monetary credit acceptance. Does not send model prompts. */
 import http from "node:http";
 import { readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -141,24 +141,25 @@ try {
       v.ready &&
         v.period === "weekly" &&
         v.timezone === "Europe/Moscow" &&
-        v.baseLimitTokens === 1000000 &&
-        Number.isSafeInteger(v.extraLimitTokens) &&
-        v.extraLimitTokens >= 0 &&
-        v.limitTokens === v.baseLimitTokens + v.extraLimitTokens &&
-        v.limitTokens === g.limitTokens,
+        v.unit === "credits" &&
+        v.baseLimitCredits === 1000 &&
+        Number.isSafeInteger(v.extraLimitCredits) &&
+        v.extraLimitCredits >= 0 &&
+        v.limitCredits === v.baseLimitCredits + v.extraLimitCredits &&
+        v.limitCredits === g.limitCredits,
       "Personal weekly policy",
     );
     assert(
       v.resetsAt === g.resetsAt &&
         v.periodStartsAt === g.periodStartsAt &&
-        v.confirmedTokens === g.confirmed_tokens &&
-        v.reservedTokens === g.uncertain_ceiling &&
-        v.remainingTokens === g.remainingAuthorizationTokens,
+        v.spentCredits === g.spentCredits &&
+        v.reservedCredits === g.reservedCredits &&
+        v.remainingCredits === g.remainingCredits,
       "API own budget mapping",
     );
     assert(
-      spoof.model.confirmedTokens === v.confirmedTokens &&
-        spoof.model.remainingTokens === v.remainingTokens,
+      spoof.model.spentCredits === v.spentCredits &&
+        spoof.model.remainingCredits === v.remainingCredits,
       "Browser cannot select another student",
     );
     const reset = new Intl.DateTimeFormat("en-US", {
@@ -260,7 +261,7 @@ try {
         .replace(/[\u00a0\u202f]/g, " ")
         .includes(
           new Intl.NumberFormat("ru")
-            .format(before.overview.students[0].limitTokens)
+            .format(before.overview.students[0].limitCredits)
             .replace(/[\u00a0\u202f]/g, " "),
         ),
     ) && lines.some((l) => l.includes("Использовано")),
@@ -268,14 +269,14 @@ try {
   );
   assert(
     await page
-      .getByText("Сброс каждое воскресенье в 23:59 по Москве.", {
+      .getByText("в воскресенье в 23:59 МСК", {
         exact: false,
       })
       .count(),
     "Reset wording",
   );
   await page.screenshot({
-    path: repo + "/evidence/portal-ui/weekly-quota.png",
+    path: repo + "/evidence/portal-ui/weekly-credits.png",
     fullPage: true,
   });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -286,7 +287,7 @@ try {
     "Mobile settings overflow",
   );
   await page.screenshot({
-    path: repo + "/evidence/portal-ui/mobile-weekly-quota.png",
+    path: repo + "/evidence/portal-ui/mobile-weekly-credits.png",
     fullPage: true,
   });
   checks.push(
@@ -323,7 +324,7 @@ try {
     lifetimeAfter: after.overview.lifetime,
   };
   writeFileSync(
-    repo + "/evidence/weekly-quota-acceptance.json",
+    repo + "/evidence/credit-weekly-acceptance.json",
     JSON.stringify(report, null, 2) + "\n",
   );
   console.log(

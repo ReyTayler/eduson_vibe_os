@@ -194,13 +194,17 @@ export function registerAdmin({
           await callBroker({ op: "admin-grants", student: user.student }),
         );
       });
+      adminApp.get("/students/:id/usage", async (req) => {
+        const user = student(req.params.id);
+        return callBroker({ op: "admin-usage", student: user.student });
+      });
       adminApp.post("/students/:id/grants", async (req) => {
         rate("admin-grant:" + req.admin.admin_id, 30);
         const user = student(req.params.id);
         const b = fields(
           req.body,
-          ["requestId", "tokens", "note", "periodStartsAt"],
-          ["requestId", "tokens", "periodStartsAt"],
+          ["requestId", "credits", "note", "periodStartsAt"],
+          ["requestId", "credits", "periodStartsAt"],
         );
         const periodStart = Date.parse(b.periodStartsAt) / 1000;
         if (
@@ -208,8 +212,8 @@ export function registerAdmin({
           !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(
             b.requestId,
           ) ||
-          !Number.isSafeInteger(b.tokens) ||
-          b.tokens < 1 ||
+          !Number.isSafeInteger(b.credits) ||
+          b.credits < 1 ||
           typeof b.periodStartsAt !== "string" ||
           !Number.isSafeInteger(periodStart) ||
           typeof (b.note ?? "") !== "string" ||
@@ -221,7 +225,7 @@ export function registerAdmin({
           grant: {
             id: b.requestId,
             student: user.student,
-            tokens: b.tokens,
+            credits: b.credits,
             actor: req.admin.admin_id,
             note: b.note ?? "",
             periodStart,

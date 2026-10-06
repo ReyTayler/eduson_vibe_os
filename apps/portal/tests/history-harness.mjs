@@ -1,6 +1,6 @@
 /** Long native tool history and classified failures against a temporary offline gateway. */
 import { createGateway } from "../../../services/model-gateway/server.mjs";
-import { Ledger } from "../../../services/model-gateway/ledger.mjs";
+import { CreditLedger } from "../../../services/model-gateway/credit-ledger.mjs";
 import {
   readFileSync,
   writeFileSync,
@@ -30,7 +30,7 @@ const actualStatus = () =>
     ]),
   ).overview.lifetime;
 const before = actualStatus(),
-  ledger = new Ledger(":memory:"),
+  ledger = new CreditLedger(":memory:"),
   calls = [],
   checks = [],
   browserErrors = [];
@@ -387,24 +387,23 @@ try {
   checks.push(
     "Upstream 429 and midstream errors retain their exact safe classification through the SDK, broker and API",
   );
-  const remaining = ledger.status(5).remainingAuthorizationTokens,
-    held = randomUUID();
-  ledger.reserveOutput(
-    held,
-    24,
-    "fixture-weekly-exhaustion",
-    1,
-    remaining - 1,
-    5,
-    remaining,
-    remaining,
-  );
-  ledger.finish(held, "uncertain");
+  while (ledger.status(5).maxRemainingCalls > 0) {
+    const held = randomUUID();
+    ledger.reserveOutput(
+      held,
+      24,
+      "fixture-credit-exhaustion",
+      32768,
+      393216,
+      5,
+    );
+    ledger.finish(held, "uncertain");
+  }
   phase = "quota";
   const exhausted = await submit("Проверка недельной квоты.");
   assert(
     exhausted.state === "failed" &&
-      exhausted.error === "AI_WEEKLY_BUDGET_EXHAUSTED",
+      exhausted.error === "AI_WEEKLY_CREDITS_EXHAUSTED",
     "Weekly quota specific error " + exhausted.error,
   );
   const final = await api("GET", "/chats/" + chat),
@@ -420,7 +419,9 @@ try {
     "Stream notice",
   );
   assert(
-    notices.some((n) => n.includes("недельной квоты") && n.includes("23:59")),
+    notices.some(
+      (n) => n.includes("недельных кредитов") && n.includes("23:59"),
+    ),
     "Quota notice",
   );
   assert(
@@ -480,7 +481,7 @@ try {
     fixtureRemoved: true,
   };
   writeFileSync(
-    repo + "/evidence/model-history-harness.json",
+    repo + "/evidence/credit-history-harness.json",
     JSON.stringify(report, null, 2) + "\n",
   );
   console.log(JSON.stringify(report));

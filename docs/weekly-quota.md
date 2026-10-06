@@ -1,5 +1,7 @@
 # Личные недельные квоты
 
+> Архив generation 4: с 7 октября 2026 действует [денежная квота generation 5](credit-policy.md). Старые токеновые показатели и проверки ниже относятся к предыдущей политике.
+
 Обновление опубликовано 6 октября 2026 года на https://80.249.145.94/. У каждого из пяти кабинетов независимый лимит **1 000 000 токенов в неделю**, общий для всех его проектов и чатов. Ключи API не определяют владельца квоты. Совокупный недельный допуск пяти учеников — до 5 000 000 токенов.
 
 ## Время и смысл сброса
@@ -72,6 +74,5 @@ node apps/portal/tests/secret-scan.mjs
 [Приёмка действующего сервера](../evidence/weekly-quota-acceptance.json): пять входов и личных status, отказ чужому credential, игнорирование подмены query student, provisioning новой capability, настоящий cold Harness initialize без paid calls, desktop/mobile UI, timezone America/New_York, сохранение человеческих проектов. [Деплой и сохранённый расход](../evidence/weekly-quota-deploy.json).
 
 [Desktop](../evidence/portal-ui/weekly-quota.png) · [Mobile](../evidence/portal-ui/mobile-weekly-quota.png) · [Проверка отсутствия секретов](../evidence/student-secret-scan.json).
-
 
 Администратор может выдать дополнительные токены на текущую неделю. Базовый CHECK 1 млн сохранён; текущий total рассчитывается как base + grants. Бонус истекает в тот же воскресный сброс. [Админ-панель и атомарный учёт начислений](admin-weekly-bonus.md).

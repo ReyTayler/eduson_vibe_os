@@ -1,4 +1,5 @@
 import Admin from "./Admin";
+import CreditUsage, { creditNumber } from "./CreditUsage";
 import {
   useEffect,
   useRef,
@@ -1403,43 +1404,27 @@ function SettingsPage({
                   : "Лимит исчерпан"}
             </div>
             <div className="budget-line">
-              <span>Доступно токенов</span>
-              <b>
-                {budget
-                  ? new Intl.NumberFormat("ru").format(budget.remainingTokens)
-                  : "—"}
-              </b>
+              <span>Доступно кредитов</span>
+              <b>{budget ? creditNumber(budget.remainingCredits) : "—"}</b>
             </div>
             <div className="budget-line">
               <span>Твой лимит на неделю</span>
-              <b>
-                {new Intl.NumberFormat("ru").format(
-                  budget?.limitTokens ?? 1000000,
-                )}
-              </b>
+              <b>{creditNumber(budget?.limitCredits ?? 1000)}</b>
             </div>
-            {!!budget?.extraLimitTokens && (
+            {!!budget?.extraLimitCredits && (
               <div className="budget-line">
                 <span>Из них дополнительно</span>
-                <b>
-                  +{new Intl.NumberFormat("ru").format(budget.extraLimitTokens)}
-                </b>
+                <b>+{creditNumber(budget.extraLimitCredits)}</b>
               </div>
             )}
             <div className="budget-line">
-              <span>Использовано</span>
-              <b>
-                {new Intl.NumberFormat("ru").format(
-                  budget?.confirmedTokens ?? 0,
-                )}
-              </b>
+              <span>Использовано кредитов</span>
+              <b>{creditNumber(budget?.spentCredits ?? 0)}</b>
             </div>
-            {!!budget?.reservedTokens && (
+            {!!budget?.reservedCredits && (
               <div className="budget-line">
                 <span>В резерве</span>
-                <b>
-                  {new Intl.NumberFormat("ru").format(budget.reservedTokens)}
-                </b>
+                <b>{creditNumber(budget.reservedCredits)}</b>
               </div>
             )}
             <div className="budget-line">
@@ -1458,11 +1443,13 @@ function SettingsPage({
               </b>
             </div>
             <small>
-              Базовый лимит — 1 млн токенов в неделю на все твои проекты и чаты.
-              Дополнительные начисления действуют до следующего сброса. Сброс
-              каждое воскресенье в 23:59 по Москве. Для незавершённых запросов
-              сохраняется резерв.
+              1 000 кредитов = $1. Столько доступно каждую неделю на все твои
+              проекты и чаты. Дополнительные кредиты действуют до сброса в
+              воскресенье в 23:59 МСК. Перед вызовом помощника часть кредитов
+              резервируется; после завершения возвращается неиспользованный
+              остаток. Для незавершённых вызовов сохраняется резерв.
             </small>
+            <CreditUsage usage={budget?.usage} />
           </div>
           <div className="settings-card glass">
             <h3>Завершить работу</h3>

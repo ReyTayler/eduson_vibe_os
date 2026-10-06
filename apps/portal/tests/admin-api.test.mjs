@@ -5,7 +5,8 @@ import { DatabaseSync } from "node:sqlite";
 import { hash, verify } from "@node-rs/argon2";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { registerAdmin } from "../api/admin.mjs";
-import { Ledger, weekWindow } from "../../../services/model-gateway/ledger.mjs";
+import { weekWindow } from "../../../services/model-gateway/ledger.mjs";
+import { CreditLedger } from "../../../services/model-gateway/credit-ledger.mjs";
 const origin = "https://80.249.145.94",
   id = "a".repeat(32),
   student = "b".repeat(32),
@@ -14,7 +15,7 @@ const origin = "https://80.249.145.94",
 test("Admin authentication, CSRF, target ownership, grants and password revocation", async (t) => {
   const app = Fastify(),
     db = new DatabaseSync(":memory:"),
-    ledger = new Ledger(":memory:", { clock: () => now });
+    ledger = new CreditLedger(":memory:", { clock: () => now });
   db.exec(
     "PRAGMA foreign_keys=ON;CREATE TABLE users(id TEXT PRIMARY KEY,login TEXT,name TEXT,student INTEGER);CREATE TABLE projects(id TEXT,user_id TEXT);",
   );
@@ -42,6 +43,7 @@ test("Admin authentication, CSRF, target ownership, grants and password revocati
   );
   const callBroker = async (p) => {
     if (p.op === "admin-budgets") return ledger.overview();
+    if (p.op === "admin-usage") return ledger.records(p.student);
     if (p.op === "admin-grants") return ledger.grants(p.student);
     if (p.op === "admin-grant") {
       try {
@@ -125,9 +127,33 @@ test("Admin authentication, CSRF, target ownership, grants and password revocati
   const csrf = me.json().csrf;
   const headers = { cookie, "x-csrf-token": csrf };
   const accounts = await call("GET", "/students", undefined, headers);
-  assert.equal(accounts.json()[0].budget.limitTokens, 1000000);
+  assert.equal(accounts.json()[0].budget.limitCredits, 1000);
+  assert.equal(
+    (await call("GET", "/students/" + student + "/usage", undefined, headers))
+      .statusCode,
+    200,
+  );
+  assert.equal(
+    (await call("GET", "/students/" + student + "/usage")).statusCode,
+    401,
+  );
+  assert.equal(
+    (
+      await call(
+        "POST",
+        "/students/" + student + "/grants",
+        {
+          requestId: randomUUID(),
+          tokens: 2000000,
+          periodStartsAt: new Date(weekWindow(now).start * 1000).toISOString(),
+        },
+        headers,
+      )
+    ).statusCode,
+    400,
+  );
   const body = {
-    tokens: 2000000,
+    credits: 2000,
     requestId: randomUUID(),
     periodStartsAt: new Date(weekWindow(now).start * 1000).toISOString(),
     note: "Requested bonus",
@@ -175,7 +201,7 @@ test("Admin authentication, CSRF, target ownership, grants and password revocati
     headers,
   );
   assert.equal(result.statusCode, 200);
-  assert.equal(result.json().budget.limitTokens, 3000000);
+  assert.equal(result.json().budget.limitCredits, 3000);
   assert.equal(
     (
       await call("POST", "/students/" + student + "/grants", body, headers)
@@ -187,7 +213,7 @@ test("Admin authentication, CSRF, target ownership, grants and password revocati
       await call(
         "POST",
         "/students/" + student + "/grants",
-        { ...body, tokens: 1000 },
+        { ...body, credits: 1000 },
         headers,
       )
     ).statusCode,
@@ -201,8 +227,8 @@ test("Admin authentication, CSRF, target ownership, grants and password revocati
   );
   assert.equal(
     (await call("GET", "/students", undefined, headers)).json()[0].budget
-      .extraLimitTokens,
-    2000000,
+      .extraLimitCredits,
+    2000,
   );
   assert.equal(
     (

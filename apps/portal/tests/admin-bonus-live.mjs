@@ -22,6 +22,8 @@ const status = () =>
     ]),
   ).overview;
 const before = status();
+if (before.generation !== 4)
+  throw new Error("ARCHIVED_TOKEN_ACCEPTANCE_USE_ADMIN_CREDIT_LIVE");
 let intent;
 if (existsSync(intentFile)) {
   intent = JSON.parse(readFileSync(intentFile, "utf8"));

@@ -205,7 +205,9 @@ class SchoolDeepSeek extends LlmAdapter {
         }
         throw new LlmError(
           "School gateway: " + code,
-          code === "TOKEN_BUDGET_EXHAUSTED" ? "QUOTA" : "INVALID_REQUEST",
+          ["TOKEN_BUDGET_EXHAUSTED", "CREDIT_BUDGET_EXHAUSTED"].includes(code)
+            ? "QUOTA"
+            : "INVALID_REQUEST",
         );
       }
       const web = Readable.toWeb(response) as ReadableStream<BufferSource>;

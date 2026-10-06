@@ -101,16 +101,44 @@ async function budget(student) {
               if (res.statusCode !== 200)
                 throw error("BUDGET_UNAVAILABLE", 503);
               const v = JSON.parse(Buffer.concat(parts)).budget;
+              const monetary = v.unit === "credits";
               if (
                 v.student !== student ||
                 v.period !== "weekly" ||
-                v.baseLimitTokens !== 1000000 ||
-                !Number.isSafeInteger(v.extraLimitTokens) ||
-                v.extraLimitTokens < 0 ||
-                v.limitTokens !== v.baseLimitTokens + v.extraLimitTokens
+                (monetary
+                  ? v.baseLimitCredits !== 1000 ||
+                    !Number.isSafeInteger(v.extraLimitCredits) ||
+                    v.extraLimitCredits < 0 ||
+                    v.limitCredits !==
+                      v.baseLimitCredits + v.extraLimitCredits ||
+                    [
+                      v.spentCredits,
+                      v.reservedCredits,
+                      v.remainingCredits,
+                    ].some((n) => !Number.isFinite(n) || n < 0) ||
+                    !v.usage
+                  : v.baseLimitTokens !== 1000000 ||
+                    !Number.isSafeInteger(v.extraLimitTokens) ||
+                    v.extraLimitTokens < 0 ||
+                    v.limitTokens !== v.baseLimitTokens + v.extraLimitTokens)
               )
                 throw error("BUDGET_SCOPE_MISMATCH", 503);
               item.value = {
+                unit: monetary ? "credits" : "tokens",
+                ...(monetary
+                  ? {
+                      baseLimitCredits: v.baseLimitCredits,
+                      extraLimitCredits: v.extraLimitCredits,
+                      limitCredits: v.limitCredits,
+                      spentCredits: v.spentCredits,
+                      reservedCredits: v.reservedCredits,
+                      remainingCredits: v.remainingCredits,
+                      costUsd: v.costUsd,
+                      costBasis: v.costBasis,
+                      pricingVersion: v.pricingVersion,
+                      usage: v.usage,
+                    }
+                  : {}),
                 limitTokens: v.limitTokens,
                 baseLimitTokens: v.baseLimitTokens,
                 extraLimitTokens: v.extraLimitTokens,
@@ -142,6 +170,13 @@ async function budget(student) {
   } catch {
     return {
       ...(item.value ?? {
+        unit: "credits",
+        baseLimitCredits: 1000,
+        extraLimitCredits: 0,
+        limitCredits: 1000,
+        spentCredits: 0,
+        reservedCredits: 0,
+        remainingCredits: 0,
         limitTokens: 1000000,
         confirmedTokens: 0,
         reservedTokens: 0,
@@ -843,6 +878,10 @@ async function dispatch(p) {
       if (!Number.isInteger(p.student) || p.student < 1 || p.student > 5)
         throw error("INVALID_STUDENT");
       return adminModelRequest("/v1/admin/grants?student=" + p.student);
+    case "admin-usage":
+      if (!Number.isInteger(p.student) || p.student < 1 || p.student > 5)
+        throw error("INVALID_STUDENT");
+      return adminModelRequest("/v1/admin/usage?student=" + p.student);
     case "admin-grant": {
       const result = await adminModelRequest("/v1/admin/grants", p.grant);
       budgets.delete(p.grant.student);

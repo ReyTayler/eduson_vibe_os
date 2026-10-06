@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T21:24:20.154Z",
+  "paidCalls": 0,
+  "checks": [
+    "Authorized student01 +$2 grant performed through the live admin form",
+    "Idempotent retry, conflict rejection and CSRF enforced on the deployed API",
+    "Admin account quotas and audit journal persist after reload; responsive mobile layout",
+    "Student01 sees 3000-credit weekly total and 2000-credit extra; student cookies cannot access admin operations",
+    "Five independent $1 weekly budgets, selected account +$2, browser identity spoof rejected"
+  ],
+  "grantId": "fe9cf9c8-80e9-4156-87f0-69eb770565d7",
+  "student": "student01",
+  "baseCredits": 1000,
+  "extraCredits": 2000,
+  "totalCredits": 3000,
+  "remainingCredits": 2920.875126,
+  "confirmedTokensPreserved": 2729544,
+  "expiresAt": "2026-10-11T20:59:00.000Z",
+  "productionBudgetBefore": {
+    "attempts": 72,
+    "confirmed_tokens": 2737362,
+    "uncertain_ceiling": 0
+  },
+  "productionBudgetAfter": {
+    "attempts": 72,
+    "confirmed_tokens": 2737362,
+    "uncertain_ceiling": 0
+  },
+  "otherStudentsUnchanged": true,
+  "identities": [
+    {
+      "student": 1,
+      "limitCredits": 3000,
+      "spentCredits": 79.124874,
+      "remainingCredits": 2920.875126
+    },
+    {
+      "student": 2,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "remainingCredits": 999.99535
+    },
+    {
+      "student": 3,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "remainingCredits": 999.99535
+    },
+    {
+      "student": 4,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "remainingCredits": 999.99535
+    },
+    {
+      "student": 5,
+      "limitCredits": 1000,
+      "spentCredits": 0.751068,
+      "remainingCredits": 999.248932
+    }
+  ],
+  "browserErrors": []
+}

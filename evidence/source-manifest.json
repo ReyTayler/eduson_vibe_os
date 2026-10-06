@@ -6,13 +6,13 @@
   },
   {
     "path": "README.md",
-    "bytes": 6709,
-    "sha256": "c816ec3f34825dafc02e8a2ab82488a9f3d305bfc6c57d66eba0573b7f0dcfe0"
+    "bytes": 6974,
+    "sha256": "87dcce04bbfe8ce20861cce0f7415b49c5d748d26b3448b6e2decb6d054291d1"
   },
   {
     "path": "apps/portal/api/admin.mjs",
-    "bytes": 8288,
-    "sha256": "6649f65bdb8fcb97a39a24533539de8707674f07165a3d5fe836c25b2eb46ea1"
+    "bytes": 8481,
+    "sha256": "d22a66d699eefb14ec04f319fbd7f970c15881fb05caf909128c33092e7c8330"
   },
   {
     "path": "apps/portal/api/bootstrap-admin.mjs",
@@ -26,8 +26,8 @@
   },
   {
     "path": "apps/portal/api/server.mjs",
-    "bytes": 44832,
-    "sha256": "038682393380679711312fe60f9a45f5fcd90f38ebbbd03658181445558c4e94"
+    "bytes": 45118,
+    "sha256": "ca5891be80edfcc4ba536728af4dafe2c72472b76afa1e8dbc4de9bc6a0f88d1"
   },
   {
     "path": "apps/portal/api/templates.mjs",
@@ -91,13 +91,18 @@
   },
   {
     "path": "apps/portal/src/Admin.tsx",
-    "bytes": 22163,
-    "sha256": "2db26fe2b135cd9c469fa27d24c154b58547b20134bea43f11a2e6e21f4c929a"
+    "bytes": 27165,
+    "sha256": "a15c05edb2fb135dff7fcfe081498a680b6b8fd8f86de2555ecb859c3f9a4c34"
   },
   {
     "path": "apps/portal/src/App.tsx",
-    "bytes": 60951,
-    "sha256": "f812ea6d32b7302c74ac1a89c93346ce0b116c1658afaffe5ef5e7c9c85269bf"
+    "bytes": 60867,
+    "sha256": "b114de7d498a406688e939170d6c45021e718b2203fdaf4420b3805209132aae"
+  },
+  {
+    "path": "apps/portal/src/CreditUsage.tsx",
+    "bytes": 2421,
+    "sha256": "18ab9e020cfa9708f7e1d4ca400f2c1f02e138fc77cb206f05a413ea4b68393e"
   },
   {
     "path": "apps/portal/src/Workspace.tsx",
@@ -106,13 +111,18 @@
   },
   {
     "path": "apps/portal/src/admin.css",
-    "bytes": 11336,
-    "sha256": "6c52683ab3f368a711481cc3ba346d3652949e0fb71c09f1f71230ee660aeb2e"
+    "bytes": 12770,
+    "sha256": "9c1db057f3dd6fd2bfdece83cf9a33faa0d2afbec413c96aea4d61a3bd709598"
   },
   {
     "path": "apps/portal/src/api.ts",
-    "bytes": 2658,
-    "sha256": "574d0b29341c70b39ed1ea5642969a08503435bf4b03b6df0d74cf4298e7f6fa"
+    "bytes": 3197,
+    "sha256": "ef17c3176c9f5cd7307ee7be979a03db64b3e33b066a178e451cccdd0b93d99f"
+  },
+  {
+    "path": "apps/portal/src/credit-usage.css",
+    "bytes": 1479,
+    "sha256": "02865335a1573a718271518a0a457fad956e08d746b1a8ca1463faa2aef195ee"
   },
   {
     "path": "apps/portal/src/main.tsx",
@@ -136,18 +146,23 @@
   },
   {
     "path": "apps/portal/tests/admin-api.test.mjs",
-    "bytes": 6774,
-    "sha256": "49cf72d1eaba944096bdd1960d63544fc2a8ac78f11d2435b8751020be4e3f3c"
+    "bytes": 7462,
+    "sha256": "f3dc72b0c83a8f76e2c09d0c9d9c51f61096cd5a8faca01d0c190abf1bb26f83"
   },
   {
     "path": "apps/portal/tests/admin-bonus-live.mjs",
-    "bytes": 11323,
-    "sha256": "51e9e937472bdedf0f174ba6ab27b43352f51d8ad5f1bf7efd12a278b8f2e0c0"
+    "bytes": 11422,
+    "sha256": "1453c892e8a742e4698b69e7ffd36aca98a0be07a0367ebce93b2df2542706d2"
+  },
+  {
+    "path": "apps/portal/tests/admin-credit-live.mjs",
+    "bytes": 14038,
+    "sha256": "8ef1d9703647c289c8ddb7eb7d0ed5c117ade0fe59d27644459d77cd1922a9e5"
   },
   {
     "path": "apps/portal/tests/history-harness.mjs",
-    "bytes": 16511,
-    "sha256": "28255afa29df64565bf7e15005ac28628d2b6592708c5e71ab821aeeceb58806"
+    "bytes": 16530,
+    "sha256": "c74ebc50274c0dcd8fbeb4c18b762412c8d632b3e5a55672180fde73dba9d15d"
   },
   {
     "path": "apps/portal/tests/lifecycle.mjs",
@@ -181,8 +196,8 @@
   },
   {
     "path": "apps/portal/tests/secret-scan.mjs",
-    "bytes": 3605,
-    "sha256": "42acd859c6f7d00619e1663740f91bb2545f595677f63e57699e864d74550728"
+    "bytes": 4305,
+    "sha256": "85331a0b0a0fda0efeb653ebf33bda10b8bf54a1d8b0d82f99cf5fe79c5267f1"
   },
   {
     "path": "apps/portal/tests/ui-editor.mjs",
@@ -196,8 +211,8 @@
   },
   {
     "path": "apps/portal/tests/weekly-quota.mjs",
-    "bytes": 11004,
-    "sha256": "7c31d9e4830dc0a1ce1bc900ce69022364bff39bbfb741de50dadbeb5d4b2ad6"
+    "bytes": 11001,
+    "sha256": "28e417ad0b9fab368553058f18d98ad413357e71444b4a82ea762b3f51aba118"
   },
   {
     "path": "apps/portal/tsconfig.json",
@@ -211,13 +226,18 @@
   },
   {
     "path": "docs/admin-weekly-bonus.md",
-    "bytes": 9961,
-    "sha256": "a4b4a3e1dbff9dbc7c4e2523fe537bc060df216fe7480ee0f6cfdc521bb2e3c8"
+    "bytes": 10238,
+    "sha256": "5895f6e67c4054cc4556c02e3a4baf4fffabfb620fa64ecc3d8696ed07772889"
   },
   {
     "path": "docs/build-report.md",
     "bytes": 18258,
     "sha256": "911cdb573dcb88f52e15dbd1f5f1aaacde455f1e46817cb7236bb6b477808031"
+  },
+  {
+    "path": "docs/credit-policy.md",
+    "bytes": 18391,
+    "sha256": "0f9f23c3cdf16ff28cf0e85eda5d8e3d2f87e5830a439eba235b6a0f133f24b4"
   },
   {
     "path": "docs/deepseek-integration.md",
@@ -256,8 +276,8 @@
   },
   {
     "path": "docs/weekly-quota.md",
-    "bytes": 12665,
-    "sha256": "3c8f77fd9642582b6b1061d7067a2727af3fb288406a6c299dd60e9f23f7180f"
+    "bytes": 12941,
+    "sha256": "bc2209532c02d4a04ce5a307d2afb39afc1fc01ae07a511436398d64bc39b7e1"
   },
   {
     "path": "evidence/admin-bonus-acceptance.json",
@@ -275,9 +295,44 @@
     "sha256": "b1723d1333fc77eb70a5d26607d28c482a4a270aaf21b9d34bdac76186b22e8d"
   },
   {
+    "path": "evidence/admin-credit-acceptance.json",
+    "bytes": 1784,
+    "sha256": "02da38d18bfd27a1caaab03e2b4e6bb044627e40a48e0c2d850927e61ec74fb7"
+  },
+  {
     "path": "evidence/control-tests.tap",
     "bytes": 4750,
     "sha256": "212ce745194e7a3b274a2747c5b3a9f53d4fe232df650c2821b1099a84a9eca0"
+  },
+  {
+    "path": "evidence/credit-deploy.json",
+    "bytes": 8499,
+    "sha256": "3c48ed2c56d54565553f85cb6b6be74f6ffd7d7e428ff1d04fb399189c669d1e"
+  },
+  {
+    "path": "evidence/credit-final.json",
+    "bytes": 8751,
+    "sha256": "95592a948118b8f13c2a7dd0ca585f7dc1686583693867628847e39e7b47a4d3"
+  },
+  {
+    "path": "evidence/credit-history-harness.json",
+    "bytes": 1080,
+    "sha256": "4780250d58bde4aaf99991a538ba532066ccff1053a1390559762d67e7ccdd32"
+  },
+  {
+    "path": "evidence/credit-unit-tests.tap",
+    "bytes": 21520,
+    "sha256": "6f503dbc2b53ea2a92053949e24c9d9939e886695b0b7d7047619ef11cffae4b"
+  },
+  {
+    "path": "evidence/credit-usage-diagnosis.json",
+    "bytes": 2664,
+    "sha256": "babb7b40a95bcb07f991c2965012fdbfa56083ea07876d50874bf69da3db1962"
+  },
+  {
+    "path": "evidence/credit-weekly-acceptance.json",
+    "bytes": 6356,
+    "sha256": "d9b8f113a607daafe88b059f7046f23b6a2fd9bed66f6099214cc3e6fe87c8d0"
   },
   {
     "path": "evidence/deepseek-budget-restart.json",
@@ -405,6 +460,11 @@
     "sha256": "86e84c0ce401a3e93050399661be142d1aba33ca3844dfee603e127e83e4a377"
   },
   {
+    "path": "evidence/portal-ui/admin-credit.png",
+    "bytes": 1364024,
+    "sha256": "e8189cffaa5917290248fa00034799ec0f67c770b0bc755c1d3d18898dc32963"
+  },
+  {
     "path": "evidence/portal-ui/chats.png",
     "bytes": 458107,
     "sha256": "727a1585ff352472b9afc771b0e61436e2e8a7179a74a12ee7d9dd34048d78f8"
@@ -450,6 +510,11 @@
     "sha256": "39f15837069e5a1c1d6552f703f9b4e231b781fd7bd9d8e2005c3e3fd9ec6eb5"
   },
   {
+    "path": "evidence/portal-ui/mobile-admin-credit.png",
+    "bytes": 274339,
+    "sha256": "646279362ce2738a8107e3070e7117230dfd868fc3f08dcdb772148a4bac10a2"
+  },
+  {
     "path": "evidence/portal-ui/mobile-dashboard.png",
     "bytes": 351242,
     "sha256": "682c1dec8203285319f4bf05cd6e58344fc86456169f3b4151382e58ef076378"
@@ -468,6 +533,16 @@
     "path": "evidence/portal-ui/mobile-reasoning.png",
     "bytes": 183504,
     "sha256": "6ed2cf1a701dd0e7298c7ef52b936a97e58e1da108d82c08f9693d7d76cb0b69"
+  },
+  {
+    "path": "evidence/portal-ui/mobile-student-credit.png",
+    "bytes": 362333,
+    "sha256": "4438126e7ea2d1032c8bdba1287b25015d0aaaab453093af135a61cd00b5b7f1"
+  },
+  {
+    "path": "evidence/portal-ui/mobile-weekly-credits.png",
+    "bytes": 362333,
+    "sha256": "4438126e7ea2d1032c8bdba1287b25015d0aaaab453093af135a61cd00b5b7f1"
   },
   {
     "path": "evidence/portal-ui/mobile-weekly-quota.png",
@@ -508,6 +583,16 @@
     "path": "evidence/portal-ui/student-bonus.png",
     "bytes": 521638,
     "sha256": "caa6a9dcc241a7176896a871feca27ec1567e6aea370cf45deee08e3dd7567c5"
+  },
+  {
+    "path": "evidence/portal-ui/student-credit.png",
+    "bytes": 642360,
+    "sha256": "cb4a88312df734ab59777f264c4de7a004d8c585680d6ddb4c1d109eddc912c8"
+  },
+  {
+    "path": "evidence/portal-ui/weekly-credits.png",
+    "bytes": 642360,
+    "sha256": "cb4a88312df734ab59777f264c4de7a004d8c585680d6ddb4c1d109eddc912c8"
   },
   {
     "path": "evidence/portal-ui/weekly-quota.png",
@@ -657,7 +742,7 @@
   {
     "path": "evidence/student-secret-scan.json",
     "bytes": 327,
-    "sha256": "34480cb77d0b7cf9a6ff3c907de663ebbed634afe0d7729f5169b6f4ecabc57b"
+    "sha256": "4b45361af1e920442d35700aed98ed41046fa4b60691efc062c9bea33daa5255"
   },
   {
     "path": "evidence/student-seed.json",
@@ -686,8 +771,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 9150,
-    "sha256": "5f90565edd590b78b60bb0f971abf2e61b50c33c720d28b8ebbec561a637fef1"
+    "bytes": 13710,
+    "sha256": "0a17bc1f41fba975485ac4f7403e0a2805cf8ee15d00030bc6f27c4e6ea42a3c"
   },
   {
     "path": "evidence/toolchain.json",
@@ -966,8 +1051,8 @@
   },
   {
     "path": "profiles/deepseek-model.ts",
-    "bytes": 8093,
-    "sha256": "5c4c670f3d355e68fddd8f3e522da3aaeaf79e872ab6c6649897f4912682e5cb"
+    "bytes": 8152,
+    "sha256": "717772fee7f6db2d7831579fda581a4dde08ea71ba044bac088ba0a96b40b176"
   },
   {
     "path": "profiles/fs-provider.ts",
@@ -1045,14 +1130,19 @@
     "sha256": "e2904eab8c25dde0c2bc331e835246175d9c42f41e98d22c24296348aafcdcc5"
   },
   {
+    "path": "services/model-gateway/credit-ledger.mjs",
+    "bytes": 17669,
+    "sha256": "646a0c5c6fa81195f9567e0c4b37c369708aa41d9bbd4f38ceac77ae99f7cb04"
+  },
+  {
     "path": "services/model-gateway/import-keys.mjs",
     "bytes": 229,
     "sha256": "e8aca15c236dabaae4c43e87f01dbc38c52fab06f227e2e99846560c7dbc2138"
   },
   {
     "path": "services/model-gateway/ledger.mjs",
-    "bytes": 23008,
-    "sha256": "eddcb9e9a077ab19d321438337105f2be8549c72c30c7e8e1c2a4e74243877fe"
+    "bytes": 23017,
+    "sha256": "8255619b0c9b51f5d1b681267b66fd43755386c320eab894bfdeb04314ad5ddc"
   },
   {
     "path": "services/model-gateway/operator.mjs",
@@ -1060,9 +1150,14 @@
     "sha256": "d6de0d158973f9e94ffb4221ad11b69ff25962be8fa4f3268435d42e61334ebb"
   },
   {
+    "path": "services/model-gateway/pricing.mjs",
+    "bytes": 2934,
+    "sha256": "ff98f0f23d7ca00bb40736afbbb3e33ed74d20be092f061783d77d1b8e18a35a"
+  },
+  {
     "path": "services/model-gateway/server.mjs",
-    "bytes": 21854,
-    "sha256": "8fda06a3a42a3222e4807da5a593aad5ccf24dc71435dcc5ea786e51170da5d4"
+    "bytes": 22341,
+    "sha256": "62e5abcc93c4b2d2bf2cbb197fb28fa3b3263c383834f2153010fe491065148c"
   },
   {
     "path": "services/model-gateway/wait-ready.mjs",
@@ -1091,13 +1186,13 @@
   },
   {
     "path": "services/workspace-broker/run-errors.mjs",
-    "bytes": 2810,
-    "sha256": "ed41e063b7504d8072ef735c6699980e40ba7a6e0a6427459a4b8959c44419f6"
+    "bytes": 2872,
+    "sha256": "a914a8f2f8f63aa94c790bd4a571d1c897f0b7304bc8f5cdb68ad82788eb6486"
   },
   {
     "path": "services/workspace-broker/server.mjs",
-    "bytes": 33787,
-    "sha256": "61fc896a2c59d14c01675bd8a5a61a1415faa2d11f589522866133d1896365bf"
+    "bytes": 35477,
+    "sha256": "a97e8e14ab3eb31ec7842b95a76d3b59b324957a955641f94ed1c4f9d2fc5ec3"
   },
   {
     "path": "services/workspace-broker/templates/engine.cfg",
@@ -1123,6 +1218,11 @@
     "path": "tests/control.test.mjs",
     "bytes": 9346,
     "sha256": "85bb470ea9fe4e2438f15d092991d1c85296e2ad31c31d59d01fb637887b1b42"
+  },
+  {
+    "path": "tests/credit-budget.test.mjs",
+    "bytes": 19162,
+    "sha256": "64a5c717eac09455f937625f9ed844263d4158c85f30b892ac579ba0d436dcb9"
   },
   {
     "path": "tests/deepseek_harness.py",

@@ -1,5 +1,6 @@
 /** Translate private native failures into stable codes without exposing error text. */
 const gatewayCodes = new Map([
+  ["CREDIT_BUDGET_EXHAUSTED", "AI_WEEKLY_CREDITS_EXHAUSTED"],
   ["TOKEN_BUDGET_EXHAUSTED", "AI_WEEKLY_BUDGET_EXHAUSTED"],
   ["REQUEST_BYTES_LIMIT", "MODEL_CONTEXT_LIMIT"],
   ["CONTENT_LIMIT", "MODEL_HISTORY_REJECTED"],

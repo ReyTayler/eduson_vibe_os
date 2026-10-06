@@ -1,0 +1,293 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T21:24:05Z",
+  "generation": 5,
+  "portalTablesPreserved": {
+    "users": {
+      "count": 5,
+      "sha256": "8b8daad7cc880ef4655cf9cd1b6d09cfe31ae7c40802327c7745167dab89e959"
+    },
+    "projects": {
+      "count": 3,
+      "sha256": "ba9eef9a7d13c25d1a318d1e761030ab55cdaca3cf39ec9b14815dac6ab2adf9"
+    },
+    "folders": {
+      "count": 2,
+      "sha256": "160d21bcc796ab2cb27d8f44e20a48718442f72b5cb366942693373267cb5680"
+    },
+    "chats": {
+      "count": 4,
+      "sha256": "5bdc273cfeb54a66001e17aa6e83cae83e70d8f990cf63e3e7f5c128d1c246dd"
+    },
+    "messages": {
+      "count": 12,
+      "sha256": "05e0b65828295557428c391407fdbdc73c73bd2adaaca62334b7113006fe768e"
+    },
+    "runs": {
+      "count": 5,
+      "sha256": "fa557935814a70b9a2f87f0f27c6d845c12591bd9c6de1b808566b61bab13841"
+    },
+    "administrators": {
+      "count": 1,
+      "sha256": "60ede834ea97c68157e1402ba42bb2fe09ccd578914df03c62dc50248017daf6"
+    }
+  },
+  "rawBudgetTablesPreserved": {
+    "model_requests": {
+      "count": 72,
+      "sha256": "487952dd2362587872cc912420614b0c4d67981af306c435db23aa79ecde9301"
+    },
+    "request_scopes": {
+      "count": 72,
+      "sha256": "70d4727b8ac0c817bf2fa89bb03e622bc2ffb4c8f868d30d9e7a8815863efa2a"
+    },
+    "weekly_budgets": {
+      "count": 5,
+      "sha256": "c15a9adf26a815ef0221cb0b31d9dbeeb49ab78c78e2d750535148599470db38"
+    },
+    "weekly_grants": {
+      "count": 1,
+      "sha256": "a34930c904e0af386a552883fdc874390b00ce651ce694b38036bc031ad890c8"
+    }
+  },
+  "services": {
+    "vibe-os-model-gateway": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-broker": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-runner": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal-web": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "lifetime": {
+    "attempts": 72,
+    "confirmed_tokens": 2737362,
+    "uncertain_ceiling": 0
+  },
+  "budgetsBeforeAuthorizedCreditGrant": [
+    {
+      "generation": 5,
+      "scope": "student",
+      "student": 1,
+      "period": "weekly",
+      "timezone": "Europe/Moscow",
+      "periodStartsAt": "2026-10-04T20:59:00.000Z",
+      "resetsAt": "2026-10-11T20:59:00.000Z",
+      "limitTokens": 3000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 2000000,
+      "debitedTokens": 2729544,
+      "remainingAuthorizationTokens": 270456,
+      "enabled": true,
+      "clockValid": true,
+      "maxRemainingCalls": 93,
+      "attempts": 57,
+      "confirmed_tokens": 2729544,
+      "uncertain_ceiling": 0,
+      "admittedCeilingTotal": 24973139,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 79.124874,
+      "reservedCredits": 0,
+      "remainingCredits": 920.875126,
+      "costUsd": 0.079124874,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 22971,
+        "cacheReadTokens": 2593408,
+        "cacheWriteTokens": 0,
+        "outputTokens": 113165,
+        "totalTokens": 2729544,
+        "cacheOfInputPercent": 99.12203086785209,
+        "inputCredits": 3.44565,
+        "cacheCredits": 7.780224,
+        "outputCredits": 67.899
+      }
+    },
+    {
+      "generation": 5,
+      "scope": "student",
+      "student": 2,
+      "period": "weekly",
+      "timezone": "Europe/Moscow",
+      "periodStartsAt": "2026-10-04T20:59:00.000Z",
+      "resetsAt": "2026-10-11T20:59:00.000Z",
+      "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
+      "debitedTokens": 19,
+      "remainingAuthorizationTokens": 999981,
+      "enabled": true,
+      "clockValid": true,
+      "maxRemainingCalls": 101,
+      "attempts": 1,
+      "confirmed_tokens": 19,
+      "uncertain_ceiling": 0,
+      "admittedCeilingTotal": 65536,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "reservedCredits": 0,
+      "remainingCredits": 999.99535,
+      "costUsd": 4.65e-06,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 15,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "outputTokens": 4,
+        "totalTokens": 19,
+        "cacheOfInputPercent": 0,
+        "inputCredits": 0.00225,
+        "cacheCredits": 0,
+        "outputCredits": 0.0024
+      }
+    },
+    {
+      "generation": 5,
+      "scope": "student",
+      "student": 3,
+      "period": "weekly",
+      "timezone": "Europe/Moscow",
+      "periodStartsAt": "2026-10-04T20:59:00.000Z",
+      "resetsAt": "2026-10-11T20:59:00.000Z",
+      "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
+      "debitedTokens": 19,
+      "remainingAuthorizationTokens": 999981,
+      "enabled": true,
+      "clockValid": true,
+      "maxRemainingCalls": 101,
+      "attempts": 1,
+      "confirmed_tokens": 19,
+      "uncertain_ceiling": 0,
+      "admittedCeilingTotal": 65536,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "reservedCredits": 0,
+      "remainingCredits": 999.99535,
+      "costUsd": 4.65e-06,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 15,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "outputTokens": 4,
+        "totalTokens": 19,
+        "cacheOfInputPercent": 0,
+        "inputCredits": 0.00225,
+        "cacheCredits": 0,
+        "outputCredits": 0.0024
+      }
+    },
+    {
+      "generation": 5,
+      "scope": "student",
+      "student": 4,
+      "period": "weekly",
+      "timezone": "Europe/Moscow",
+      "periodStartsAt": "2026-10-04T20:59:00.000Z",
+      "resetsAt": "2026-10-11T20:59:00.000Z",
+      "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
+      "debitedTokens": 19,
+      "remainingAuthorizationTokens": 999981,
+      "enabled": true,
+      "clockValid": true,
+      "maxRemainingCalls": 101,
+      "attempts": 1,
+      "confirmed_tokens": 19,
+      "uncertain_ceiling": 0,
+      "admittedCeilingTotal": 65536,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "reservedCredits": 0,
+      "remainingCredits": 999.99535,
+      "costUsd": 4.65e-06,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 15,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "outputTokens": 4,
+        "totalTokens": 19,
+        "cacheOfInputPercent": 0,
+        "inputCredits": 0.00225,
+        "cacheCredits": 0,
+        "outputCredits": 0.0024
+      }
+    },
+    {
+      "generation": 5,
+      "scope": "student",
+      "student": 5,
+      "period": "weekly",
+      "timezone": "Europe/Moscow",
+      "periodStartsAt": "2026-10-04T20:59:00.000Z",
+      "resetsAt": "2026-10-11T20:59:00.000Z",
+      "limitTokens": 1000000,
+      "baseLimitTokens": 1000000,
+      "extraLimitTokens": 0,
+      "debitedTokens": 7704,
+      "remainingAuthorizationTokens": 992296,
+      "enabled": true,
+      "clockValid": true,
+      "maxRemainingCalls": 101,
+      "attempts": 9,
+      "confirmed_tokens": 7704,
+      "uncertain_ceiling": 0,
+      "admittedCeilingTotal": 1114112,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.751068,
+      "reservedCredits": 0,
+      "remainingCredits": 999.248932,
+      "costUsd": 0.000751068,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 4018,
+        "cacheReadTokens": 3456,
+        "cacheWriteTokens": 0,
+        "outputTokens": 230,
+        "totalTokens": 7704,
+        "cacheOfInputPercent": 46.24029970564624,
+        "inputCredits": 0.6027,
+        "cacheCredits": 0.010368,
+        "outputCredits": 0.138
+      }
+    }
+  ],
+  "paidCallsByDeployment": 0
+}

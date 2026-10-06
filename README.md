@@ -6,9 +6,9 @@
 
 Созданы пять независимых кабинетов `student01`–`student05`. Пароли хранятся отдельно от репозитория в root-only `/var/lib/vibe-os/portal-private/student-logins.json`. При начальном заполнении у первого ученика было два стартовых проекта и опубликованный сайт, остальные кабинеты были пустыми. Дальнейшую самостоятельную работу учеников при обновлениях сохраняем.
 
-**У каждого ученика 1 000 000 токенов в неделю.** Сброс каждое воскресенье ровно в 23:59 МСК, без переноса остатка; общий лимит всех его проектов и чатов. В настройках видны личный расход, остаток и следующая дата сброса. [Архитектура квот и приёмка](docs/weekly-quota.md).
+**У каждого ученика 1 000 кредитов ($1) в неделю.** Списывается стоимость отдельно для кэша, нового входа и выхода DeepSeek Flash по опубликованному тарифу. Сброс каждое воскресенье в 23:59 МСК без переноса остатка. В настройках видны деньги, категории токенов и резерв. [Денежный ledger и проверки](docs/credit-policy.md).
 
-[Админ-панель](https://80.249.145.94/admin) позволяет добавлять токены выбранному ученику на текущую неделю и просматривать журнал начислений. У student01 выдано +2 млн до 11 октября, 23:59 МСК. [Устройство бонусов, доступ и проверки](docs/admin-weekly-bonus.md).
+[Админ-панель](https://80.249.145.94/admin) добавляет кредиты выбранному ученику на текущую неделю и показывает историю/последние модельные вызовы. Для student01 одобрен отдельный бонус $2 (2 000 кредитов), суммарно $3 до 11 октября, 23:59 МСК. Старое начисление +2 млн токенов хранится как архив. [Доступ и устройство бонусов](docs/credit-policy.md).
 
 В каждом чате доступны рассуждения Off/Low/High/Max. Собственный лимит ответа 64K снят: вывод определяется возможностями DeepSeek и остатком личной недельной квоты. [Текущая политика ответа и проверки](docs/response-policy.md) · [Параметры reasoning](docs/reasoning-settings.md).
 
@@ -22,10 +22,10 @@
 
 ```sh
 # Offline, без API keys и платных вызовов; root для проверки владельца Vault.
-node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs tests/model-history.test.mjs tests/extra-budget.test.mjs apps/portal/tests/admin-api.test.mjs
+node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs tests/model-history.test.mjs tests/extra-budget.test.mjs tests/credit-budget.test.mjs apps/portal/tests/admin-api.test.mjs
 
 # На сервере root, без model prompts; удаляет только свои fixtures.
-node apps/portal/tests/weekly-quota.mjs
+node apps/portal/tests/admin-credit-live.mjs
 node apps/portal/tests/secret-scan.mjs
 ```
 

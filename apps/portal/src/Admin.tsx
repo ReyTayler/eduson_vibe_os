@@ -14,17 +14,32 @@ import {
   KeyRound,
 } from "lucide-react";
 import "./admin.css";
+import CreditUsage, { creditNumber } from "./CreditUsage";
+import type { TokenUsage } from "./api";
 type AdminUser = { id: string; login: string; name: string; csrf: string };
 type Quota = {
-  limitTokens: number;
-  baseLimitTokens: number;
-  extraLimitTokens: number;
-  confirmed_tokens: number;
-  uncertain_ceiling: number;
-  remainingAuthorizationTokens: number;
+  limitCredits: number;
+  baseLimitCredits: number;
+  extraLimitCredits: number;
+  spentCredits: number;
+  reservedCredits: number;
+  remainingCredits: number;
+  usage: TokenUsage;
   periodStartsAt: string;
   resetsAt: string;
   enabled: boolean;
+};
+type UsageRecord = {
+  id: string;
+  state: string;
+  createdAt: string;
+  inputTokens: number | null;
+  cacheReadTokens: number | null;
+  cacheWriteTokens: number | null;
+  outputTokens: number | null;
+  spentCredits: number | null;
+  reservedCredits: number;
+  band: string | null;
 };
 type Account = {
   id: string;
@@ -36,7 +51,10 @@ type Account = {
 };
 type Grant = {
   id: string;
-  tokens: number;
+  unit: "credits" | "tokens";
+  credits?: number;
+  tokens?: number;
+  archived?: boolean;
   note: string;
   adminName: string;
   createdAt: string;
@@ -52,7 +70,7 @@ const moment = (value: string) =>
     minute: "2-digit",
     hourCycle: "h23",
   }).format(new Date(value)) + " МСК";
-const pendingKey = "vibe-admin-pending-grant";
+const pendingKey = "vibe-admin-pending-credit-grant";
 export default function Admin() {
   const [user, setUser] = useState<AdminUser | null>(null),
     [starting, setStarting] = useState(true),
@@ -60,9 +78,10 @@ export default function Admin() {
     [password, setPassword] = useState(""),
     [accounts, setAccounts] = useState<Account[]>([]),
     [selectedId, setSelectedId] = useState(""),
-    [amount, setAmount] = useState("1000000"),
+    [amount, setAmount] = useState("1000"),
     [note, setNote] = useState(""),
     [grants, setGrants] = useState<Grant[]>([]),
+    [usageRecords, setUsageRecords] = useState<UsageRecord[]>([]),
     [busy, setBusy] = useState(false),
     [refreshing, setRefreshing] = useState(false),
     [feedback, setFeedback] = useState(""),
@@ -152,12 +171,20 @@ export default function Admin() {
   useEffect(() => {
     if (!user || !selectedId) {
       setGrants([]);
+      setUsageRecords([]);
       return;
     }
     let active = true;
-    request<Grant[]>("/students/" + selectedId + "/grants")
-      .then((rows) => {
-        if (active) setGrants(rows);
+    setUsageRecords([]);
+    Promise.all([
+      request<Grant[]>("/students/" + selectedId + "/grants"),
+      request<UsageRecord[]>("/students/" + selectedId + "/usage"),
+    ])
+      .then(([rows, records]) => {
+        if (active) {
+          setGrants(rows);
+          setUsageRecords(records);
+        }
       })
       .catch((e) => {
         if (active) setError(e.message);
@@ -166,6 +193,20 @@ export default function Admin() {
       active = false;
     };
   }, [selectedId, user?.id]);
+  const usageStamp = accounts.find((a) => a.id === selectedId)?.budget
+    .spentCredits;
+  useEffect(() => {
+    if (!user || !selectedId) return;
+    let active = true;
+    request<UsageRecord[]>("/students/" + selectedId + "/usage")
+      .then((rows) => {
+        if (active) setUsageRecords(rows);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [selectedId, user?.id, usageStamp]);
   async function enter(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -200,6 +241,7 @@ export default function Admin() {
   const valid =
     /^\d+$/.test(amount.replace(/[ \u00a0\u202f]/g, "")) &&
     Number.isSafeInteger(parsed) &&
+    Number.isSafeInteger(parsed * 1000000) &&
     parsed > 0;
   async function add(e: React.FormEvent) {
     e.preventDefault();
@@ -208,7 +250,7 @@ export default function Admin() {
     setError("");
     setFeedback("");
     const payload = {
-      tokens: parsed,
+      credits: parsed,
       note: note.trim(),
       periodStartsAt: selected.budget.periodStartsAt,
     };
@@ -233,8 +275,8 @@ export default function Admin() {
       setFeedback(
         (result.replayed ? "Начисление уже выполнено: " : "Начислено ") +
           "+" +
-          number(result.grant.tokens) +
-          " токенов для " +
+          number(result.grant.credits ?? 0) +
+          " кредитов для " +
           selected.login +
           ". Действуют до " +
           moment(result.grant.expiresAt) +
@@ -348,7 +390,7 @@ export default function Admin() {
         </div>
       </div>
     );
-  const extra = accounts.reduce((n, a) => n + a.budget.extraLimitTokens, 0);
+  const extra = accounts.reduce((n, a) => n + a.budget.extraLimitCredits, 0);
   return (
     <div className="admin-page">
       <header className="admin-header">
@@ -371,7 +413,7 @@ export default function Admin() {
           <div>
             <div className="eyebrow">УЧЕНИКИ И ВОЗМОЖНОСТИ</div>
             <h1>Пусть идеи продолжаются</h1>
-            <p>Добавляйте токены нужному аккаунту и следите за расходом.</p>
+            <p>Добавляйте кредиты нужному аккаунту и следите за расходом.</p>
           </div>
           <button
             className="button secondary"
@@ -399,7 +441,7 @@ export default function Admin() {
             <div>
               <span>Базовый лимит на неделю</span>
               <b>
-                1 000 000 <small>токенов</small>
+                1 000 <small>кредитов · $1</small>
               </b>
             </div>
           </div>
@@ -410,7 +452,7 @@ export default function Admin() {
             <div>
               <span>Добавлено на эту неделю</span>
               <b>
-                {number(extra)} <small>токенов</small>
+                {number(extra)} <small>кредитов</small>
               </b>
             </div>
           </div>
@@ -458,18 +500,18 @@ export default function Admin() {
                     </span>
                   </span>
                   <span className="admin-account-quota">
-                    <b>{number(a.budget.limitTokens)}</b>
+                    <b>{number(a.budget.limitCredits)}</b>
                     <small>
-                      {a.budget.extraLimitTokens
+                      {a.budget.extraLimitCredits
                         ? "+ " +
-                          number(a.budget.extraLimitTokens) +
+                          number(a.budget.extraLimitCredits) +
                           " дополнительно"
                         : "Базовая квота"}
                     </small>
                   </span>
                   <span className="admin-account-left">
-                    <b>{number(a.budget.remainingAuthorizationTokens)}</b>
-                    <small>токенов доступно</small>
+                    <b>{creditNumber(a.budget.remainingCredits)}</b>
+                    <small>кредитов доступно</small>
                   </span>
                 </button>
               ))}
@@ -478,7 +520,7 @@ export default function Admin() {
               <Clock size={16} />
               <span>
                 Базовая квота обновляется каждое воскресенье в 23:59 МСК.
-                Дополнительные токены действуют до этого сброса.
+                Дополнительные кредиты действуют до этого сброса.
               </span>
             </div>
             <details className="admin-password">
@@ -522,7 +564,7 @@ export default function Admin() {
                 <Plus size={23} />
               </div>
               <div className="eyebrow">ДОПОЛНИТЕЛЬНАЯ КВОТА</div>
-              <h2>Дать больше токенов</h2>
+              <h2>Дать больше кредитов</h2>
               <p>
                 Начисление доступно сразу во всех проектах выбранного ученика.
               </p>
@@ -546,19 +588,23 @@ export default function Admin() {
                   </select>
                 </label>
                 <label className="admin-field">
-                  Количество токенов
+                  Количество кредитов
                   <input
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     inputMode="numeric"
                     required
                     disabled={busy}
-                    placeholder="Например, 2000000"
+                    placeholder="Например, 2000"
                     maxLength={20}
                   />
                 </label>
+                <p className="admin-credit-equivalent">
+                  {valid ? "$" + (parsed / 1000).toFixed(2) : "—"} · 1 000
+                  кредитов = $1
+                </p>
                 <div className="admin-presets">
-                  {[100000, 500000, 1000000, 2000000].map((n) => (
+                  {[100, 500, 1000, 2000].map((n) => (
                     <button
                       type="button"
                       key={n}
@@ -566,7 +612,7 @@ export default function Admin() {
                       onClick={() => setAmount(String(n))}
                       disabled={busy}
                     >
-                      {n >= 1000000 ? n / 1000000 + " млн" : n / 1000 + " тыс."}
+                      {number(n)}
                     </button>
                   ))}
                 </div>
@@ -609,9 +655,31 @@ export default function Admin() {
                   ) : (
                     <Plus size={18} />
                   )}
-                  Начислить {valid ? number(parsed) : ""} токенов
+                  Начислить {valid ? number(parsed) : ""} кредитов
                 </button>
               </form>
+            </section>
+            <section className="admin-credit-breakdown glass">
+              <div className="admin-section-head">
+                <div>
+                  <h2>Кредиты {selected?.login}</h2>
+                  <p>Расчёт по токенам и тарифам API</p>
+                </div>
+                <Wallet size={19} />
+              </div>
+              <div className="admin-credit-summary">
+                <div>
+                  <span>Списано</span>
+                  <b>{creditNumber(selected?.budget.spentCredits ?? 0)} кр.</b>
+                </div>
+                <div>
+                  <span>В резерве</span>
+                  <b>
+                    {creditNumber(selected?.budget.reservedCredits ?? 0)} кр.
+                  </b>
+                </div>
+                <CreditUsage usage={selected?.budget.usage} />
+              </div>
             </section>
             <section className="admin-history glass">
               <div className="admin-section-head">
@@ -630,7 +698,15 @@ export default function Admin() {
                   {grants.map((g) => (
                     <article className="admin-history-item" key={g.id}>
                       <div>
-                        <b>+{number(g.tokens)}</b>
+                        <b>
+                          +
+                          {number(
+                            g.unit === "credits"
+                              ? (g.credits ?? 0)
+                              : (g.tokens ?? 0),
+                          )}{" "}
+                          {g.unit === "credits" ? "кр." : "токенов · архив"}
+                        </b>
                         <time>{moment(g.createdAt)}</time>
                       </div>
                       {g.note && <p>{g.note}</p>}
@@ -644,6 +720,68 @@ export default function Admin() {
             </section>
           </div>
         </div>
+        <section className="admin-usage-history glass">
+          <div className="admin-section-head">
+            <div>
+              <h2>Последние вызовы модели</h2>
+              <p>
+                {selected?.login} · до 30 вызовов · стоимость по опубликованному
+                тарифу
+              </p>
+            </div>
+            <Clock size={19} />
+          </div>
+          {!usageRecords.length ? (
+            <div className="admin-empty">Вызовов модели пока нет</div>
+          ) : (
+            <div className="admin-usage-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Время, МСК</th>
+                    <th>Новый вход</th>
+                    <th>Кэш</th>
+                    <th>Выход</th>
+                    <th>Тариф</th>
+                    <th>Кредиты</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {usageRecords.map((r) => (
+                    <tr key={r.id}>
+                      <td>{moment(r.createdAt)}</td>
+                      <td>
+                        {r.inputTokens === null
+                          ? "—"
+                          : number(r.inputTokens + (r.cacheWriteTokens ?? 0))}
+                      </td>
+                      <td>
+                        {r.cacheReadTokens === null
+                          ? "—"
+                          : number(r.cacheReadTokens)}
+                      </td>
+                      <td>
+                        {r.outputTokens === null ? "—" : number(r.outputTokens)}
+                      </td>
+                      <td>
+                        {r.band === "peak"
+                          ? "Пик"
+                          : r.band === "off_peak"
+                            ? "Вне пика"
+                            : "—"}
+                      </td>
+                      <td>
+                        {r.spentCredits === null
+                          ? "Резерв " + creditNumber(r.reservedCredits)
+                          : creditNumber(r.spentCredits)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
       </main>
     </div>
   );

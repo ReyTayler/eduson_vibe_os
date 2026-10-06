@@ -4,12 +4,8 @@ import { readFileSync, unlinkSync, chmodSync } from "node:fs";
 import { join } from "node:path";
 import { timingSafeEqual, createHash } from "node:crypto";
 import { Vault } from "../../packages/credentials/vault.mjs";
-import {
-  Ledger,
-  CALL_DEBIT,
-  INPUT_SAFETY_MARGIN,
-  TOKEN_CEILING,
-} from "./ledger.mjs";
+import { CALL_DEBIT, INPUT_SAFETY_MARGIN, TOKEN_CEILING } from "./ledger.mjs";
+import { CreditLedger } from "./credit-ledger.mjs";
 const UPSTREAM = "https://api.deepseek.com";
 export const MAX_BODY = 524288,
   MAX_OUTPUT = 393216;
@@ -290,6 +286,17 @@ export function createGateway({
           res.end(JSON.stringify(ledger.grants(student)));
           return;
         }
+        if (
+          req.method === "GET" &&
+          /^\/v1\/admin\/usage\?student=[1-5]$/.test(req.url) &&
+          typeof ledger.records === "function"
+        ) {
+          const student = Number(
+            new URL(req.url, "http://localhost").searchParams.get("student"),
+          );
+          res.end(JSON.stringify(ledger.records(student)));
+          return;
+        }
         if (req.method === "POST" && req.url === "/v1/admin/grants") {
           if (req.headers["content-type"] !== "application/json")
             throw fail("CONTENT_TYPE");
@@ -313,7 +320,7 @@ export function createGateway({
                 ![
                   "id",
                   "student",
-                  "tokens",
+                  ledger instanceof CreditLedger ? "credits" : "tokens",
                   "actor",
                   "note",
                   "periodStart",
@@ -608,9 +615,12 @@ export function start() {
   );
   if (!Array.isArray(studentCapabilities) || studentCapabilities.length !== 5)
     throw new Error("FIVE_STUDENT_CAPABILITIES_REQUIRED");
-  const ledger = new Ledger("/var/lib/vibe-os/model-budget/tokens.sqlite", {
-    mapLegacyStudents: true,
-  });
+  const ledger = new CreditLedger(
+    "/var/lib/vibe-os/model-budget/tokens.sqlite",
+    {
+      mapLegacyStudents: true,
+    },
+  );
   const socket = "/run/vibe-os-model/gateway.sock";
   try {
     unlinkSync(socket);

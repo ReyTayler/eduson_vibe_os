@@ -1,19 +1,13 @@
 {
-  "timeUtc": "2026-10-06T20:49:22.699969+00:00",
+  "timeUtc": "2026-10-06T21:27:00.442198+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
   "accounts": 5,
-  "initialProjectsByStudent": [
-    2,
-    0,
-    0,
-    0,
-    0
-  ],
+  "initialProjectsByStudent": [2, 0, 0, 0, 0],
   "hostingSlotsPerStudent": 3,
-  "paidCallsTotal": 46,
-  "confirmedTokensTotal": 837577,
+  "paidCallsTotal": 72,
+  "confirmedTokensTotal": 2737362,
   "modelTestingBudget": {
     "generation": 4,
     "scope": "operator",
@@ -23,6 +17,8 @@
     "periodStartsAt": null,
     "resetsAt": null,
     "limitTokens": 1000000,
+    "baseLimitTokens": 1000000,
+    "extraLimitTokens": 0,
     "debitedTokens": 57,
     "remainingAuthorizationTokens": 999943,
     "enabled": true,
@@ -31,7 +27,8 @@
     "attempts": 3,
     "confirmed_tokens": 57,
     "uncertain_ceiling": 0,
-    "admittedCeilingTotal": 196608
+    "admittedCeilingTotal": 196608,
+    "unit": "tokens"
   },
   "suiteResults": {
     "portal-api": {
@@ -139,6 +136,30 @@
       "checks": 4,
       "paidCalls": 0,
       "evidence": "admin-bonus-acceptance.json"
+    },
+    "credit-policy-offline": {
+      "passed": true,
+      "checks": 93,
+      "paidCalls": 0,
+      "evidence": "credit-unit-tests.tap"
+    },
+    "admin-credit-live": {
+      "passed": true,
+      "checks": 5,
+      "paidCalls": 0,
+      "evidence": "admin-credit-acceptance.json"
+    },
+    "native-credit-history-errors": {
+      "passed": true,
+      "checks": 5,
+      "paidCalls": 0,
+      "evidence": "credit-history-harness.json"
+    },
+    "credit-personal-quotas": {
+      "passed": true,
+      "checks": 8,
+      "paidCalls": 0,
+      "evidence": "credit-weekly-acceptance.json"
     }
   },
   "staticChecks": {
@@ -147,7 +168,7 @@
     "strictPortalTypeScriptBuild": "passed",
     "javascriptSyntaxFiles": 41,
     "pythonSyntaxFiles": 13,
-    "documentationLinks": 98,
+    "documentationLinks": 32,
     "diffCheck": "passed",
     "renewalDryRun": "passed",
     "runtimeMatchesSource": "passed"
@@ -205,26 +226,21 @@
   ],
   "modelSettings": {
     "model": "deepseek-flash",
-    "reasoningModes": [
-      "off",
-      "low",
-      "high",
-      "max"
-    ],
+    "reasoningModes": ["off", "low", "high", "max"],
     "default": "off",
     "scope": "per-chat persisted; immutable run snapshot",
     "providerMaxOutputTokens": 393216,
     "providerContextWindow": 1048576,
     "platformAnswerTokenLimit": null,
     "platformMaxSteps": null,
-    "outputPolicy": "provider-discovered maximum, atomically reduced to personal weekly allowance",
+    "outputPolicy": "provider-discovered maximum, atomically reduced to personal remaining weekly money using conservative input/peak prices",
     "absoluteModelAndRunDeadline": null,
     "providerIdleTimeoutMs": 300000
   },
-  "latestFeatureEvidence": "admin-bonus-final.json",
+  "latestFeatureEvidence": "credit-final.json",
   "studentWeeklyBudgets": [
     {
-      "generation": 4,
+      "generation": 5,
       "scope": "student",
       "student": 1,
       "period": "weekly",
@@ -234,18 +250,39 @@
       "limitTokens": 3000000,
       "baseLimitTokens": 1000000,
       "extraLimitTokens": 2000000,
-      "debitedTokens": 829759,
-      "remainingAuthorizationTokens": 2170241,
+      "debitedTokens": 2729544,
+      "remainingAuthorizationTokens": 270456,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 66,
-      "attempts": 31,
-      "confirmed_tokens": 829759,
+      "maxRemainingCalls": 297,
+      "attempts": 57,
+      "confirmed_tokens": 2729544,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 8538857
+      "admittedCeilingTotal": 24973139,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 2000,
+      "limitCredits": 3000,
+      "spentCredits": 79.124874,
+      "reservedCredits": 0,
+      "remainingCredits": 2920.875126,
+      "costUsd": 0.079124874,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 22971,
+        "cacheReadTokens": 2593408,
+        "cacheWriteTokens": 0,
+        "outputTokens": 113165,
+        "totalTokens": 2729544,
+        "cacheOfInputPercent": 99.12203086785209,
+        "inputCredits": 3.44565,
+        "cacheCredits": 7.780224,
+        "outputCredits": 67.899
+      }
     },
     {
-      "generation": 4,
+      "generation": 5,
       "scope": "student",
       "student": 2,
       "period": "weekly",
@@ -259,14 +296,35 @@
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 30,
+      "maxRemainingCalls": 101,
       "attempts": 1,
       "confirmed_tokens": 19,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 65536
+      "admittedCeilingTotal": 65536,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "reservedCredits": 0,
+      "remainingCredits": 999.99535,
+      "costUsd": 4.65e-6,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 15,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "outputTokens": 4,
+        "totalTokens": 19,
+        "cacheOfInputPercent": 0,
+        "inputCredits": 0.00225,
+        "cacheCredits": 0,
+        "outputCredits": 0.0024
+      }
     },
     {
-      "generation": 4,
+      "generation": 5,
       "scope": "student",
       "student": 3,
       "period": "weekly",
@@ -280,14 +338,35 @@
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 30,
+      "maxRemainingCalls": 101,
       "attempts": 1,
       "confirmed_tokens": 19,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 65536
+      "admittedCeilingTotal": 65536,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "reservedCredits": 0,
+      "remainingCredits": 999.99535,
+      "costUsd": 4.65e-6,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 15,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "outputTokens": 4,
+        "totalTokens": 19,
+        "cacheOfInputPercent": 0,
+        "inputCredits": 0.00225,
+        "cacheCredits": 0,
+        "outputCredits": 0.0024
+      }
     },
     {
-      "generation": 4,
+      "generation": 5,
       "scope": "student",
       "student": 4,
       "period": "weekly",
@@ -301,14 +380,35 @@
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 30,
+      "maxRemainingCalls": 101,
       "attempts": 1,
       "confirmed_tokens": 19,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 65536
+      "admittedCeilingTotal": 65536,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.00465,
+      "reservedCredits": 0,
+      "remainingCredits": 999.99535,
+      "costUsd": 4.65e-6,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 15,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "outputTokens": 4,
+        "totalTokens": 19,
+        "cacheOfInputPercent": 0,
+        "inputCredits": 0.00225,
+        "cacheCredits": 0,
+        "outputCredits": 0.0024
+      }
     },
     {
-      "generation": 4,
+      "generation": 5,
       "scope": "student",
       "student": 5,
       "period": "weekly",
@@ -322,14 +422,40 @@
       "remainingAuthorizationTokens": 992296,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 30,
+      "maxRemainingCalls": 101,
       "attempts": 9,
       "confirmed_tokens": 7704,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 1114112
+      "admittedCeilingTotal": 1114112,
+      "unit": "credits",
+      "baseLimitCredits": 1000,
+      "extraLimitCredits": 0,
+      "limitCredits": 1000,
+      "spentCredits": 0.751068,
+      "reservedCredits": 0,
+      "remainingCredits": 999.248932,
+      "costUsd": 0.000751068,
+      "costBasis": "published-tariff-estimate",
+      "pricingVersion": "deepseek-flash-2026-09-10",
+      "usage": {
+        "inputTokens": 4018,
+        "cacheReadTokens": 3456,
+        "cacheWriteTokens": 0,
+        "outputTokens": 230,
+        "totalTokens": 7704,
+        "cacheOfInputPercent": 46.24029970564624,
+        "inputCredits": 0.6027,
+        "cacheCredits": 0.010368,
+        "outputCredits": 0.138
+      }
     }
   ],
-  "tokenPolicy": {
+  "adminPanel": {
+    "url": "https://80.249.145.94/admin",
+    "accounts": 1,
+    "scope": "selected-student current-week credits; preserved archived token grants; cache/input/output prices and recent model calls"
+  },
+  "legacyStudentTokenPolicyGeneration4": {
     "generation": 4,
     "scope": "per-student across all own projects and chats",
     "limitTokens": 1000000,
@@ -340,9 +466,20 @@
     "carryover": false,
     "extras": "explicit admin grants for the current Moscow week; no carryover"
   },
-  "adminPanel": {
-    "url": "https://80.249.145.94/admin",
-    "accounts": 1,
-    "scope": "selected-student current-week extra tokens; append-only audit history"
+  "creditPolicy": {
+    "generation": 5,
+    "scope": "per-student across all own projects/chats",
+    "baseCredits": 1000,
+    "baseUsd": 1,
+    "creditsPerDollar": 1000,
+    "period": "weekly",
+    "timezone": "Europe/Moscow",
+    "resetWeekday": "Sunday",
+    "resetTime": "23:59:00",
+    "carryover": false,
+    "extras": "explicit current-week admin credit grants",
+    "costBasis": "published-tariff-estimate",
+    "pricingVersion": "deepseek-flash-2026-09-10",
+    "peakHoursMoscow": "weekdays 04:00-07:00,09:00-13:00 excluding Chinese public holidays"
   }
 }
