@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T18:52:32.602552+00:00",
+  "url": "https://80.249.145.94/",
+  "tokenPolicy": {
+    "generation": 4,
+    "scope": "per-student across all own projects and chats",
+    "limitTokens": 1000000,
+    "period": "weekly",
+    "timezone": "Europe/Moscow",
+    "resetWeekday": "Sunday",
+    "resetTime": "23:59:00",
+    "carryover": false
+  },
+  "modelSettings": {
+    "model": "deepseek-flash",
+    "reasoningModes": [
+      "off",
+      "low",
+      "high",
+      "max"
+    ],
+    "default": "off",
+    "scope": "per-chat persisted; immutable run snapshot",
+    "providerMaxOutputTokens": 393216,
+    "providerContextWindow": 1048576,
+    "platformAnswerTokenLimit": null,
+    "platformMaxSteps": null,
+    "outputPolicy": "provider-discovered maximum, atomically reduced to personal weekly allowance",
+    "absoluteModelAndRunDeadline": null,
+    "providerIdleTimeoutMs": 300000
+  },
+  "offlineTestsPassed": 55,
+  "nativeModelFixtureCalls": 10,
+  "nativeRealFileToolSteps": 8,
+  "uiCompleteTextCharacters": 90026,
+  "nativeFullPersistedAnswerBytes": 9437206,
+  "weeklyUsersChecked": 5,
+  "reasoningModesChecked": [
+    "off",
+    "low",
+    "high",
+    "max"
+  ],
+  "paidCallsForFeature": 0,
+  "lifetimeSpendPreserved": {
+    "attempts": 31,
+    "confirmed_tokens": 240599,
+    "uncertain_ceiling": 0
+  },
+  "humanProjectCountsPreserved": [
+    3,
+    0,
+    0,
+    0,
+    0
+  ],
+  "services": "5 active enabled",
+  "strictProfilesTypeScript": "passed",
+  "strictPortalProductionBuild": "passed",
+  "javascriptSyntaxFiles": 32,
+  "documentationLinks": 85,
+  "runtimeMatchesSource": true,
+  "credentialsInRepository": false
+}

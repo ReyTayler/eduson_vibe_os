@@ -2,6 +2,7 @@
 import { DatabaseSync } from "node:sqlite";
 export const TOKEN_CEILING = 1_000_000;
 export const CALL_DEBIT = 131_072;
+export const INPUT_SAFETY_MARGIN = 32_768;
 export class LegacyLedger {
   constructor(path) {
     this.db = new DatabaseSync(path);
@@ -323,7 +324,34 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
     const t = this.totals(student, period);
     return t.confirmed_tokens + t.uncertain_ceiling;
   }
-  reserve(id, keyId, hash, debit = CALL_DEBIT, student = null) {
+  reserveOutput(
+    id,
+    keyId,
+    hash,
+    inputCeiling,
+    requestedOutput,
+    student = null,
+    providerOutput = 393216,
+    contextWindow = 1048576,
+  ) {
+    const envelope = {
+      inputCeiling,
+      requestedOutput,
+      providerOutput,
+      contextWindow,
+    };
+    if (Object.values(envelope).some((n) => !Number.isSafeInteger(n) || n < 1))
+      throw new Error("INVALID_RESERVATION");
+    return this.reserve(id, keyId, hash, CALL_DEBIT, student, envelope);
+  }
+  reserve(
+    id,
+    keyId,
+    hash,
+    debit = CALL_DEBIT,
+    student = null,
+    envelope = null,
+  ) {
     studentId(student);
     if (
       !Number.isSafeInteger(debit) ||
@@ -347,12 +375,21 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
       if (student !== null && window.start < policy.latest_period_start)
         throw new Error("BUDGET_CLOCK_ROLLBACK");
       if (student !== null) this.bucket(student, window);
-      if (
-        this.accounted(student, student === null ? null : window.start) +
-          debit >
-        TOKEN_CEILING
-      )
-        throw new Error("TOKEN_BUDGET_EXHAUSTED");
+      const remaining =
+        TOKEN_CEILING -
+        this.accounted(student, student === null ? null : window.start);
+      let maxTokens;
+      if (envelope) {
+        maxTokens = Math.min(
+          envelope.requestedOutput,
+          envelope.providerOutput,
+          remaining - envelope.inputCeiling,
+          envelope.contextWindow - envelope.inputCeiling,
+        );
+        if (maxTokens < 1) throw new Error("TOKEN_BUDGET_EXHAUSTED");
+        debit = envelope.inputCeiling + maxTokens;
+      }
+      if (debit > remaining) throw new Error("TOKEN_BUDGET_EXHAUSTED");
       this.db
         .prepare(
           "INSERT INTO model_requests(id,credential_id,body_hash,state,debit,created_at) VALUES(?,?,?,'sent',?,?)",
@@ -368,6 +405,11 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
           )
           .run(window.start);
       this.db.exec("COMMIT");
+      return {
+        debit,
+        maxTokens,
+        periodStart: student === null ? null : window.start,
+      };
     } catch (e) {
       this.db.exec("ROLLBACK");
       throw e;
@@ -402,7 +444,9 @@ CREATE INDEX IF NOT EXISTS scoped_weekly_requests ON request_scopes(student,peri
       remainingAuthorizationTokens: remaining,
       enabled,
       clockValid,
-      maxRemainingCalls: enabled ? Math.floor(remaining / CALL_DEBIT) : 0,
+      maxRemainingCalls: enabled
+        ? Math.floor(remaining / (INPUT_SAFETY_MARGIN + 1))
+        : 0,
       ...totals,
     };
   }

@@ -37,7 +37,7 @@ test('One exhausted user does not consume another quota or the operator test all
 });
 test('A fresh week is available exactly at reset, and unused tokens never accumulate',()=>{
  let now=reset-1;const l=new Ledger(':memory:',{clock:()=>now});
- for(let i=0;i<7;i++)l.reserve(randomUUID(),20,'a',CALL_DEBIT,1);
+ l.reserve(randomUUID(),20,'a',1000000,1);
  assert.equal(l.status(1).maxRemainingCalls,0);
  now=reset;assert.equal(l.status(1).remainingAuthorizationTokens,1000000);
  l.reserve(randomUUID(),20,'new',CALL_DEBIT,1);

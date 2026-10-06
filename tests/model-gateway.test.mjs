@@ -87,7 +87,7 @@ test('Unauthorized caller rejected before reserve and upstream',async t=>{
 })
 test('Image, unknown model, excessive output and thinking cannot spend tokens',async t=>{
  const f=await fixture(t)
- for(const x of [{...body,model:'deepseek-v4-pro'},{...body,max_tokens:65537},{...body,thinking:{type:'enabled'}},{...body,messages:[{role:'user',content:[{type:'image',source:{type:'url',url:'http://evil'}}]}]}]){
+ for(const x of [{...body,model:'deepseek-v4-pro'},{...body,max_tokens:Number.MAX_SAFE_INTEGER+1},{...body,thinking:{type:'enabled'}},{...body,messages:[{role:'user',content:[{type:'image',source:{type:'url',url:'http://evil'}}]}]}]){
   assert.equal((await f.request(x)).status,400)
  }
  assert.equal(f.calls(),0)
@@ -197,7 +197,7 @@ test('Reasoning and signatures survive assistant/tool replay without unknown fie
  assert.deepEqual(validateBody(b),b);
 });
 test('Variable envelope includes bounded input, 64K output and overhead; unknown reserves stay held',()=>{
- assert.equal(MAX_OUTPUT,65536);assert.equal(reservationFor(100,65536),CALL_DEBIT);
+ assert.equal(MAX_OUTPUT,393216);assert.equal(reservationFor(100,65536),CALL_DEBIT);
  const debit=reservationFor(200000,65536),l=new Ledger(':memory:'),id=randomUUID();
  assert.ok(debit>CALL_DEBIT);l.reserve(id,20,'h',debit);l.finish(id,'uncertain');
  assert.equal(l.status().uncertain_ceiling,debit);

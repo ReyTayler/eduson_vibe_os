@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-06T18:46:06.054Z",
+  "checks": [
+    "streaming UI displays more than 65536 characters",
+    "native Harness completed 9 model steps; provider maximum discovered; real read_file replay",
+    "complete text after browser reload; mobile layout; no 64K label",
+    "9MiB answer traverses real native Harness, private protocol, broker and portal; exact persisted bytes"
+  ],
+  "paidCalls": 0,
+  "modelFixture": "fixture-only offline gateway; real pinned native Harness; real filesystem tools; real live portal/UI",
+  "nativeModelCalls": 10,
+  "nativeReadFileSteps": 8,
+  "uiCharacters": 90026,
+  "largeAnswerBytes": 9437206,
+  "productionBudgetBefore": {
+    "attempts": 31,
+    "confirmed_tokens": 240599,
+    "uncertain_ceiling": 0
+  },
+  "productionBudgetAfter": {
+    "attempts": 31,
+    "confirmed_tokens": 240599,
+    "uncertain_ceiling": 0
+  },
+  "fixtureBudget": {
+    "generation": 4,
+    "scope": "student",
+    "student": 5,
+    "period": "weekly",
+    "timezone": "Europe/Moscow",
+    "periodStartsAt": "2026-10-04T20:59:00.000Z",
+    "resetsAt": "2026-10-11T20:59:00.000Z",
+    "limitTokens": 1000000,
+    "debitedTokens": 120228,
+    "remainingAuthorizationTokens": 879772,
+    "enabled": true,
+    "clockValid": true,
+    "maxRemainingCalls": 26,
+    "attempts": 10,
+    "confirmed_tokens": 120228,
+    "uncertain_ceiling": 0,
+    "admittedCeilingTotal": 4314496
+  },
+  "browserErrors": [],
+  "fixtureRemoved": true
+}

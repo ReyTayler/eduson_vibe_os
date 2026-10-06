@@ -31,8 +31,8 @@ try{
  const chat=(await api('GET','/projects/'+project+'/chats'))[0].id;
  for(const mode of ['off','low','high','max']){
   await api('PATCH','/chats/'+chat,{reasoningMode:mode});const value=await api('GET','/chats/'+chat);assert(value.reasoning_mode===mode,'Chat setting not persisted');
-  const engine=await inspect(chat,mode);assert(engine.reasoningMode===mode&&engine.maxTokens===65536&&engine.paidCalls===0,'Engine settings mismatch');
-  checks.push('persisted '+mode+' setting and native engine initialization with 65536 max_tokens');
+  const engine=await inspect(chat,mode);assert(engine.reasoningMode===mode&&engine.maxTokens===393216&&engine.paidCalls===0,'Engine settings mismatch');
+  checks.push('persisted '+mode+' setting and native engine initialization with provider max_tokens');
  }
  await api('PATCH','/chats/'+chat,{reasoningMode:'ultra'},400);
  await api('PATCH','/chats/'+chat,{reasoningMode:'off'});

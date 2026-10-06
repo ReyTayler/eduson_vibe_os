@@ -1,0 +1,16 @@
+{
+  "paidCalls": 0,
+  "source": "authenticated GET /models",
+  "models": [
+    {
+      "id": "deepseek-flash",
+      "contextWindow": 1048576,
+      "maxOutputTokens": 393216
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "contextWindow": 1048576,
+      "maxOutputTokens": 393216
+    }
+  ]
+}

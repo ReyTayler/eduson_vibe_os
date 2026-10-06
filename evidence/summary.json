@@ -1,5 +1,5 @@
 {
-  "timeUtc": "2026-10-06T18:30:04.287392+00:00",
+  "timeUtc": "2026-10-06T18:52:32.601820+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
@@ -27,7 +27,7 @@
     "remainingAuthorizationTokens": 999943,
     "enabled": true,
     "clockValid": true,
-    "maxRemainingCalls": 7,
+    "maxRemainingCalls": 30,
     "attempts": 3,
     "confirmed_tokens": 57,
     "uncertain_ceiling": 0,
@@ -99,15 +99,26 @@
       "checks": 8,
       "paidCalls": 0,
       "evidence": "weekly-quota-acceptance.json"
+    },
+    "model-gateway-response-budget": {
+      "passed": true,
+      "checks": 55,
+      "evidence": "response-budget-tests.tap"
+    },
+    "native-large-response": {
+      "passed": true,
+      "checks": 4,
+      "paidCalls": 0,
+      "evidence": "response-harness-acceptance.json"
     }
   },
   "staticChecks": {
     "goVet": "passed",
     "strictProfilesTypeScript": "passed",
     "strictPortalTypeScriptBuild": "passed",
-    "javascriptSyntaxFiles": 30,
+    "javascriptSyntaxFiles": 32,
     "pythonSyntaxFiles": 13,
-    "documentationLinks": 73,
+    "documentationLinks": 85,
     "diffCheck": "passed",
     "renewalDryRun": "passed",
     "runtimeMatchesSource": "passed"
@@ -172,10 +183,16 @@
       "max"
     ],
     "default": "off",
-    "maxTokens": 65536,
-    "scope": "per-chat persisted; immutable run snapshot"
+    "scope": "per-chat persisted; immutable run snapshot",
+    "providerMaxOutputTokens": 393216,
+    "providerContextWindow": 1048576,
+    "platformAnswerTokenLimit": null,
+    "platformMaxSteps": null,
+    "outputPolicy": "provider-discovered maximum, atomically reduced to personal weekly allowance",
+    "absoluteModelAndRunDeadline": null,
+    "providerIdleTimeoutMs": 300000
   },
-  "latestFeatureEvidence": "weekly-quota-final.json",
+  "latestFeatureEvidence": "response-policy-final.json",
   "studentWeeklyBudgets": [
     {
       "generation": 4,
@@ -190,7 +207,7 @@
       "remainingAuthorizationTokens": 767219,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 5,
+      "maxRemainingCalls": 23,
       "attempts": 16,
       "confirmed_tokens": 232781,
       "uncertain_ceiling": 0,
@@ -209,7 +226,7 @@
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 7,
+      "maxRemainingCalls": 30,
       "attempts": 1,
       "confirmed_tokens": 19,
       "uncertain_ceiling": 0,
@@ -228,7 +245,7 @@
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 7,
+      "maxRemainingCalls": 30,
       "attempts": 1,
       "confirmed_tokens": 19,
       "uncertain_ceiling": 0,
@@ -247,7 +264,7 @@
       "remainingAuthorizationTokens": 999981,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 7,
+      "maxRemainingCalls": 30,
       "attempts": 1,
       "confirmed_tokens": 19,
       "uncertain_ceiling": 0,
@@ -266,7 +283,7 @@
       "remainingAuthorizationTokens": 992296,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 7,
+      "maxRemainingCalls": 30,
       "attempts": 9,
       "confirmed_tokens": 7704,
       "uncertain_ceiling": 0,

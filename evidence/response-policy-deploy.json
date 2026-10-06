@@ -1,0 +1,23 @@
+{
+  "deployed": true,
+  "beforeLifetime": {
+    "attempts": 31,
+    "confirmed_tokens": 240599,
+    "uncertain_ceiling": 0
+  },
+  "afterLifetime": {
+    "attempts": 31,
+    "confirmed_tokens": 240599,
+    "uncertain_ceiling": 0
+  },
+  "humanProjectsUpdatedWithoutDataChanges": 3,
+  "paidCalls": 0,
+  "modelOutputPolicy": "provider discovery and remaining personal week",
+  "platform64KCapRemoved": true,
+  "sixStepLimitRemoved": true,
+  "absoluteModelAndRunDeadlinesRemoved": true,
+  "studentQuotasPreserved": true,
+  "maxGatewayFrameBytes": 134217728,
+  "maxInternalFrameBytes": 268435456,
+  "services": "5 active"
+}

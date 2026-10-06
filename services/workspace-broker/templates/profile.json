@@ -89,8 +89,7 @@
         "id": "school-deepseek",
         "name": "/opt/vibe-os/poc-profile/deepseek-model.js",
         "config": {
-          "credentialId": 20,
-          "maxTokens": 1024
+          "credentialId": 20
         }
       },
       {
@@ -101,15 +100,13 @@
           "loader"
         ],
         "config": {
-          "maxLogBytes": 8388608,
-          "maxLogEvents": 20000,
-          "maxEventBytes": 131072,
+          "maxLogBytes": 100663296,
+          "maxLogEvents": 1000000,
+          "maxEventBytes": 134217728,
           "maxSessions": 16,
-          "maxReadBytes": 235520,
-          "maxSteps": 4,
+          "maxReadBytes": 134217728,
           "provider": "school-deepseek",
-          "model": "deepseek-flash",
-          "maxTokens": 1024
+          "model": "deepseek-flash"
         }
       }
     ]

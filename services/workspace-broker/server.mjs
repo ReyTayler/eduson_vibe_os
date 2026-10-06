@@ -259,13 +259,15 @@ function provision(id, student) {
     if (p.id === "sdk-app-startup") p.config.profile = "student";
     if (p.id === "school-deepseek") {
       p.config.credentialId = 19 + student;
-      p.config.maxTokens = 65536;
+      delete p.config.maxTokens;
     }
     if (p.id === "sdk-jsonrpc-server") {
-      p.config.maxSteps = 6;
-      p.config.maxEventBytes = 4194304;
-      p.config.maxReadBytes = 6291456;
-      p.config.maxTokens = 65536;
+      delete p.config.maxSteps;
+      p.config.maxLogBytes = 96 * 1024 * 1024;
+      p.config.maxLogEvents = 1000000;
+      p.config.maxEventBytes = 128 * 1024 * 1024;
+      p.config.maxReadBytes = 128 * 1024 * 1024;
+      delete p.config.maxTokens;
     }
     if (p.id === "system-prompt")
       p.config.personaPrefix =
@@ -589,15 +591,13 @@ async function ai(params, res) {
       "--unit=" + unit,
       "--slice=vibe-student-engines.slice",
       "-p",
-      "MemoryMax=512M",
+      "MemoryMax=1024M",
       "-p",
       "MemorySwapMax=0",
       "-p",
       "TasksMax=64",
       "-p",
       "CPUQuota=100%",
-      "-p",
-      "RuntimeMaxSec=1800s",
       "-p",
       "KillMode=control-group",
       "/opt/vibe-os/bin/nsjail",
@@ -615,7 +615,8 @@ async function ai(params, res) {
       env: { PATH: "/usr/local/bin:/usr/bin:/bin", LANG: "C.UTF-8" },
     },
   );
-  let buffer = "",
+  let lineParts = [],
+    lineBytes = 0,
     stderr = "",
     counter = 0,
     settledResolve,
@@ -632,6 +633,7 @@ async function ai(params, res) {
       const n = ++counter;
       const timer = setTimeout(() => {
         pending.delete(n);
+        console.error("Student engine RPC timeout", method);
         reject(error("ENGINE_PROTOCOL_TIMEOUT", 503));
       }, timeout);
       pending.set(n, { resolve, reject, timer });
@@ -658,15 +660,20 @@ async function ai(params, res) {
     stderr = (stderr + c.toString()).slice(-8192);
   });
   child.stdout.on("data", (chunk) => {
-    buffer += chunk.toString();
-    if (buffer.length > 8388608) {
-      settledReject(error("ENGINE_OUTPUT_LIMIT", 503));
-      return;
-    }
-    let at;
-    while ((at = buffer.indexOf("\n")) >= 0) {
-      const line = buffer.slice(0, at);
-      buffer = buffer.slice(at + 1);
+    for (const p of pending.values()) p.timer.refresh();
+    const pieces = chunk.toString().split("\n");
+    for (let i = 0; i < pieces.length; i++) {
+      lineParts.push(pieces[i]);
+      lineBytes += Buffer.byteLength(pieces[i]);
+      if (lineBytes > 256 * 1024 * 1024) {
+        settledReject(error("ENGINE_OUTPUT_LIMIT", 503));
+        return;
+      }
+      if (i === pieces.length - 1) break;
+      const line = lineParts.join("");
+      lineParts = [];
+      lineBytes = 0;
+      if (!line) continue;
       try {
         const msg = JSON.parse(line);
         if (msg.id !== undefined && pending.has(msg.id)) {
@@ -704,10 +711,6 @@ async function ai(params, res) {
     pending.clear();
     settledReject(error("ENGINE_STOPPED", 503));
   });
-  const deadline = setTimeout(
-    () => settledReject(error("AI_TIMEOUT", 503)),
-    1780000,
-  );
   try {
     emit(res, "phase", { text: "Запускаю помощника" });
     const initialized = await rpc("initialize", {
@@ -732,6 +735,8 @@ async function ai(params, res) {
         paidCalls: 0,
         reasoningMode: initialized.reasoningMode,
         maxTokens: initialized.maxTokens,
+        maxSteps: initialized.maxSteps,
+        outputPolicy: initialized.outputPolicy,
       });
       return;
     }
@@ -744,12 +749,16 @@ async function ai(params, res) {
     const result = await settled;
     const events = [];
     let cursor = startCursor;
-    for (let i = 0; i < 40; i++) {
-      const page = await rpc("session/read", { sessionId: sid, cursor });
+    for (;;) {
+      const page = await rpc(
+        "session/read",
+        { sessionId: sid, cursor },
+        180000,
+      );
       events.push(...page.events);
-      if (page.nextCursor === cursor || page.events.length === 0) break;
+      if (page.events.length === 0) break;
+      if (page.nextCursor <= cursor) throw error("HISTORY_CURSOR_INVALID", 503);
       cursor = page.nextCursor;
-      if (events.length > 1024) throw error("HISTORY_LIMIT", 409);
     }
     const messages = events
       .filter((e) => e.type === "assistant/message")
@@ -759,8 +768,6 @@ async function ai(params, res) {
       .filter((b) => b.type === "text")
       .map((b) => b.text)
       .join("\n\n");
-    if (Buffer.byteLength(answer) > 8388608)
-      throw error("RESULT_BYTES_LIMIT", 409);
     const tools = events
       .filter((e) => e.type === "tool/call")
       .map((e) => ({ name: e.data.name, arguments: e.data.arguments }))
@@ -797,7 +804,6 @@ async function ai(params, res) {
     );
     emit(res, "failed", { error: engine.cancelled ? "CANCELLED" : e.message });
   } finally {
-    clearTimeout(deadline);
     if (!stopped) {
       try {
         systemctl("stop", unit);

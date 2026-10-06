@@ -15,7 +15,7 @@ ProtectSystem=strict
 ProtectHome=yes
 PrivateTmp=yes
 ReadWritePaths=/var/lib/vibe-os/portal
-MemoryMax=384M
+MemoryMax=768M
 MemorySwapMax=0
 TasksMax=64
 [Install]

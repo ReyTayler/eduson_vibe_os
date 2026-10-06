@@ -195,7 +195,7 @@ function callBroker(body, { stream = false } = {}) {
       },
     );
     req.on("error", () => reject(fail("BROKER_UNAVAILABLE", 503)));
-    req.setTimeout(stream ? 1850000 : 20000, () => req.destroy());
+    req.setTimeout(stream ? 0 : 20000, () => req.destroy());
     req.end(bytes);
   });
 }
@@ -971,25 +971,23 @@ app.get("/api/runs/:id/events", async (req, reply) => {
     return;
   }
   const keep = setInterval(() => {
-      const live = db
-        .prepare(
-          "SELECT s.epoch,s.expires,u.epoch current_epoch FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=?",
-        )
-        .get(res.sessionHash);
-      if (
-        !live ||
-        live.expires < Date.now() ||
-        live.epoch !== live.current_epoch
-      ) {
-        res.end();
-        return;
-      }
-      if (!res.destroyed) res.write(": alive\n\n");
-    }, 15000),
-    end = setTimeout(() => res.end(), 1850000);
+    const live = db
+      .prepare(
+        "SELECT s.epoch,s.expires,u.epoch current_epoch FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=?",
+      )
+      .get(res.sessionHash);
+    if (
+      !live ||
+      live.expires < Date.now() ||
+      live.epoch !== live.current_epoch
+    ) {
+      res.end();
+      return;
+    }
+    if (!res.destroyed) res.write(": alive\n\n");
+  }, 15000);
   res.on("close", () => {
     clearInterval(keep);
-    clearTimeout(end);
     set.delete(res);
     if (!set.size) subscribers.delete(r.id);
   });
@@ -1062,14 +1060,26 @@ async function pump() {
           { stream: true },
         );
         response.setEncoding("utf8");
-        let buffer = "";
+        let frameParts = [],
+          frameBytes = 0,
+          tail = "";
         for await (const data of response) {
-          buffer += data.toString();
-          if (buffer.length > 8388608) throw fail("BROKER_UNAVAILABLE", 503);
-          let at;
-          while ((at = buffer.indexOf("\n\n")) >= 0) {
-            const frame = buffer.slice(0, at);
-            buffer = buffer.slice(at + 2);
+          const pieces = (tail + data.toString()).split("\n\n");
+          tail = "";
+          for (let i = 0; i < pieces.length; i++) {
+            let piece = pieces[i];
+            if (i === pieces.length - 1 && piece.endsWith("\n")) {
+              tail = "\n";
+              piece = piece.slice(0, -1);
+            }
+            frameParts.push(piece);
+            frameBytes += Buffer.byteLength(piece);
+            if (frameBytes > 256 * 1024 * 1024)
+              throw fail("BROKER_UNAVAILABLE", 503);
+            if (i === pieces.length - 1) break;
+            const frame = frameParts.join("");
+            frameParts = [];
+            frameBytes = 0;
             const event = frame
                 .split("\n")
                 .find((l) => l.startsWith("event: "))
@@ -1082,9 +1092,7 @@ async function pump() {
             const value = JSON.parse(line);
             if (event === "delta") {
               partial += value.text ?? "";
-              if (Buffer.byteLength(partial) > 8388608)
-                throw fail("RESULT_BYTES_LIMIT", 409);
-              if (Date.now() - lastSaved > 150) {
+              if (Date.now() - lastSaved > 1000) {
                 db.prepare(
                   "UPDATE runs SET partial=?,updated=? WHERE id=?",
                 ).run(partial, Date.now(), run.id);

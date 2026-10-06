@@ -21,7 +21,7 @@ ProtectHome=yes
 PrivateTmp=yes
 RestrictAddressFamilies=AF_UNIX
 ReadWritePaths=/srv/vibe-os/data/student-projects /etc/vibe-os/student-projects /var/lib/vibe-os/student-registry /var/lib/vibe-os/portal-broker /run/vibe-os-portal /sys/fs/cgroup
-MemoryMax=256M
+MemoryMax=768M
 MemorySwapMax=0
 TasksMax=128
 [Install]

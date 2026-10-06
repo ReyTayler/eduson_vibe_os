@@ -6,8 +6,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 5311,
-    "sha256": "2a98f8ea5011f75550b7e1c3961ba360e2dce013f4279e40a9ac376edde429ef"
+    "bytes": 5636,
+    "sha256": "4ac4f9b0718e01fe8ad4d919e7b95cc7d98e9c79915de53888b08a8c9f7b9737"
   },
   {
     "path": "apps/portal/api/bootstrap.mjs",
@@ -16,8 +16,8 @@
   },
   {
     "path": "apps/portal/api/server.mjs",
-    "bytes": 41992,
-    "sha256": "cb286cf55c3d298e57a3d2b31c14093ee672e5deed9855433309444bf0562687"
+    "bytes": 42212,
+    "sha256": "e6eace956b0992cbdd25ea4814a0e961d2533eec425440acff61b9eeadbbe894"
   },
   {
     "path": "apps/portal/api/templates.mjs",
@@ -86,8 +86,8 @@
   },
   {
     "path": "apps/portal/src/Workspace.tsx",
-    "bytes": 43683,
-    "sha256": "4371c32a4d5429b55d5c165143800ef08306463364787d3737473e6c46f3a5d4"
+    "bytes": 44599,
+    "sha256": "1890d6dbb3d481f0e1a66729c51cef9756a246f3bd60b009702939468bd2701d"
   },
   {
     "path": "apps/portal/src/api.ts",
@@ -136,8 +136,13 @@
   },
   {
     "path": "apps/portal/tests/reasoning.mjs",
-    "bytes": 5785,
-    "sha256": "320bac4e4acd30a9ea82e5dba13d3a1167167060a9d0732cf7c6e4d5ebd22b84"
+    "bytes": 5789,
+    "sha256": "9e1bed3bdcabca52db59a66ce68ab6b369005969a9c36154c342d431d2f47ab3"
+  },
+  {
+    "path": "apps/portal/tests/response-harness.mjs",
+    "bytes": 13535,
+    "sha256": "e6d1865fa612a79189cdc96f7e11c62d286f59e9f044c29493c1368a5ac4c14b"
   },
   {
     "path": "apps/portal/tests/secret-scan.mjs",
@@ -156,8 +161,8 @@
   },
   {
     "path": "apps/portal/tests/weekly-quota.mjs",
-    "bytes": 10602,
-    "sha256": "58f42fc3fb6ee628c188954ae3987d7f746fd51753fbb16494b66c1e0aeca315"
+    "bytes": 10603,
+    "sha256": "08ba3483416ce0f210f3fd97848ba9a26696a29c851d0ddcd008c904e2cd9728"
   },
   {
     "path": "apps/portal/tsconfig.json",
@@ -176,8 +181,8 @@
   },
   {
     "path": "docs/deepseek-integration.md",
-    "bytes": 10972,
-    "sha256": "c2bee7da392df68dd02ea6b9145ff543e75abb046d9807fcf74669988887226c"
+    "bytes": 11364,
+    "sha256": "d896c92f87319f820b37315c1a3b9aa56925fb737c54e53078c97f7a79948aa3"
   },
   {
     "path": "docs/implementation-next-generation1.md",
@@ -186,23 +191,28 @@
   },
   {
     "path": "docs/implementation-next.md",
-    "bytes": 10102,
-    "sha256": "ec140c77bbe23ead8370e574d0346f4406507ff1ab4b86d1dfe8b45b8060bbf1"
+    "bytes": 10187,
+    "sha256": "e5dec7f3f42bc1f1b87af297b69796d3cfaafa24aee332ab4ea25d9cfedf8e71"
   },
   {
     "path": "docs/reasoning-settings.md",
-    "bytes": 8902,
-    "sha256": "27edcea39facd94dbfcb41620d6446560290ab922e032fa796ce50e14604b60e"
+    "bytes": 9294,
+    "sha256": "8625470f2a2b961ed2a5a1227b52d614939460bcd7bcb6c02766fa091d9c0ab2"
+  },
+  {
+    "path": "docs/response-policy.md",
+    "bytes": 11137,
+    "sha256": "3ecfee0f9aba53ead5932251a2284c68142d8c84aaaaf9ac7cd47b6ee4914805"
   },
   {
     "path": "docs/student-portal.md",
-    "bytes": 23472,
-    "sha256": "44ba8124b555cb6f9836991f3522ba7456c8d2e92a12ac7823524745e587af91"
+    "bytes": 23864,
+    "sha256": "705b7ced026933fe893725404fea92b16f1d1375d8f1b80377d491a3e3d81657"
   },
   {
     "path": "docs/weekly-quota.md",
-    "bytes": 11960,
-    "sha256": "8deb69f46240a2960927e5c1a18a151b9cd34fe2ec6f568cce8fcc8ac7059b7e"
+    "bytes": 12238,
+    "sha256": "82c678b3daba7fe6cfbe5a093e4ad5394c7143719e1eb351490557ae476d6405"
   },
   {
     "path": "evidence/control-tests.tap",
@@ -350,9 +360,14 @@
     "sha256": "fad4108d3119781d8dd7bd80c7bc0edca8334cf00d353a9a3c52796a37d567a4"
   },
   {
+    "path": "evidence/portal-ui/mobile-quota-only-answer.png",
+    "bytes": 183417,
+    "sha256": "082923adace95074a68b1221a131dd561474914eed607be191f07b20de8aa936"
+  },
+  {
     "path": "evidence/portal-ui/mobile-reasoning.png",
-    "bytes": 184127,
-    "sha256": "6cf41771726787c42e8ba5193b1e7a2c02eee08174a8329f3dd613db7dad882a"
+    "bytes": 183504,
+    "sha256": "6ed2cf1a701dd0e7298c7ef52b936a97e58e1da108d82c08f9693d7d76cb0b69"
   },
   {
     "path": "evidence/portal-ui/mobile-weekly-quota.png",
@@ -375,9 +390,14 @@
     "sha256": "30876893efc9d8ddf7578bdb9ca4e9a9001c577cea3e321ceaa2900c75709a92"
   },
   {
+    "path": "evidence/portal-ui/quota-only-answer.png",
+    "bytes": 453975,
+    "sha256": "f451fe13b18d039578b1045534b9986b81f545daec57af3acb5260d9b14365c8"
+  },
+  {
     "path": "evidence/portal-ui/reasoning.png",
-    "bytes": 445032,
-    "sha256": "dff55a27db3784b23f36db712ec358b983304749b20f5d95db22c5ca26097f79"
+    "bytes": 457600,
+    "sha256": "8af58749af55a7470c7a50c0d08a37277d6b770d587c1f1a6bacb1f60089234e"
   },
   {
     "path": "evidence/portal-ui/settings.png",
@@ -431,8 +451,8 @@
   },
   {
     "path": "evidence/reasoning-free-acceptance.json",
-    "bytes": 1168,
-    "sha256": "0a2aee6b82446e5b1b2e3458f7af8b8c5645d68454bec44a054bb77fd5002729"
+    "bytes": 698,
+    "sha256": "a08159a9065fb4472bd4122dfa5c7489ea963e0529fafc9fcfe7c6a2de073e83"
   },
   {
     "path": "evidence/reasoning-live-acceptance.json",
@@ -453,6 +473,31 @@
     "path": "evidence/reboot-before.json",
     "bytes": 874,
     "sha256": "f7886b0964b9f050ddf2b419b7db57e1b741ce167fd035842951a96040db5143"
+  },
+  {
+    "path": "evidence/response-budget-tests.tap",
+    "bytes": 12985,
+    "sha256": "b67587ccd81e172c09f1f21c3fef2162bb7f89ec55d5c36ab2ec31d7f7d5e701"
+  },
+  {
+    "path": "evidence/response-harness-acceptance.json",
+    "bytes": 1471,
+    "sha256": "dabe2af2be9c862c3cd109bc2784fc2e09520766be663a8e6afee630486e0583"
+  },
+  {
+    "path": "evidence/response-policy-deploy.json",
+    "bytes": 618,
+    "sha256": "7731ae303f872687b11d43c369c348c46a12bbc39751821b126fb83345f3e995"
+  },
+  {
+    "path": "evidence/response-policy-final.json",
+    "bytes": 1662,
+    "sha256": "55dc430e5bdc8a6a0c931abde057c1c4fdd40f97bcac9e4e61202e96a0e9ea4c"
+  },
+  {
+    "path": "evidence/response-provider-metadata.json",
+    "bytes": 295,
+    "sha256": "959e628e51a2f023a7399914c1aef8c0fa0cf8b1f551ee8de8395d87699605a9"
   },
   {
     "path": "evidence/runner-isolation-first.json",
@@ -507,7 +552,7 @@
   {
     "path": "evidence/student-secret-scan.json",
     "bytes": 327,
-    "sha256": "633d2d1176c06e0014127fb82e537f986f21bb11a3bfaea3c97c7c0338754e18"
+    "sha256": "57a307d96d0513a1e42fa4c68f7d982054d3cdf1a17c58f6fcebfccb7bb07b3b"
   },
   {
     "path": "evidence/student-seed.json",
@@ -536,8 +581,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 7256,
-    "sha256": "1fd082fce7c969395aefcf9ece0a86be7eca12891df6b1d731b31c26380ba8a1"
+    "bytes": 7852,
+    "sha256": "2c1485788c29731ddebe84427f46b4a3cdefe97e305ba154ea9894b1f58e762f"
   },
   {
     "path": "evidence/toolchain.json",
@@ -551,8 +596,8 @@
   },
   {
     "path": "evidence/weekly-quota-acceptance.json",
-    "bytes": 2764,
-    "sha256": "ca001a08f09cf58f00c44203b244b2adf16bb88412a3298fc7bdd05cdae1fa47"
+    "bytes": 2769,
+    "sha256": "76ab38404cc4f3629d64f055aa6b64cb7304658114f40cedb058fa53af19a9cb"
   },
   {
     "path": "evidence/weekly-quota-deploy.json",
@@ -692,7 +737,7 @@
   {
     "path": "infra/systemd/vibe-os-model-gateway.service",
     "bytes": 1114,
-    "sha256": "4bd17a7e7286f4eba0c5cae164b29a5fb3bfe87825be5c9200548d70151b8f91"
+    "sha256": "4a3d55d762a6fd173d64809540046bade1c442fee1c9dc09df9cc4c4101b17df"
   },
   {
     "path": "infra/systemd/vibe-os-poc-app1.service",
@@ -747,7 +792,7 @@
   {
     "path": "infra/systemd/vibe-os-portal.service",
     "bytes": 526,
-    "sha256": "2839d2987e60bd3021d5ae23883ac7b47a511ac431d3fe5ed4de1b3449bd3a6e"
+    "sha256": "94c9cab40b4528a9bddc10e0a85859266c2f61d266f9114c9fea2beba6bf3092"
   },
   {
     "path": "infra/systemd/vibe-os-test-web.service",
@@ -757,7 +802,7 @@
   {
     "path": "infra/systemd/vibe-os-workspace-broker.service",
     "bytes": 883,
-    "sha256": "79056b7a96280c4955f40849268244b303bd4d660a9b55b5d28a594c33e34ed7"
+    "sha256": "bf779cf27cb86a03bb2a137b8feb32d7df712948cc20036dd9f4d23cd30ca4ab"
   },
   {
     "path": "infra/systemd/vibe-os-workspace-runner.service",
@@ -816,8 +861,8 @@
   },
   {
     "path": "profiles/deepseek-model.ts",
-    "bytes": 4464,
-    "sha256": "ea2f44d0cd1f6263c12e1b9db2ffc34c057e85792da4306df7f216436cf9627f"
+    "bytes": 8093,
+    "sha256": "5c4c670f3d355e68fddd8f3e522da3aaeaf79e872ab6c6649897f4912682e5cb"
   },
   {
     "path": "profiles/fs-provider.ts",
@@ -836,8 +881,8 @@
   },
   {
     "path": "profiles/school-sdk.ts",
-    "bytes": 11004,
-    "sha256": "284acdaf99d31f82baf9094feb9e1e21130ff1a9d8e5758e4abaf0442c8c0897"
+    "bytes": 13539,
+    "sha256": "3051eefe24c25c743247cbe871e3041eeb472f6a9f59982288fa0f69fc51f59d"
   },
   {
     "path": "profiles/shell-provider.ts",
@@ -901,8 +946,8 @@
   },
   {
     "path": "services/model-gateway/ledger.mjs",
-    "bytes": 17265,
-    "sha256": "15210fdb247afef0eb92e80c8ee8ee1c24e8987df3d63dc22ee592555bac4e4d"
+    "bytes": 18388,
+    "sha256": "92bf3676a5734e26e25b12e8edd3d214e5cb2933dd3431b022f009697b309eca"
   },
   {
     "path": "services/model-gateway/operator.mjs",
@@ -911,8 +956,8 @@
   },
   {
     "path": "services/model-gateway/server.mjs",
-    "bytes": 17772,
-    "sha256": "4ad0a674e38ca393e3774d68802c648438caceb25f4ffc80a79c5636c795165a"
+    "bytes": 19487,
+    "sha256": "1f4006001562e867058fc2e0872d0c7e8fe317cc82a78f17ac39e2eb6b20479c"
   },
   {
     "path": "services/model-gateway/wait-ready.mjs",
@@ -936,13 +981,13 @@
   },
   {
     "path": "services/workspace-broker/server.mjs",
-    "bytes": 32510,
-    "sha256": "da538a6535086375e77ec981b645d11be45f4464f0b0207a37cfa548974c62fd"
+    "bytes": 32765,
+    "sha256": "04c507f9f93b6c67d26ed8b3011ce9bd1e8b3a1ce6c88ceb37bc44a52a7e1cc9"
   },
   {
     "path": "services/workspace-broker/templates/engine.cfg",
-    "bytes": 2739,
-    "sha256": "a04ec74690aa1ee7f7f66cb6622c3e679dc244a91d1b8929f78d87dd92d11bec"
+    "bytes": 2740,
+    "sha256": "a710fb5ddc6f6bc5bab2e6f1e0200229cdc5798878d230268fdc631d232d0603"
   },
   {
     "path": "services/workspace-broker/templates/package.json",
@@ -951,8 +996,8 @@
   },
   {
     "path": "services/workspace-broker/templates/profile.json",
-    "bytes": 3394,
-    "sha256": "53e40c33d304a2e1d1d2bebc8b3d26b7d6265dd6c3a20c72dbe8d3234cfa2fce"
+    "bytes": 3321,
+    "sha256": "15985df1ad0bfe2771bd8bf20f35e49167b8b6fe44e54c4c2593bfe64a71108c"
   },
   {
     "path": "services/workspace-broker/templates/tool.cfg",
@@ -991,13 +1036,18 @@
   },
   {
     "path": "tests/model-gateway.test.mjs",
-    "bytes": 17496,
-    "sha256": "73aa98d4f2ce6ae57ca69690e823ae29e8567939d3110ff17bbb249daf37b8e6"
+    "bytes": 17517,
+    "sha256": "d2d3619e783097877965616b875660cb6668dac4dfd1c6e3985701d373e9af2c"
   },
   {
     "path": "tests/poc_client.py",
     "bytes": 912,
     "sha256": "91aa9f2d8cb66a8b7685be5dfac6c000d713749c56e022e85619f10a6e6a9ab0"
+  },
+  {
+    "path": "tests/response-budget.test.mjs",
+    "bytes": 9704,
+    "sha256": "cd44c303192bfb9a78fa37c278585a8b33c83f3e7eaf9c866de1ab5b829838c3"
   },
   {
     "path": "tests/runner_recovery.py",
@@ -1006,8 +1056,8 @@
   },
   {
     "path": "tests/weekly-budget.test.mjs",
-    "bytes": 9360,
-    "sha256": "f74ed11574c8090138b369525ec1f83e18a70ce2bda1d5a21062676b41c1b0da"
+    "bytes": 9337,
+    "sha256": "2aa8b816cae8ff77c0d267f992fbaeb65f6f9de7bf65b9e42293fa1f90e7b79e"
   },
   {
     "path": "tsconfig.profiles.json",

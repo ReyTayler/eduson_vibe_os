@@ -219,7 +219,7 @@ try {
   const engine = JSON.parse(block.split("\ndata: ")[1]);
   assert(
     engine.paidCalls === 0 &&
-      engine.maxTokens === 65536 &&
+      engine.maxTokens === 393216 &&
       engine.reasoningMode === "off",
     "Native engine policy",
   );

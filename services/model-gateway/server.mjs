@@ -4,13 +4,20 @@ import { readFileSync, unlinkSync, chmodSync } from "node:fs";
 import { join } from "node:path";
 import { timingSafeEqual, createHash } from "node:crypto";
 import { Vault } from "../../packages/credentials/vault.mjs";
-import { Ledger, CALL_DEBIT } from "./ledger.mjs";
+import {
+  Ledger,
+  CALL_DEBIT,
+  INPUT_SAFETY_MARGIN,
+  TOKEN_CEILING,
+} from "./ledger.mjs";
 const UPSTREAM = "https://api.deepseek.com";
 export const MAX_BODY = 524288,
-  MAX_OUTPUT = 65536;
-export const MODEL_TIMEOUT_MS = 1200000;
+  MAX_OUTPUT = 393216;
+export const MODEL_IDLE_TIMEOUT_MS = 300000;
+export const MAX_STREAM_BYTES = TOKEN_CEILING * 512;
+export const MAX_STREAM_FRAME = 128 * 1024 * 1024;
 export function reservationFor(rawBytes, maxOutput) {
-  return Math.max(CALL_DEBIT, rawBytes + 32768 + maxOutput);
+  return Math.max(CALL_DEBIT, rawBytes + INPUT_SAFETY_MARGIN + maxOutput);
 }
 function fail(code, status = 400) {
   const e = new Error(code);
@@ -42,8 +49,7 @@ export function validateBody(value) {
     b.model !== "deepseek-flash" ||
     b.stream !== true ||
     !Number.isSafeInteger(b.max_tokens) ||
-    b.max_tokens < 1 ||
-    b.max_tokens > MAX_OUTPUT
+    b.max_tokens < 1
   )
     throw fail("MODEL_OR_OUTPUT_LIMIT");
   if (
@@ -209,7 +215,9 @@ export function createGateway({
   capability,
   studentCapabilities = [],
   fetchImpl = fetch,
+  idleTimeoutMs = MODEL_IDLE_TIMEOUT_MS,
 }) {
+  const modelLimits = { maxOutputTokens: MAX_OUTPUT, contextWindow: 1048576 };
   const expected = Buffer.from("Bearer " + capability);
   const studentTokens = studentCapabilities.map((row) => {
     if (
@@ -231,9 +239,10 @@ export function createGateway({
     let admitted = false,
       finished = false,
       requestId,
-      status;
+      status,
+      reservation;
     const control = new AbortController(),
-      timer = setTimeout(() => control.abort(), MODEL_TIMEOUT_MS);
+      timer = setTimeout(() => control.abort(), idleTimeoutMs);
     res.on("close", () => {
       if (!res.writableEnded) control.abort();
     });
@@ -293,6 +302,16 @@ export function createGateway({
             contextWindow: m.context_window,
             maxOutputTokens: m.max_output_tokens,
           }));
+        const flash = models.find((m) => m.id === "deepseek-flash");
+        if (
+          !flash ||
+          !Number.isSafeInteger(flash.maxOutputTokens) ||
+          flash.maxOutputTokens < 1 ||
+          !Number.isSafeInteger(flash.contextWindow) ||
+          flash.contextWindow < 1
+        )
+          throw fail("MODEL_DISCOVERY_INVALID", 502);
+        Object.assign(modelLimits, flash);
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify({ credentialId: keyId, models }));
         return;
@@ -306,6 +325,7 @@ export function createGateway({
       const parts = [];
       let n = 0;
       for await (const p of req) {
+        timer.refresh();
         n += p.length;
         if (n > MAX_BODY) throw fail("REQUEST_BYTES_LIMIT", 413);
         parts.push(p);
@@ -313,14 +333,29 @@ export function createGateway({
       const raw = Buffer.concat(parts),
         body = validateBody(JSON.parse(raw.toString("utf8")));
       const key = vault.get(keyId);
-      ledger.reserve(
-        requestId,
-        keyId,
-        createHash("sha256").update(raw).digest("hex"),
-        reservationFor(raw.length, body.max_tokens),
-        actor?.student ?? null,
-      );
+      const bodyHash = createHash("sha256").update(raw).digest("hex");
+      if (ledger.reserveOutput) {
+        reservation = ledger.reserveOutput(
+          requestId,
+          keyId,
+          bodyHash,
+          raw.length + INPUT_SAFETY_MARGIN,
+          body.max_tokens,
+          actor?.student ?? null,
+          modelLimits.maxOutputTokens,
+          modelLimits.contextWindow,
+        );
+        body.max_tokens = reservation.maxTokens;
+      } else {
+        body.max_tokens = Math.min(
+          body.max_tokens,
+          modelLimits.maxOutputTokens,
+        );
+        reservation = { debit: reservationFor(raw.length, body.max_tokens) };
+        ledger.reserve(requestId, keyId, bodyHash, reservation.debit);
+      }
       admitted = true;
+      timer.refresh();
       const response = await fetchImpl(UPSTREAM + "/anthropic/v1/messages", {
         method: "POST",
         redirect: "error",
@@ -354,6 +389,7 @@ export function createGateway({
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-store",
         "X-Vibe-Request-Id": requestId,
+        "X-Vibe-Max-Output-Tokens": String(body.max_tokens),
       });
       const reader = response.body.getReader(),
         decoder = new TextDecoder("utf-8", { fatal: true });
@@ -373,8 +409,9 @@ export function createGateway({
         while (true) {
           const part = await reader.read();
           if (part.done) break;
+          timer.refresh();
           bytes += part.value.length;
-          if (bytes > 67108864) throw fail("PROVIDER_BYTES_LIMIT", 502);
+          if (bytes > MAX_STREAM_BYTES) throw fail("PROVIDER_BYTES_LIMIT", 502);
           pending += decoder.decode(part.value, { stream: true });
           pending = pending.replace(/\r\n/g, "\n");
 
@@ -382,7 +419,7 @@ export function createGateway({
           while ((boundary = pending.indexOf("\n\n")) >= 0) {
             const frame = pending.slice(0, boundary);
             pending = pending.slice(boundary + 2);
-            if (Buffer.byteLength(frame) > 4194304)
+            if (Buffer.byteLength(frame) > MAX_STREAM_FRAME)
               throw fail("PROVIDER_FRAME_LIMIT", 502);
             const data = frame
               .split("\n")
@@ -402,10 +439,20 @@ export function createGateway({
               usageFields(event.message?.usage, usage);
               if (event.message?.usage?.input_tokens === undefined)
                 throw fail("PROVIDER_USAGE_INVALID", 502);
+              if (
+                usage.input +
+                  usage.cacheRead +
+                  usage.cacheWrite +
+                  body.max_tokens >
+                reservation.debit
+              )
+                throw fail("PROVIDER_INPUT_EXCEEDS_ENVELOPE", 502);
             }
             if (event.type === "message_delta" && event.usage) {
               usageFields(event.usage, usage);
               if (event.usage.output_tokens !== undefined) outputSeen = true;
+              if (usage.output > body.max_tokens)
+                throw fail("PROVIDER_USAGE_INVALID", 502);
             }
             if (event.type === "message_stop") {
               if (!start || !outputSeen || usage.output > body.max_tokens)
@@ -415,7 +462,7 @@ export function createGateway({
               ledger.finish(requestId, "settled", usage, status);
               finished = true;
               terminal = true;
-              if (usage.total > reservationFor(raw.length, body.max_tokens))
+              if (usage.total > reservation.debit)
                 throw fail("PROVIDER_USAGE_EXCEEDS_ENVELOPE", 502);
               await write(res, frame + "\n\n");
               res.end();
@@ -424,7 +471,7 @@ export function createGateway({
             }
             await write(res, frame + "\n\n");
           }
-          if (Buffer.byteLength(pending) > 4194304)
+          if (Buffer.byteLength(pending) > MAX_STREAM_FRAME)
             throw fail("PROVIDER_FRAME_LIMIT", 502);
         }
         if (!terminal) throw fail("PROVIDER_STREAM_INCOMPLETE", 502);

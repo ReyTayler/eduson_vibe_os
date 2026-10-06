@@ -112,6 +112,8 @@ export default function Workspace({
     revisionRef = useRef(project.revision),
     chatRef = useRef(""),
     events = useRef<EventSource | null>(null),
+    partialBuffer = useRef(""),
+    partialFlush = useRef<ReturnType<typeof setTimeout> | null>(null),
     scroll = useRef<HTMLDivElement>(null),
     mounted = useRef(true);
   const dirty = text !== savedText,
@@ -256,10 +258,17 @@ export default function Workspace({
   }
   function watch(run: string) {
     events.current?.close();
+    if (partialFlush.current) clearTimeout(partialFlush.current);
+    partialFlush.current = null;
+    partialBuffer.current = "";
+    setPartial("");
     const source = new EventSource("/api/runs/" + run + "/events");
     events.current = source;
     source.addEventListener("status", (event) => {
       const value = JSON.parse((event as MessageEvent).data);
+      // Status precedes a complete persisted partial on every SSE connection.
+      partialBuffer.current = "";
+      setPartial("");
       setPhase(
         value.state === "queued" ? "Идея в очереди" : "Помощник работает",
       );
@@ -267,18 +276,24 @@ export default function Workspace({
     source.addEventListener("phase", (event) =>
       setPhase(JSON.parse((event as MessageEvent).data).text),
     );
-    source.addEventListener("delta", (event) =>
-      setPartial((old) =>
-        (old + (JSON.parse((event as MessageEvent).data).text ?? "")).slice(
-          0,
-          65536,
-        ),
-      ),
-    );
+    source.addEventListener("delta", (event) => {
+      if (events.current !== source) return;
+      partialBuffer.current +=
+        JSON.parse((event as MessageEvent).data).text ?? "";
+      if (!partialFlush.current)
+        partialFlush.current = setTimeout(() => {
+          partialFlush.current = null;
+          if (mounted.current && events.current === source)
+            setPartial(partialBuffer.current);
+        }, 100);
+    });
     source.addEventListener("complete", () => {
       source.close();
       events.current = null;
       setActiveRun(null);
+      if (partialFlush.current) clearTimeout(partialFlush.current);
+      partialFlush.current = null;
+      partialBuffer.current = "";
       setPartial("");
       setPhase("");
       void Promise.all([
@@ -313,6 +328,9 @@ export default function Workspace({
     return () => {
       mounted.current = false;
       events.current?.close();
+      if (partialFlush.current) clearTimeout(partialFlush.current);
+      partialFlush.current = null;
+      partialBuffer.current = "";
     };
   }, [project.id]);
   useEffect(() => {
@@ -1130,8 +1148,8 @@ export default function Workspace({
                   <option value="high">High</option>
                   <option value="max">Max</option>
                 </select>
-                <span title="Верхний предел одного ответа модели, включая рассуждения">
-                  Ответ до 64K
+                <span title="Длина ответа зависит от остатка недельной квоты и возможностей модели">
+                  По квоте
                 </span>
               </div>
               <div className="composer-box">
