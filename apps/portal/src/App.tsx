@@ -2,6 +2,7 @@ import Admin from "./Admin";
 import { Logo } from "./Brand";
 export { Logo } from "./Brand";
 import CreditUsage, { creditNumber } from "./CreditUsage";
+import ChatNameActions from "./ChatNameActions";
 import {
   useEffect,
   useRef,
@@ -372,21 +373,31 @@ function StudentApp() {
     const t = setTimeout(() => setToast(""), 4500);
     return () => clearTimeout(t);
   }, [toast]);
+  async function loadAllChats() {
+    const lists = await Promise.all(
+      projects.map(async (p) =>
+        (await api<Chat[]>("/projects/" + p.id + "/chats")).map((c) => ({
+          ...c,
+          project: p,
+        })),
+      ),
+    );
+    setAllChats(lists.flat().sort((a, b) => b.updated - a.updated));
+  }
   useEffect(() => {
     if (view === "chats" && user)
-      Promise.all(
-        projects.map(async (p) =>
-          (await api<Chat[]>("/projects/" + p.id + "/chats")).map((c) => ({
-            ...c,
-            project: p,
-          })),
-        ),
-      )
-        .then((v) =>
-          setAllChats(v.flat().sort((a, b) => b.updated - a.updated)),
-        )
-        .catch((e) => say(e.message));
-  }, [view, projects.length]);
+      void loadAllChats().catch((e) => say(e.message));
+  }, [view, projects, user?.id]);
+  const pendingChatNames = allChats.some(
+    (c) => c.name_status === "queued" || c.name_status === "generating",
+  );
+  useEffect(() => {
+    if (view !== "chats" || !user || !pendingChatNames) return;
+    const timer = setInterval(() => {
+      void loadAllChats().catch(() => {});
+    }, 2000);
+    return () => clearInterval(timer);
+  }, [view, user?.id, pendingChatNames, projects]);
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
@@ -965,22 +976,34 @@ function StudentApp() {
                 />
                 <div className="chat-list glass">
                   {allChats.map((c) => (
-                    <button
-                      className="chat-list-row"
-                      key={c.id}
-                      onClick={() => open(c.project, c.id)}
-                    >
-                      <span className="chat-icon">
-                        <MessageSquare size={20} />
-                      </span>
-                      <div>
-                        <b>{c.name}</b>
-                        <small>
-                          {c.project.name} · {ago(c.updated)}
-                        </small>
-                      </div>
-                      <ArrowUpRight size={18} />
-                    </button>
+                    <div className="chat-list-row" key={c.id}>
+                      <button
+                        className="chat-open"
+                        onClick={() => open(c.project, c.id)}
+                      >
+                        <span className="chat-icon">
+                          <MessageSquare size={20} />
+                        </span>
+                        <div className="chat-summary">
+                          <b>
+                            {c.name}
+                            {(c.name_status === "queued" ||
+                              c.name_status === "generating") && (
+                              <Loader2
+                                size={12}
+                                className="chat-name-pending spin"
+                                aria-label="Подбираем название"
+                              />
+                            )}
+                          </b>
+                          <small>
+                            {c.project.name} · {ago(c.updated)}
+                          </small>
+                        </div>
+                        <ArrowUpRight size={18} />
+                      </button>
+                      <ChatNameActions chat={c} onSaved={loadAllChats} />
+                    </div>
                   ))}
                 </div>
                 {!allChats.length && (
@@ -1427,14 +1450,16 @@ function SettingsPage({
     </>
   );
 }
-function Modal({
+export function Modal({
   children,
   onClose,
   className = "",
+  label,
 }: {
   children: ReactNode;
   onClose: () => void;
   className?: string;
+  label?: string;
 }) {
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -1486,6 +1511,7 @@ function Modal({
         ref={box}
         role="dialog"
         aria-modal="true"
+        aria-label={label}
         className={"modal glass " + className}
       >
         <button

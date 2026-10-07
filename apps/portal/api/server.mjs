@@ -1,5 +1,11 @@
 import templates from "./templates.mjs";
 import { registerAdmin } from "./admin.mjs";
+import {
+  createChatNames,
+  registerTitleSuggestion,
+  localChatName,
+  normalizeChatName,
+} from "./chat-names.mjs";
 
 /** Student BFF: server sessions, ownership, revision fences and one durable AI queue. */
 import Fastify from "fastify";
@@ -98,6 +104,8 @@ const ru = {
   INVALID_INPUT: "Проверьте введённые данные.",
   PROJECT_LIMIT: "Можно создать до 10 проектов.",
   CHAT_LIMIT: "В проекте уже 30 чатов.",
+  CHAT_NAME_CHANGED:
+    "Название уже изменилось. Проверь новое имя и сохрани ещё раз.",
   FOLDER_LIMIT: "Можно создать до 20 папок.",
   FILE_CHANGED: "Файл изменился. Обновите его перед сохранением.",
   PROJECT_BUSY:
@@ -583,7 +591,7 @@ async function createProject(user, b) {
   const chat = rid();
   db.prepare(
     "INSERT INTO chats(id,project_id,name,cursor,created,updated) VALUES(?,?,?,?,?,?)",
-  ).run(chat, project, "Первый разговор", 0, now, now);
+  ).run(chat, project, localChatName(name), 0, now, now);
   return { id: project, chat };
 }
 app.post("/api/projects", async (req) =>
@@ -815,11 +823,22 @@ app.post("/api/projects/:id/hosting", async (req) => {
   });
   return { ...h, url: PREVIEW + "/published/" + p.id + "/" };
 });
+const chatNames = createChatNames({
+  db,
+  callBroker,
+  isBusy: () =>
+    !!db
+      .prepare("SELECT 1 FROM runs WHERE state IN('queued','running') LIMIT 1")
+      .get(),
+});
+registerTitleSuggestion({ app, names: chatNames, ownChat, fields, rate });
+app.addHook("onClose", async () => chatNames.close());
+
 app.get("/api/projects/:id/chats", async (req) => {
   const p = ownProject(req.student, req.params.id);
   return db
     .prepare(
-      "SELECT id,name,reasoning_mode,created,updated FROM chats WHERE project_id=? ORDER BY updated DESC",
+      "SELECT id,name,reasoning_mode,name_source,name_revision,name_status,created,updated FROM chats WHERE project_id=? ORDER BY updated DESC",
     )
     .all(p.id);
 });
@@ -835,7 +854,25 @@ app.post("/api/projects/:id/chats", async (req) => {
     now = Date.now();
   db.prepare(
     "INSERT INTO chats(id,project_id,name,cursor,created,updated) VALUES(?,?,?,?,?,?)",
-  ).run(chat, p.id, b.name ? str(b.name, 80) : "Новый разговор", 0, now, now);
+  ).run(
+    chat,
+    p.id,
+    b.name === undefined
+      ? localChatName(p.name) +
+          " · Чат " +
+          (1 +
+            db
+              .prepare("SELECT count(*) n FROM chats WHERE project_id=?")
+              .get(p.id).n)
+      : normalizeChatName(b.name),
+    0,
+    now,
+    now,
+  );
+  if (b.name !== undefined)
+    db.prepare(
+      "UPDATE chats SET name_source='manual',name_status='ready',name_revision=1 WHERE id=?",
+    ).run(chat);
   return { id: chat };
 });
 app.get("/api/chats/:id", async (req) => {
@@ -858,20 +895,37 @@ app.get("/api/chats/:id", async (req) => {
 });
 app.patch("/api/chats/:id", async (req) => {
   const c = ownChat(req.student, req.params.id),
-    b = fields(req.body, ["name", "reasoningMode"]);
+    b = fields(req.body, ["name", "nameRevision", "reasoningMode"]);
   if (b.name === undefined && b.reasoningMode === undefined)
     throw fail("INVALID_INPUT");
-  db.prepare(
-    "UPDATE chats SET name=?,reasoning_mode=?,updated=? WHERE id=?",
-  ).run(
-    b.name === undefined ? c.name : str(b.name, 80),
+  if (b.nameRevision !== undefined && b.name === undefined)
+    throw fail("INVALID_INPUT");
+  const mode =
     b.reasoningMode === undefined
       ? c.reasoning_mode
-      : reasoning(b.reasoningMode),
-    Date.now(),
-    c.id,
-  );
-  return { ok: true };
+      : reasoning(b.reasoningMode);
+  db.exec("BEGIN IMMEDIATE");
+  try {
+    if (b.name !== undefined) chatNames.manualName(c, b.name, b.nameRevision);
+    if (b.reasoningMode !== undefined)
+      db.prepare("UPDATE chats SET reasoning_mode=?,updated=? WHERE id=?").run(
+        mode,
+        Date.now(),
+        c.id,
+      );
+    db.exec("COMMIT");
+  } catch (e) {
+    db.exec("ROLLBACK");
+    throw e;
+  }
+  const fresh = ownChat(req.student, c.id);
+  return {
+    ok: true,
+    name: fresh.name,
+    name_source: fresh.name_source,
+    name_revision: fresh.name_revision,
+    name_status: fresh.name_status,
+  };
 });
 async function modelBudget(student) {
   return callBroker({ op: "budget", student });
@@ -951,6 +1005,7 @@ app.post("/api/chats/:id/messages", async (req) => {
       reasoningMode,
     );
     message(c.id, "user", text);
+    chatNames.onMessage(c.id);
     db.prepare("UPDATE chats SET updated=? WHERE id=?").run(now, c.id);
     db.exec("COMMIT");
   } catch (e) {
@@ -958,6 +1013,7 @@ app.post("/api/chats/:id/messages", async (req) => {
     throw fail("PROJECT_BUSY", 423);
   }
   void pump();
+  chatNames.schedule();
   return { id: run, state: "queued" };
 });
 app.get("/api/runs/:id", async (req) => {
@@ -1168,6 +1224,7 @@ async function pump() {
     }
   } finally {
     pumping = false;
+    chatNames.schedule();
   }
 }
 const mime = {
@@ -1270,6 +1327,7 @@ db.prepare(
 await app.listen({ host: "127.0.0.1", port: 8820 });
 console.log("Student portal ready");
 void pump();
+chatNames.schedule();
 process.on("SIGTERM", () => {
   void app.close().then(() => process.exit(0));
 });

@@ -6,8 +6,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 8782,
-    "sha256": "043647cb93107d1804e7f952b1d4bbe3b046f3aa3dd3a9ed4a9b3efbff525e19"
+    "bytes": 9176,
+    "sha256": "0b30b8492729cc67af4bec35aa0ae69617ab116e466370b955bddfe9081589d1"
   },
   {
     "path": "apps/portal/api/admin.mjs",
@@ -25,9 +25,14 @@
     "sha256": "5e29c9694f20a913dcc699098e32605e9b092670c67c18c7290e71a3d2edd5aa"
   },
   {
+    "path": "apps/portal/api/chat-names.mjs",
+    "bytes": 10127,
+    "sha256": "b0e417756977d623c36067ac60a24d24913d1541829d963549c2ac44881d7dd4"
+  },
+  {
     "path": "apps/portal/api/server.mjs",
-    "bytes": 45192,
-    "sha256": "912864dbed57782815e7781bd16b9e9a1cc35ce54b79ead19cf9bc3d7c48f685"
+    "bytes": 46770,
+    "sha256": "f89042bd755b9292f2ac868989e735f78a64373aed8fe9f2e2c80f547185c75d"
   },
   {
     "path": "apps/portal/api/templates.mjs",
@@ -251,13 +256,18 @@
   },
   {
     "path": "apps/portal/src/App.tsx",
-    "bytes": 59771,
-    "sha256": "f9281bef2e6559db0e3ae34837da84ebee15a8f2ecb3432fd2bc90dcbcbb75d3"
+    "bytes": 60959,
+    "sha256": "a402bf466d3c4f98bf9847aa180a85f27b8f35b894d86be015f4502d0c5eb2e3"
   },
   {
     "path": "apps/portal/src/Brand.tsx",
     "bytes": 635,
     "sha256": "532a76de7baaed7202ccae4f52b089ef3eaa534b4e7ec5bc12b561798fadbcbe"
+  },
+  {
+    "path": "apps/portal/src/ChatNameActions.tsx",
+    "bytes": 9135,
+    "sha256": "c80e0e0b7a97117ca6b427fd64480561710c3207449aed312bb4faa54f298886"
   },
   {
     "path": "apps/portal/src/CreditUsage.tsx",
@@ -271,8 +281,8 @@
   },
   {
     "path": "apps/portal/src/Workspace.tsx",
-    "bytes": 56584,
-    "sha256": "ec1b36c3fcf5906342fce76b64c446273ff27cbc82c5d6cf72a3aeff01892363"
+    "bytes": 56616,
+    "sha256": "ff496b1be3e04058efd2cd5b5cb2aeec5c4cad4a6cd05687bd24a7cb461eb92a"
   },
   {
     "path": "apps/portal/src/admin.css",
@@ -281,8 +291,13 @@
   },
   {
     "path": "apps/portal/src/api.ts",
-    "bytes": 3197,
-    "sha256": "ef17c3176c9f5cd7307ee7be979a03db64b3e33b066a178e451cccdd0b93d99f"
+    "bytes": 3420,
+    "sha256": "0636b4d5b749c9f2902ff0000b4d759cb7131f2144ba46cfed5542f36191bf52"
+  },
+  {
+    "path": "apps/portal/src/chat-names.css",
+    "bytes": 3358,
+    "sha256": "2c0777a51a44bb503bf580706aa43abd27a3e138f15755e1af10d78ec7c8e05f"
   },
   {
     "path": "apps/portal/src/credit-usage.css",
@@ -338,6 +353,11 @@
     "path": "apps/portal/tests/admin-credit-live.mjs",
     "bytes": 14038,
     "sha256": "8ef1d9703647c289c8ddb7eb7d0ed5c117ade0fe59d27644459d77cd1922a9e5"
+  },
+  {
+    "path": "apps/portal/tests/chat-names.test.mjs",
+    "bytes": 15649,
+    "sha256": "4e7557dca16b535302ac7e566a7a3ab5a64da01dc533343ef3f253be01e3bcc1"
   },
   {
     "path": "apps/portal/tests/history-harness.mjs",
@@ -415,6 +435,11 @@
     "sha256": "911cdb573dcb88f52e15dbd1f5f1aaacde455f1e46817cb7236bb6b477808031"
   },
   {
+    "path": "docs/chat-names.md",
+    "bytes": 9291,
+    "sha256": "7c80851ae1ea5bf695c5b1663fded8f5e8d7308d05907dcf838b206efd356ba1"
+  },
+  {
     "path": "docs/credit-policy.md",
     "bytes": 18391,
     "sha256": "0f9f23c3cdf16ff28cf0e85eda5d8e3d2f87e5830a439eba235b6a0f133f24b4"
@@ -451,8 +476,8 @@
   },
   {
     "path": "docs/student-portal.md",
-    "bytes": 23864,
-    "sha256": "705b7ced026933fe893725404fea92b16f1d1375d8f1b80377d491a3e3d81657"
+    "bytes": 24101,
+    "sha256": "414e3a1dfe3ecadfbedb56a9fb0f127b112d89c655f5811eb2c3fb8a8e7bc26f"
   },
   {
     "path": "docs/weekly-quota.md",
@@ -478,6 +503,31 @@
     "path": "evidence/admin-credit-acceptance.json",
     "bytes": 1784,
     "sha256": "02da38d18bfd27a1caaab03e2b4e6bb044627e40a48e0c2d850927e61ec74fb7"
+  },
+  {
+    "path": "evidence/chat-names-candidate-ui.json",
+    "bytes": 1168,
+    "sha256": "f34e7434ec8fe67347b49c46ad1606b0d870dd11b24d7993a2af93078a9d104b"
+  },
+  {
+    "path": "evidence/chat-names-deploy.json",
+    "bytes": 1305,
+    "sha256": "5fe75cc146b267d3be34612291e15aa68bbd1d653f632f7c5b4ad1e301495fd6"
+  },
+  {
+    "path": "evidence/chat-names-final.json",
+    "bytes": 1200,
+    "sha256": "49ea2935f3d4db630f8e77f1b938de512fc40bb505d0ba44ab45c8946268f7ee"
+  },
+  {
+    "path": "evidence/chat-names-live-ui.json",
+    "bytes": 1264,
+    "sha256": "1df9a1c33289d6d1cbbcc3a5cb23a82cab724cecad80dded054e960b7115684c"
+  },
+  {
+    "path": "evidence/chat-names-tests.tap",
+    "bytes": 1682,
+    "sha256": "fc919df90c52a2e887b866830b3912ed6a0875683b781956203ea2adf4c3cf07"
   },
   {
     "path": "evidence/control-tests.tap",
@@ -575,6 +625,26 @@
     "sha256": "589ff2c17978dc9ee046abfde63c86b6f30f8fb5d9c68545d90b0e8d56abd6a0"
   },
   {
+    "path": "evidence/fullscreen-candidate-ui.json",
+    "bytes": 905,
+    "sha256": "fa39c39cc14046e4e5a667c43c077eae0d5a38b7d87632212b67deb73a23fa66"
+  },
+  {
+    "path": "evidence/fullscreen-deploy.json",
+    "bytes": 2864,
+    "sha256": "41d04a5dada6484c5cfb408d512c893d952b042bd3f67a220f3c49cd2cd07205"
+  },
+  {
+    "path": "evidence/fullscreen-final.json",
+    "bytes": 885,
+    "sha256": "22cb46dd016655eab0dc8c2b118a21acce9bc02123dfa97866797afd8fb7296c"
+  },
+  {
+    "path": "evidence/fullscreen-live-ui.json",
+    "bytes": 963,
+    "sha256": "4806c4a5d3b58446d8346a05a6eaadd0b762e08dda954c5a866f57085436fe0d"
+  },
+  {
     "path": "evidence/harness-build.json",
     "bytes": 175,
     "sha256": "3be9aa57de39de8ddf08c63e309091a712f8b0c226757881756bdea6658eb2f8"
@@ -603,6 +673,31 @@
     "path": "evidence/hosting-lifecycle.json",
     "bytes": 915,
     "sha256": "641895001395efff39f58f47ca68a49f433719dd4b5de6bc8948b435a5a3ec0f"
+  },
+  {
+    "path": "evidence/lessons-candidate-ui.json",
+    "bytes": 888,
+    "sha256": "ef6a213f2bc04a45e515d7a1261fb45da5b45eb24377474fee28cb8fdc0f7de3"
+  },
+  {
+    "path": "evidence/lessons-deploy.json",
+    "bytes": 7814,
+    "sha256": "bd23b4cabf077ddd31a3406c4749b89a90907759513288716eebdc4e2993474d"
+  },
+  {
+    "path": "evidence/lessons-final.json",
+    "bytes": 1188,
+    "sha256": "df3cb7ea15e4d74b9f7305c0de3595e8e899b550e01ab2ed58ab8d356cf242f4"
+  },
+  {
+    "path": "evidence/lessons-live-ui.json",
+    "bytes": 883,
+    "sha256": "d35e8a923bb05d406b1250b35908e83264ff575c70c3fffb053af8eb3294727c"
+  },
+  {
+    "path": "evidence/lessons-source.json",
+    "bytes": 14238,
+    "sha256": "ef06d53c91661dc2c7d58d6c0c92ba304628d689f3659eb67f736b15acf956f1"
   },
   {
     "path": "evidence/model-gateway-tests.tap",
@@ -663,6 +758,56 @@
     "path": "evidence/portal-ui/admin-credit.png",
     "bytes": 1364024,
     "sha256": "e8189cffaa5917290248fa00034799ec0f67c770b0bc755c1d3d18898dc32963"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-candidate-320.png",
+    "bytes": 145913,
+    "sha256": "352216dd6ecb064e7d9acdb26cef792fd5b147ee4825b0f5a6c0324f270db90e"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-candidate-390.png",
+    "bytes": 181010,
+    "sha256": "5cf5b74eb4c4b6d1b74ce2c6264a90776d225c6ae50ccb739f382ef0140135e7"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-candidate-desktop.png",
+    "bytes": 450040,
+    "sha256": "6f77c52e0baf81df45aaeab0a61585ee107ee8750bc9197ab4eb541014bec152"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-candidate-dialog.png",
+    "bytes": 239674,
+    "sha256": "7a564af74817680e835b994be0b53707057d815b03b981d916b10df2ab2a4d29"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-desktop.jpg",
+    "bytes": 37179,
+    "sha256": "cbe0a2566bdafdbff924d0d9ee04e6aca5d7fddb83f2cb7b1ba0343f32918d91"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-dialog.jpg",
+    "bytes": 20656,
+    "sha256": "48435f8c0cd51c47428fff56d2dbd0874d631fca82e1c300a7baded55c400604"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-live-320.png",
+    "bytes": 155423,
+    "sha256": "1f532a1c59a4aa64bb8165764414d0a29fb98e008d57b17dc208101d6c7af05b"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-live-390.png",
+    "bytes": 180787,
+    "sha256": "2fbfe17025e8ee628f612acb2e5402363f1de63026c588f50df8a03645b9942e"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-live-desktop.jpg",
+    "bytes": 42961,
+    "sha256": "54f98c5c290758fd20629b79eef07f692a256a2f52d4d120ad60f48bdb1d8c2a"
+  },
+  {
+    "path": "evidence/portal-ui/chat-names-live-dialog.jpg",
+    "bytes": 28690,
+    "sha256": "f741bda693ce48ec8d94f026f92710a01790e7d9a58977b265be19ef491fa62a"
   },
   {
     "path": "evidence/portal-ui/chats.png",
@@ -740,6 +885,31 @@
     "sha256": "6692fcdef5fe675b531ed1274ac8ef0886228626658e1f09a5683b4e603711d4"
   },
   {
+    "path": "evidence/portal-ui/fullscreen-document-desktop.png",
+    "bytes": 185721,
+    "sha256": "690d1f6f5e648e0423074ef1ab381219a45c9b93fc7e45901f68abc7aa888f47"
+  },
+  {
+    "path": "evidence/portal-ui/fullscreen-document-mobile.png",
+    "bytes": 82351,
+    "sha256": "e00dd1a5ad80777ad76a257ae4fba48a3adde3c2f4ebc7baa229b4a2c2c3e727"
+  },
+  {
+    "path": "evidence/portal-ui/fullscreen-document-small.png",
+    "bytes": 58314,
+    "sha256": "55b79692b136debde6e908df6d0600c32ce5cec1947101219f5d0324d52df60b"
+  },
+  {
+    "path": "evidence/portal-ui/fullscreen-preview-desktop.png",
+    "bytes": 694500,
+    "sha256": "f4b420871ff0f326039446891d5164c9b2d8efd61f706bf1774383031539b423"
+  },
+  {
+    "path": "evidence/portal-ui/fullscreen-preview-mobile.png",
+    "bytes": 207709,
+    "sha256": "59c5b99a964e2d4caadbaa744159bd9ba16ad2817138c4fb0dbc5515cb2365b5"
+  },
+  {
     "path": "evidence/portal-ui/history-failure-fixed.png",
     "bytes": 534505,
     "sha256": "b63f2302604885e9585b69fc91c3ae9c08df74ea60ecb7d774ab3182fdba2a66"
@@ -748,6 +918,36 @@
     "path": "evidence/portal-ui/hosting.png",
     "bytes": 450952,
     "sha256": "eb4642c7fba11880744b3292d898f8952d290d47586b6e1ebae2d76f7cec6338"
+  },
+  {
+    "path": "evidence/portal-ui/lesson-1-viewer-desktop.png",
+    "bytes": 149401,
+    "sha256": "ed21ae027ad2ef545cefc3a7d717aa3de71fe3804b332b80f921dcc96313e9bc"
+  },
+  {
+    "path": "evidence/portal-ui/lesson-13-viewer-desktop.png",
+    "bytes": 142234,
+    "sha256": "9f9d26c6fe97c37f34575c2c512b8f6410393da90c499e7aaf82c97df5468805"
+  },
+  {
+    "path": "evidence/portal-ui/lesson-viewer-mobile.png",
+    "bytes": 45272,
+    "sha256": "35d865975b262b95a474c1da943d75b21b12c7efbc402d13e5c651983670d787"
+  },
+  {
+    "path": "evidence/portal-ui/lessons-catalog-1024.png",
+    "bytes": 1068909,
+    "sha256": "a4015456b54bd8cf5bf899afe1c465f073d06f9af77c68c405b0ed4fae0af40a"
+  },
+  {
+    "path": "evidence/portal-ui/lessons-catalog-390.png",
+    "bytes": 797414,
+    "sha256": "6fc8f6621ad776cad425359317cbbc6d1591d2daf04abdb48432ff9b7337a53a"
+  },
+  {
+    "path": "evidence/portal-ui/lessons-catalog-desktop.png",
+    "bytes": 1157545,
+    "sha256": "f4c9e2ca44aeff199929b148e5f6a8e7c5844b8e1371bd9f9d89ee9a8a54c280"
   },
   {
     "path": "evidence/portal-ui/live-harness.png",
@@ -996,8 +1196,8 @@
   },
   {
     "path": "evidence/student-secret-scan.json",
-    "bytes": 327,
-    "sha256": "1523bdf963475b8585cd3d80ff8d81b71c815b150ed17c233c2ffb506ace9f52"
+    "bytes": 328,
+    "sha256": "86189ceaf888c49a9fdc27f48e54c422050ae9acbd5820658eb5128c2db712c1"
   },
   {
     "path": "evidence/student-seed.json",
@@ -1026,8 +1226,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 14780,
-    "sha256": "e9d14c277de475a55e21a6bf7520d82bdc65ec639ba7642a2617c10f0c20e8e9"
+    "bytes": 15687,
+    "sha256": "e33171275608798aa866e2bc6c374fa1822d6359a5694ccaba7e3786af56c83f"
   },
   {
     "path": "evidence/toolchain.json",
@@ -1440,14 +1640,19 @@
     "sha256": "bdeabea4b8b2edda55859cdf101277ab0bb4fc1d726a88ec13d5fd01e20b50fd"
   },
   {
+    "path": "services/workspace-broker/chat-title.mjs",
+    "bytes": 4248,
+    "sha256": "5d58115d46befeb5dcaa74d2ff3d150793378885f650d2ae36784fc29c7f8670"
+  },
+  {
     "path": "services/workspace-broker/run-errors.mjs",
     "bytes": 2872,
     "sha256": "a914a8f2f8f63aa94c790bd4a571d1c897f0b7304bc8f5cdb68ad82788eb6486"
   },
   {
     "path": "services/workspace-broker/server.mjs",
-    "bytes": 35477,
-    "sha256": "a97e8e14ab3eb31ec7842b95a76d3b59b324957a955641f94ed1c4f9d2fc5ec3"
+    "bytes": 36287,
+    "sha256": "420c78540bf53e474db9f9194a0eae51204d499cfcb277f3fb3152b0dd721505"
   },
   {
     "path": "services/workspace-broker/templates/engine.cfg",

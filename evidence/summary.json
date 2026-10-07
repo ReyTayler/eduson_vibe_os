@@ -1,5 +1,5 @@
 {
-  "timeUtc": "2026-10-07T07:56:00.920828+00:00",
+  "timeUtc": "2026-10-07T08:24:49.670196+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
@@ -12,8 +12,8 @@
     0
   ],
   "hostingSlotsPerStudent": 3,
-  "paidCallsTotal": 72,
-  "confirmedTokensTotal": 2737362,
+  "paidCallsTotal": 92,
+  "confirmedTokensTotal": 4640203,
   "modelTestingBudget": {
     "generation": 4,
     "scope": "operator",
@@ -186,6 +186,24 @@
       "lessons": 13,
       "paidCalls": 0,
       "evidence": "lessons-live-ui.json"
+    },
+    "chat-names-offline": {
+      "passed": true,
+      "checks": 18,
+      "evidence": "chat-names-tests.tap"
+    },
+    "chat-names-candidate-ui": {
+      "passed": true,
+      "checks": 7,
+      "evidence": "chat-names-candidate-ui.json"
+    },
+    "chat-names-live-ui": {
+      "passed": true,
+      "checks": 7,
+      "paidCalls": 2,
+      "confirmedTokens": 828,
+      "costUsd": 0.000100968,
+      "evidence": "chat-names-final.json"
     }
   },
   "staticChecks": {
@@ -281,35 +299,35 @@
       "limitTokens": 3000000,
       "baseLimitTokens": 1000000,
       "extraLimitTokens": 2000000,
-      "debitedTokens": 2729544,
-      "remainingAuthorizationTokens": 270456,
+      "debitedTokens": 4632385,
+      "remainingAuthorizationTokens": 0,
       "enabled": true,
       "clockValid": true,
-      "maxRemainingCalls": 297,
-      "attempts": 57,
-      "confirmed_tokens": 2729544,
+      "maxRemainingCalls": 294,
+      "attempts": 77,
+      "confirmed_tokens": 4632385,
       "uncertain_ceiling": 0,
-      "admittedCeilingTotal": 24973139,
+      "admittedCeilingTotal": 39212456,
       "unit": "credits",
       "baseLimitCredits": 1000,
       "extraLimitCredits": 2000,
       "limitCredits": 3000,
-      "spentCredits": 79.124874,
+      "spentCredits": 101.37744,
       "reservedCredits": 0,
-      "remainingCredits": 2920.875126,
-      "costUsd": 0.079124874,
+      "remainingCredits": 2898.62256,
+      "costUsd": 0.10137744,
       "costBasis": "published-tariff-estimate",
       "pricingVersion": "deepseek-flash-2026-09-10",
       "usage": {
-        "inputTokens": 22971,
-        "cacheReadTokens": 2593408,
+        "inputTokens": 27292,
+        "cacheReadTokens": 4465280,
         "cacheWriteTokens": 0,
-        "outputTokens": 113165,
-        "totalTokens": 2729544,
-        "cacheOfInputPercent": 99.12203086785209,
-        "inputCredits": 3.44565,
-        "cacheCredits": 7.780224,
-        "outputCredits": 67.899
+        "outputTokens": 139813,
+        "totalTokens": 4632385,
+        "cacheOfInputPercent": 99.39250834488574,
+        "inputCredits": 4.0938,
+        "cacheCredits": 13.39584,
+        "outputCredits": 83.8878
       }
     },
     {
@@ -530,5 +548,14 @@
     "source": "https://terenta.github.io/eduson-kids-design-book/lessons/",
     "thumbnailHosting": "local platform",
     "lessonHosting": "external original GitHub Pages"
+  },
+  "chatNames": {
+    "automatic": "first accepted request; background Flash title after primary queue",
+    "manual": "list and workspace; emoji; pinned; optimistic version",
+    "existingGenericTitlesMigrated": true,
+    "suggestion": "preview then explicit save; personal weekly credits",
+    "fallback": "local first-request title when busy, unavailable or out of credits",
+    "auxiliaryMaxOutputTokens": 128,
+    "mainHarnessResponseLimitsUnchanged": true
   }
 }

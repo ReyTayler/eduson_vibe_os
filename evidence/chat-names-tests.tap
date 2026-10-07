@@ -1,0 +1,26 @@
+✔ Additive migration preserves user data, custom names, reasoning and cursors; idempotent (8.054553ms)
+✔ First request creates title immediately; later messages cannot change a manual name (2.871378ms)
+✔ Background generation waits for main Harness queue and preserves all messages (36.264643ms)
+✔ A late model response cannot overwrite a manual title (19.865831ms)
+✔ Suggestions are read-only and simultaneous requests share one billed call (2.858014ms)
+✔ Empty, busy and exhausted-budget suggestions use local names without altering chats (2.430742ms)
+✔ Title suggestions cannot leak secrets or unlimited history; malformed model output falls back (3.154088ms)
+✔ Optimistic rename detects conflicts, permits emoji, and rejects invalid titles (2.695705ms)
+✔ Interrupted automatic requests are not retried after startup (1.70154ms)
+✔ Suggestion route checks ownership, rejects injected fields, and never accepts a billing student (115.536803ms)
+✔ Private gateway client uses student credentials, disabled reasoning and a tiny naming call; fragmented SSE works (25.515076ms)
+✔ Private gateway safely rejects provider rejection (28.48528ms)
+✔ Private gateway safely rejects incomplete stream (3.521176ms)
+✔ Private gateway safely rejects truncated title (3.446339ms)
+✔ Private gateway safely rejects provider SSE error (2.992804ms)
+✔ Private gateway safely rejects timeout (64.110713ms)
+✔ Private gateway safely rejects oversized stream (3.780249ms)
+✔ Invalid naming credentials or oversized input never reach gateway (0.458512ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 544.544297

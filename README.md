@@ -2,6 +2,8 @@
 
 Рабочая платформа: **[https://80.249.145.94/](https://80.249.145.94/)**.
 
+В разделе **«Разговоры»** появились названия по теме, переименование прямо в списке и подбор по истории. Ручное имя сохраняется; можно добавить эмодзи. [Реализация, расходы и проверки](docs/chat-names.md).
+
 С 7 октября 2026 пользовательский интерфейс называется **Eduson Kids**, заголовок обзора — **Vibe-coding by Eduson Kids**. Вместо прежнего знака используется предоставленный владельцем Ричи в скафандре. Убраны указанные рекламные плашки; имя обновлено на страницах входа, в кабинете, админке, заголовке вкладки и шаблонах новых проектов. [Результат визуальной проверки](evidence/eduson-redesign-final.json).
 
 Разработка, сборка, данные и проверки находятся на сервере `80.249.145.94`. Репозиторий: `/opt/vibe-os/platform`, ветка `codex/vibe-os-poc`. На ПК исходники не создавались.
@@ -26,7 +28,7 @@
 
 ```sh
 # Offline, без API keys и платных вызовов; root для проверки владельца Vault.
-node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs tests/model-history.test.mjs tests/extra-budget.test.mjs tests/credit-budget.test.mjs apps/portal/tests/admin-api.test.mjs
+node --test --test-reporter=tap tests/model-gateway.test.mjs tests/weekly-budget.test.mjs tests/response-budget.test.mjs tests/model-history.test.mjs tests/extra-budget.test.mjs tests/credit-budget.test.mjs apps/portal/tests/admin-api.test.mjs apps/portal/tests/chat-names.test.mjs
 
 # На сервере root, без model prompts; удаляет только свои fixtures.
 node apps/portal/tests/admin-credit-live.mjs

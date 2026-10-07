@@ -53,6 +53,7 @@ import {
 } from "./api";
 import { TextDialog, ConfirmDialog } from "./App";
 import "./workspace-viewer.css";
+import ChatNameActions from "./ChatNameActions";
 const CodeMirror = lazy(() => import("@uiw/react-codemirror"));
 type Dialog = {
   title: string;
@@ -413,6 +414,16 @@ export default function Workspace({
   useEffect(() => {
     void loadChat(selectedChat).catch((e) => say(e.message));
   }, [selectedChat]);
+  const pendingChatNames = chats.some(
+    (c) => c.name_status === "queued" || c.name_status === "generating",
+  );
+  useEffect(() => {
+    if (!pendingChatNames) return;
+    const timer = setInterval(() => {
+      void loadChats().catch(() => {});
+    }, 2000);
+    return () => clearInterval(timer);
+  }, [pendingChatNames, project.id]);
   useEffect(() => {
     if (!busy) return;
     const timer = setInterval(() => {
@@ -507,7 +518,7 @@ export default function Workspace({
       await api("/chats/" + current, "PATCH", { reasoningMode: mode });
       if (chatRef.current === current) {
         await loadChat(current);
-        await loadChats(current);
+        await loadChats(chatRef.current);
       } else await loadChats();
     } catch (e) {
       say((e as Error).message);
@@ -559,6 +570,7 @@ export default function Workspace({
           : old,
       );
       watch(r.id);
+      await loadChats(chatRef.current);
       await reload();
     } catch (e) {
       say((e as Error).message);
@@ -1364,23 +1376,13 @@ export default function Workspace({
                   </option>
                 ))}
               </select>
-              <button
-                className="icon-button"
-                title="Переименовать чат"
-                onClick={() =>
-                  setDialog({
-                    title: "Название разговора",
-                    label: "Название",
-                    initial: chats.find((c) => c.id === selectedChat)?.name,
-                    submit: async (name) => {
-                      await api("/chats/" + selectedChat, "PATCH", { name });
-                      await loadChats(selectedChat);
-                    },
-                  })
-                }
-              >
-                <Pencil size={13} />
-              </button>
+              {chats.find((c) => c.id === selectedChat) && (
+                <ChatNameActions
+                  compact
+                  chat={chats.find((c) => c.id === selectedChat)!}
+                  onSaved={() => loadChats(selectedChat)}
+                />
+              )}
             </div>
             <div className="chat-messages" ref={scroll}>
               {chat?.messages.length ? (

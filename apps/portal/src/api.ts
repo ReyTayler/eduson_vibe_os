@@ -29,6 +29,9 @@ export interface Chat {
   reasoning_mode: ReasoningMode;
   id: string;
   name: string;
+  name_source?: "default" | "auto" | "manual";
+  name_revision?: number;
+  name_status?: "idle" | "queued" | "generating" | "ready" | "fallback";
   project_id?: string;
   created: number;
   updated: number;
@@ -112,7 +115,10 @@ export async function api<T>(
   if (!res.ok) {
     if (res.status === 401 && !url.includes("/auth/login"))
       window.dispatchEvent(new Event("auth-expired"));
-    throw new Error(value.message ?? "Не удалось выполнить действие.");
+    throw Object.assign(
+      new Error(value.message ?? "Не удалось выполнить действие."),
+      { code: value.error, status: res.status },
+    );
   }
   return value as T;
 }

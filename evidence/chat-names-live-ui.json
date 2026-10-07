@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checks": [
+    "Live migration creates a model topic title for history and project title for an empty chat",
+    "Real CSRF, unexpected-field and version-conflict rejection; reasoning-only updates preserve automatic name",
+    "Another student cannot rename or generate a title for these chats",
+    "Python chat manually renamed with emoji through UI, persists after reload, preserves messages/cursor",
+    "Real DeepSeek title preview works; closing does not rename chat or modify history",
+    "Deployed phone layouts support rename and Escape dismissal at 390px and 320px",
+    "Workspace shows saved title and shares metadata actions while preserving editor"
+  ],
+  "errors": [],
+  "writes": [
+    {
+      "path": "/api/auth/login",
+      "method": "POST"
+    },
+    {
+      "path": "/api/chats/0dc865e693951816274219f18e1ac354",
+      "method": "PATCH"
+    },
+    {
+      "path": "/api/chats/4ec2f7c6c3dd3bf64b0dab7ec17675fc/title-suggestion",
+      "method": "POST"
+    }
+  ],
+  "automaticTitle": "Создание 2д платформера про рыцаря",
+  "manualTitle": "🐍 Первые шаги в Python",
+  "suggestion": "Создание 2д платформера про рыцаря",
+  "realModelPreviewCalls": 1
+}

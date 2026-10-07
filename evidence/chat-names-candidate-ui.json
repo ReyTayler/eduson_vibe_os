@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "checks": [
+    "Two existing chats, project/date subtitles, distinct open and rename/suggest actions",
+    "Editable modal, emoji, 80-character counter and Escape dismissal without saving",
+    "AI preview can be edited and saved; list refreshes",
+    "Exhausted-credit local fallback is explicit and editable",
+    "Concurrent rename conflict preserves input and asks to review before a second save",
+    "Phone layouts 390px and 320px show accessible row actions and complete modal",
+    "Workspace shares naming actions; opening/closing a name modal preserves editor"
+  ],
+  "errors": [],
+  "mutations": [
+    {
+      "path": "/api/chats/4ec2f7c6c3dd3bf64b0dab7ec17675fc/title-suggestion",
+      "method": "POST"
+    },
+    {
+      "path": "/api/chats/4ec2f7c6c3dd3bf64b0dab7ec17675fc",
+      "method": "PATCH"
+    },
+    {
+      "path": "/api/chats/4ec2f7c6c3dd3bf64b0dab7ec17675fc/title-suggestion",
+      "method": "POST"
+    },
+    {
+      "path": "/api/chats/4ec2f7c6c3dd3bf64b0dab7ec17675fc",
+      "method": "PATCH"
+    }
+  ],
+  "modelCalls": 0,
+  "scope": "headless-only API mocks; live accounts read-only except login; source dist"
+}

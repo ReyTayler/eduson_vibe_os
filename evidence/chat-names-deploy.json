@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T08:21:15.209091+00:00",
+  "url": "https://80.249.145.94/",
+  "guardsBefore": {
+    "activeModelRuns": 0,
+    "activeTitleJobs": 0,
+    "pendingGatewayRequests": 0
+  },
+  "guardsAfterPortalStop": {
+    "activeModelRuns": 0,
+    "activeTitleJobs": 0,
+    "pendingGatewayRequests": 0
+  },
+  "health": {
+    "localApi": true,
+    "publicRoot": true
+  },
+  "gatewayRestarted": false,
+  "previousAssetsRetained": true,
+  "installed": [
+    {
+      "source": "apps/portal/api/server.mjs",
+      "target": "/opt/vibe-os/portal/api/server.mjs",
+      "sha256": "f89042bd755b9292f2ac868989e735f78a64373aed8fe9f2e2c80f547185c75d"
+    },
+    {
+      "source": "apps/portal/api/chat-names.mjs",
+      "target": "/opt/vibe-os/portal/api/chat-names.mjs",
+      "sha256": "b0e417756977d623c36067ac60a24d24913d1541829d963549c2ac44881d7dd4"
+    },
+    {
+      "source": "services/workspace-broker/server.mjs",
+      "target": "/opt/vibe-os/portal-broker/server.mjs",
+      "sha256": "420c78540bf53e474db9f9194a0eae51204d499cfcb277f3fb3152b0dd721505"
+    },
+    {
+      "source": "services/workspace-broker/chat-title.mjs",
+      "target": "/opt/vibe-os/portal-broker/chat-title.mjs",
+      "sha256": "5d58115d46befeb5dcaa74d2ff3d150793378885f650d2ae36784fc29c7f8670"
+    }
+  ]
+}

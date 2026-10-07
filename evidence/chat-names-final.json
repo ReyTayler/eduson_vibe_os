@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T08:23:02.778419+00:00",
+  "countsBefore": {
+    "users": 5,
+    "projects": 2,
+    "folders": 2,
+    "chats": 2,
+    "messages": 14,
+    "runs": 6
+  },
+  "countsAfter": {
+    "users": 5,
+    "projects": 2,
+    "folders": 2,
+    "chats": 2,
+    "messages": 14,
+    "runs": 6
+  },
+  "unchangedTables": {
+    "users": true,
+    "projects": true,
+    "folders": true,
+    "messages": true,
+    "runs": true
+  },
+  "chatIdentityCursorReasoningCreatedUnchanged": true,
+  "workspaceFilesUnchanged": true,
+  "fileCount": 8,
+  "modelCalls": [
+    {
+      "state": "settled",
+      "inputTokens": 398,
+      "cacheReadTokens": 0,
+      "outputTokens": 16,
+      "totalTokens": 414,
+      "student": 1,
+      "costUsd": 6.93e-05,
+      "reservedUsd": 0.0106467
+    },
+    {
+      "state": "settled",
+      "inputTokens": 142,
+      "cacheReadTokens": 256,
+      "outputTokens": 16,
+      "totalTokens": 414,
+      "student": 1,
+      "costUsd": 3.1668e-05,
+      "reservedUsd": 0.0106467
+    }
+  ],
+  "paidCalls": 2,
+  "confirmedTokens": 828,
+  "costUsd": 0.000100968,
+  "weeklyLedgerStudent": 1,
+  "pendingReservations": 0,
+  "publicUrl": "https://80.249.145.94/"
+}

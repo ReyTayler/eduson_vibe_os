@@ -2,6 +2,7 @@
 import http from "node:http";
 import { classifyRunFailure } from "./run-errors.mjs";
 import { adminModelRequest } from "./admin-model.mjs";
+import { requestChatTitle } from "./chat-title.mjs";
 import {
   readFileSync,
   writeFileSync,
@@ -886,6 +887,29 @@ async function dispatch(p) {
       const result = await adminModelRequest("/v1/admin/grants", p.grant);
       budgets.delete(p.grant.student);
       return result;
+    }
+    case "chat-title": {
+      if (
+        Object.keys(p).some(
+          (key) => !["op", "project", "context"].includes(key),
+        )
+      )
+        throw error("INVALID_REQUEST");
+      const project = record(identifier(p.project));
+      if (engines.size) throw error("AI_WORKER_BUSY", 423);
+      const value = await budget(project.student);
+      if (!value.ready || !value.maxRemainingCalls)
+        throw error("AI_BUDGET_EXHAUSTED", 409);
+      try {
+        const title = await requestChatTitle({
+          student: project.student,
+          capability: studentModelCapabilities.get(project.student),
+          context: p.context,
+        });
+        return { title };
+      } finally {
+        budgets.delete(project.student);
+      }
     }
     case "budget":
       return budget(p.student);
