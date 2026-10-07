@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "scope": "published production portal",
+  "checks": [
+    "Lessons follows Projects; 13 cards; four columns on desktop",
+    "all 13 lessons load and preserve original slide navigation inside full-screen viewer",
+    "close button and native Escape restore catalog and page scrolling",
+    "responsive catalog: 3 tablet columns, 2 narrow columns, 1 phone column; no page overflow",
+    "mobile viewer and source link available",
+    "existing file popup works; lesson navigation confirms dirty edits and cancellation preserves buffer",
+    "same lesson catalog accessible in an empty student cabinet"
+  ],
+  "count": 7,
+  "lessons": 13,
+  "columnsDesktop": 4,
+  "browserErrors": [],
+  "consoleErrors": [],
+  "paidModelCalls": 0,
+  "projectFileWrites": 0,
+  "viewports": [
+    1440,
+    1024,
+    800,
+    390,
+    320
+  ],
+  "externalLessonsUnmodified": true
+}

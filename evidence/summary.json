@@ -1,5 +1,5 @@
 {
-  "timeUtc": "2026-10-07T07:14:54.794228+00:00",
+  "timeUtc": "2026-10-07T07:56:00.920828+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
@@ -179,6 +179,13 @@
       "paidCalls": 0,
       "projectFileWrites": 0,
       "evidence": "fullscreen-live-ui.json"
+    },
+    "student-lessons-catalog": {
+      "passed": true,
+      "checks": 7,
+      "lessons": 13,
+      "paidCalls": 0,
+      "evidence": "lessons-live-ui.json"
     }
   },
   "staticChecks": {
@@ -261,7 +268,7 @@
     "absoluteModelAndRunDeadline": null,
     "providerIdleTimeoutMs": 300000
   },
-  "latestFeatureEvidence": "fullscreen-final.json",
+  "latestFeatureEvidence": "lessons-final.json",
   "studentWeeklyBudgets": [
     {
       "generation": 5,
@@ -516,5 +523,12 @@
       16914,
       50800
     ]
+  },
+  "lessonCatalog": {
+    "lessons": 13,
+    "columnsDesktop": 4,
+    "source": "https://terenta.github.io/eduson-kids-design-book/lessons/",
+    "thumbnailHosting": "local platform",
+    "lessonHosting": "external original GitHub Pages"
   }
 }

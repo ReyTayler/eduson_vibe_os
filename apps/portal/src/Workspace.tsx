@@ -70,6 +70,7 @@ interface Props {
   onBack: () => void;
   reload: () => Promise<void>;
   say: (s: string) => void;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 export default function Workspace({
   project,
@@ -79,6 +80,7 @@ export default function Workspace({
   onBack,
   reload,
   say,
+  onDirtyChange,
 }: Props) {
   const [files, setFiles] = useState<FileEntry[]>([]),
     [revision, setRevision] = useState(project.revision),
@@ -131,6 +133,10 @@ export default function Workspace({
       reasoningSaving ||
       project.runState === "running" ||
       project.runState === "queued";
+  useEffect(() => {
+    onDirtyChange?.(dirty);
+  }, [dirty, onDirtyChange]);
+  useEffect(() => () => onDirtyChange?.(false), [onDirtyChange]);
   useEffect(() => {
     fileRef.current = file;
     dirtyRef.current = dirty;

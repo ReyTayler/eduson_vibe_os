@@ -16,6 +16,7 @@ import {
   Plus,
   LayoutDashboard,
   FolderKanban,
+  BookOpen,
   MessageSquare,
   Globe,
   Settings,
@@ -51,7 +52,8 @@ import {
   type Budget,
 } from "./api";
 const Workspace = lazy(() => import("./Workspace"));
-type View = "home" | "projects" | "chats" | "hosting" | "settings";
+const Lessons = lazy(() => import("./Lessons"));
+type View = "home" | "projects" | "lessons" | "chats" | "hosting" | "settings";
 type Dialog = {
   title: string;
   label: string;
@@ -291,6 +293,7 @@ function StudentApp() {
     [folders, setFolders] = useState<FolderType[]>([]),
     [budget, setBudget] = useState<Budget | null>(null),
     [opened, setOpened] = useState<Project | null>(null),
+    [workspaceDirty, setWorkspaceDirty] = useState(false),
     [initialChat, setInitialChat] = useState<string | undefined>(),
     [search, setSearch] = useState(""),
     [folder, setFolder] = useState("all"),
@@ -409,9 +412,19 @@ function StudentApp() {
     }
   }
   function navigate(v: View) {
-    setView(v);
-    setOpened(null);
-    setMenu(null);
+    const proceed = () => {
+      setView(v);
+      setOpened(null);
+      setWorkspaceDirty(false);
+      setMenu(null);
+    };
+    if (opened && workspaceDirty) {
+      setConfirm({
+        title: "Закрыть проект?",
+        text: "В редакторе есть несохранённые изменения. Сохрани файл перед переходом или продолжи без сохранения.",
+        submit: async () => proceed(),
+      });
+    } else proceed();
   }
   function open(p: Project, chat?: string) {
     setInitialChat(chat);
@@ -490,6 +503,7 @@ function StudentApp() {
             [
               { id: "home", label: "Обзор", icon: LayoutDashboard },
               { id: "projects", label: "Проекты", icon: FolderKanban },
+              { id: "lessons", label: "Уроки", icon: BookOpen },
               { id: "chats", label: "Разговоры", icon: MessageSquare },
               { id: "hosting", label: "Хостинг", icon: Globe },
             ] as const
@@ -577,6 +591,7 @@ function StudentApp() {
                 : {
                     home: "Обзор",
                     projects: "Проекты",
+                    lessons: "Уроки",
                     chats: "Разговоры",
                     hosting: "Хостинг",
                     settings: "Настройки",
@@ -611,10 +626,22 @@ function StudentApp() {
               onBack={() => setOpened(null)}
               reload={reload}
               say={say}
+              onDirtyChange={setWorkspaceDirty}
             />
           </Suspense>
         ) : (
           <main className="dashboard-content">
+            {view === "lessons" && (
+              <Suspense
+                fallback={
+                  <div className="editor-loading">
+                    <Loader2 className="spin" size={24} />
+                  </div>
+                }
+              >
+                <Lessons />
+              </Suspense>
+            )}
             {view === "home" && (
               <>
                 <section className="welcome glass">

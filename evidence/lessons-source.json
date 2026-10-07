@@ -1,0 +1,388 @@
+{
+  "sourceCatalog": "https://terenta.github.io/eduson-kids-design-book/lessons/",
+  "sourceCatalogSha256": "d961133376da7d0c4d04b6e3644fb2fbb9f7832ff4482adb8249a32af7737b5b",
+  "lessons": [
+    {
+      "number": 1,
+      "title": "Установка инструментов и первая веб-страница",
+      "module": 1,
+      "moduleTitle": "Первые сайты в браузере",
+      "slides": 22,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_1.html",
+      "sourceSha256": "60cf3cca81f0733056885e06aa496bb46fe1b8465b703151b56f0e4bf14c8184",
+      "cover": "/lessons/lesson-01-60cf3cca81-384.webp",
+      "cover2x": "/lessons/lesson-01-60cf3cca81-768.webp"
+    },
+    {
+      "number": 2,
+      "title": "Сайт из трёх файлов и техники работы с AI",
+      "module": 1,
+      "moduleTitle": "Первые сайты в браузере",
+      "slides": 22,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_2.html",
+      "sourceSha256": "b1ac8ff0a769c3562ae3e6bf96b192e28aabb1f20b7fd6f8e6cfe6bee7286aeb",
+      "cover": "/lessons/lesson-02-b1ac8ff0a7-384.webp",
+      "cover2x": "/lessons/lesson-02-b1ac8ff0a7-768.webp"
+    },
+    {
+      "number": 3,
+      "title": "Интерактивность: события и DOM",
+      "module": 1,
+      "moduleTitle": "Первые сайты в браузере",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_3.html",
+      "sourceSha256": "5e8f7959f51baddc65137077d84b123ee1d1d7f41d87328842ff4e9e343e00de",
+      "cover": "/lessons/lesson-03-5e8f7959f5-384.webp",
+      "cover2x": "/lessons/lesson-03-5e8f7959f5-768.webp"
+    },
+    {
+      "number": 4,
+      "title": "Своя браузерная игра на Canvas",
+      "module": 1,
+      "moduleTitle": "Первые сайты в браузере",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_4.html",
+      "sourceSha256": "f23ca5ad6f148fefbec3d0b441898c2a84546f3462c13555920d2c8b3962be79",
+      "cover": "/lessons/lesson-04-f23ca5ad6f-384.webp",
+      "cover2x": "/lessons/lesson-04-f23ca5ad6f-768.webp"
+    },
+    {
+      "number": 5,
+      "title": "Первая программа на Python с AI",
+      "module": 2,
+      "moduleTitle": "Программы на Python с нейросетью",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_5.html",
+      "sourceSha256": "d7e49680e112d5dcf33d5c326d291b49dbc0c4897c7543e3ddf3bd6d3603315d",
+      "cover": "/lessons/lesson-05-d7e49680e1-384.webp",
+      "cover2x": "/lessons/lesson-05-d7e49680e1-768.webp"
+    },
+    {
+      "number": 6,
+      "title": "Циклы, функции и коллекции",
+      "module": 2,
+      "moduleTitle": "Программы на Python с нейросетью",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_6.html",
+      "sourceSha256": "bfc84ef67bb8aab2fd6695b4494141808a580e2c1191b13d70b205f8c1909380",
+      "cover": "/lessons/lesson-06-bfc84ef67b-384.webp",
+      "cover2x": "/lessons/lesson-06-bfc84ef67b-768.webp"
+    },
+    {
+      "number": 7,
+      "title": "Работа с файлами и формат JSON",
+      "module": 2,
+      "moduleTitle": "Программы на Python с нейросетью",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_7.html",
+      "sourceSha256": "28d2b383c458fde089892e34fbd79f535d2f11413d540cdfdfe787ebfb785830",
+      "cover": "/lessons/lesson-07-28d2b383c4-384.webp",
+      "cover2x": "/lessons/lesson-07-28d2b383c4-768.webp"
+    },
+    {
+      "number": 8,
+      "title": "Работа с внешними API",
+      "module": 2,
+      "moduleTitle": "Программы на Python с нейросетью",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_8.html",
+      "sourceSha256": "68ef18ec4ef7bf9fadd473fe87eedf42718fc03b1e6bbdf137853c4f30f399e0",
+      "cover": "/lessons/lesson-08-68ef18ec4e-384.webp",
+      "cover2x": "/lessons/lesson-08-68ef18ec4e-768.webp"
+    },
+    {
+      "number": 9,
+      "title": "Telegram-бот с языковой моделью",
+      "module": 3,
+      "moduleTitle": "AI-приложения с публичной ссылкой",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_9.html",
+      "sourceSha256": "424b8e282c9a59b9f809ff495970290017f4200788c0d88df45955f3b04df884",
+      "cover": "/lessons/lesson-09-424b8e282c-384.webp",
+      "cover2x": "/lessons/lesson-09-424b8e282c-768.webp"
+    },
+    {
+      "number": 10,
+      "title": "Своё веб-приложение в интернете",
+      "module": 3,
+      "moduleTitle": "AI-приложения с публичной ссылкой",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_10.html",
+      "sourceSha256": "5858722a44493ba90dba765789e5d84d36875d6915b261782b278fb1b2c9d6ea",
+      "cover": "/lessons/lesson-10-5858722a44-384.webp",
+      "cover2x": "/lessons/lesson-10-5858722a44-768.webp"
+    },
+    {
+      "number": 11,
+      "title": "Как программы общаются с нейросетью",
+      "module": 4,
+      "moduleTitle": "Углублённо с нейросетями",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_11.html",
+      "sourceSha256": "6481a7128e7e4301a1a28cf0f2e73319c6b7a94628c367f4f413a6d67593792e",
+      "cover": "/lessons/lesson-11-6481a7128e-384.webp",
+      "cover2x": "/lessons/lesson-11-6481a7128e-768.webp"
+    },
+    {
+      "number": 12,
+      "title": "Чат с AI, как в ChatGPT",
+      "module": 4,
+      "moduleTitle": "Углублённо с нейросетями",
+      "slides": 38,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_12.html",
+      "sourceSha256": "33be00430164b053abf36a43394a86274ec7d8f31392c23465a8b8aefbb9eafb",
+      "cover": "/lessons/lesson-12-33be004301-384.webp",
+      "cover2x": "/lessons/lesson-12-33be004301-768.webp"
+    },
+    {
+      "number": 13,
+      "title": "Введение в базы данных",
+      "module": 5,
+      "moduleTitle": "Данные, сервисы и соцсеть класса",
+      "slides": 36,
+      "source": "https://terenta.github.io/eduson-kids-design-book/lessons/urok_13.html",
+      "sourceSha256": "3773204511397a8b35a7438e2d3d56056b734944bb2473aff0e60eca1a724be8",
+      "cover": "/lessons/lesson-13-3773204511-384.webp",
+      "cover2x": "/lessons/lesson-13-3773204511-768.webp"
+    }
+  ],
+  "covers": [
+    {
+      "path": "apps/portal/public/lessons/lesson-01-60cf3cca81-384.webp",
+      "bytes": 20658,
+      "sha256": "95cf3745eff96c12685835a4ed5576bb8bf03c136494b185d8f7c68ae34867e3",
+      "firstSlide": true,
+      "lesson": 1,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-01-60cf3cca81-768.webp",
+      "bytes": 50464,
+      "sha256": "faea8bf7aceb586cf3f3fc0c4f6ba1df747dbb842bfead18611ef20b6387c116",
+      "firstSlide": true,
+      "lesson": 1,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-02-b1ac8ff0a7-384.webp",
+      "bytes": 20608,
+      "sha256": "e3def46a6d73c19d37b0f788963aa9dc04760190015ebb916019bd6994c03731",
+      "firstSlide": true,
+      "lesson": 2,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-02-b1ac8ff0a7-768.webp",
+      "bytes": 49648,
+      "sha256": "f36c21c7928cae793b4d7737f29e9331419278692560d56da8c8ea00b039d439",
+      "firstSlide": true,
+      "lesson": 2,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-03-5e8f7959f5-384.webp",
+      "bytes": 20976,
+      "sha256": "da37f1477758727ba42214b6278051c0af9a8cf4f93eee109f8e90c3903d77d3",
+      "firstSlide": true,
+      "lesson": 3,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-03-5e8f7959f5-768.webp",
+      "bytes": 50638,
+      "sha256": "083c9d706933c75b7b703bec5a128fd0e94edbf7696bfe125012214c00998063",
+      "firstSlide": true,
+      "lesson": 3,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-04-f23ca5ad6f-384.webp",
+      "bytes": 20142,
+      "sha256": "62b60199c9ce836545383567fba2fba6000f8019baa2291e683b431771e8eb9c",
+      "firstSlide": true,
+      "lesson": 4,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-04-f23ca5ad6f-768.webp",
+      "bytes": 49754,
+      "sha256": "275929f3f26889f16ab3f3c084f95e1c337985bbaee915d1c3bec9d4368b90f8",
+      "firstSlide": true,
+      "lesson": 4,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-05-d7e49680e1-384.webp",
+      "bytes": 21710,
+      "sha256": "b3fb903ba92e401173a1074df67405885212f86556a6d63c00a99c18c78e6411",
+      "firstSlide": true,
+      "lesson": 5,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-05-d7e49680e1-768.webp",
+      "bytes": 52438,
+      "sha256": "8b3f61114540d7ae1d6beb36d787a573c473a0de520eb7b9ea658333be46a5a4",
+      "firstSlide": true,
+      "lesson": 5,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-06-bfc84ef67b-384.webp",
+      "bytes": 21228,
+      "sha256": "17053095ad720e3686694c3aac2e4e2e43feaa5d77a68a54d205289c51ae5d77",
+      "firstSlide": true,
+      "lesson": 6,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-06-bfc84ef67b-768.webp",
+      "bytes": 51714,
+      "sha256": "044dda509db07ecf72b09fa3f8a0ba768f50a1636c2993648a6c4da5dc33a079",
+      "firstSlide": true,
+      "lesson": 6,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-07-28d2b383c4-384.webp",
+      "bytes": 18938,
+      "sha256": "e86a9a3540beab8a885ef01ebbe81a9b613624faca89ac0c4a04459b913855e5",
+      "firstSlide": true,
+      "lesson": 7,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-07-28d2b383c4-768.webp",
+      "bytes": 46026,
+      "sha256": "dcce1cce7cba3d55286146ef982d534c95c0c08cc2fec024c369fee830a45d35",
+      "firstSlide": true,
+      "lesson": 7,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-08-68ef18ec4e-384.webp",
+      "bytes": 19230,
+      "sha256": "a3b02966c8d1c20bc3dad045d5b5773e7356e0515227d2c2c5c690fc728124bc",
+      "firstSlide": true,
+      "lesson": 8,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-08-68ef18ec4e-768.webp",
+      "bytes": 47268,
+      "sha256": "f15f89de1d2f35abadef680b01c98460a642dc4e1dccc181fb5547eea9fd4ec3",
+      "firstSlide": true,
+      "lesson": 8,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-09-424b8e282c-384.webp",
+      "bytes": 22090,
+      "sha256": "9df5903fa124fb70dd2dfc17206413ef7452bbb1c49e91096172750ac713ad98",
+      "firstSlide": true,
+      "lesson": 9,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-09-424b8e282c-768.webp",
+      "bytes": 53340,
+      "sha256": "3e0a43831ac0bf5f8b0b70a578f8fe992ebf82b4bbe22c8928e55897e0508bb1",
+      "firstSlide": true,
+      "lesson": 9,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-10-5858722a44-384.webp",
+      "bytes": 20786,
+      "sha256": "df52524b504e09f8592be2ef506e38ddfb35414dd0c467f877e1a8866388d3a4",
+      "firstSlide": true,
+      "lesson": 10,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-10-5858722a44-768.webp",
+      "bytes": 51474,
+      "sha256": "b1ca57abe932f5de58b02f8da2bc7535e1ef670402eb0e8685b9a8a698a3ae6e",
+      "firstSlide": true,
+      "lesson": 10,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-11-6481a7128e-384.webp",
+      "bytes": 22480,
+      "sha256": "209500759223d9bf969d0112bc97754f6f6fdfc042f6b02bad1a1a1dc825d545",
+      "firstSlide": true,
+      "lesson": 11,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-11-6481a7128e-768.webp",
+      "bytes": 55346,
+      "sha256": "8da62657c8b22bbe5623b884028dac4ef80b573da418e5edb17666526aa09f45",
+      "firstSlide": true,
+      "lesson": 11,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-12-33be004301-384.webp",
+      "bytes": 18902,
+      "sha256": "755cf4953b8491ea775f5222587f70f218189d7731ed5c8993b8bef7169a8fb9",
+      "firstSlide": true,
+      "lesson": 12,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-12-33be004301-768.webp",
+      "bytes": 46236,
+      "sha256": "7e31d6493fc73f3f35ebdea5ad02b3b37b4474f28db53ee4fbda440abca771d4",
+      "firstSlide": true,
+      "lesson": 12,
+      "width": 768,
+      "height": 432
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-13-3773204511-384.webp",
+      "bytes": 19050,
+      "sha256": "80ad05a749450ae46451c1105a2e5f0fc1a98763b30d5004f67c4bd88a9f664a",
+      "firstSlide": true,
+      "lesson": 13,
+      "width": 384,
+      "height": 216
+    },
+    {
+      "path": "apps/portal/public/lessons/lesson-13-3773204511-768.webp",
+      "bytes": 45874,
+      "sha256": "d3c9220b58e464ecc140845f72eee665f3f8a3833b82c74da0ea6cbb9b1cc903",
+      "firstSlide": true,
+      "lesson": 13,
+      "width": 768,
+      "height": 432
+    }
+  ],
+  "actualFirstSlideScreenshots": true,
+  "externalLessonContentUnmodified": true,
+  "thumbnailsTotalBytes": 917018
+}

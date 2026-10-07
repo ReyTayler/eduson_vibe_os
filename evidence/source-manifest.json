@@ -6,8 +6,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 8026,
-    "sha256": "6c0288ac7242704f6a71893528f127dd20b04af6de9f063668f28264e0500e20"
+    "bytes": 8782,
+    "sha256": "043647cb93107d1804e7f952b1d4bbe3b046f3aa3dd3a9ed4a9b3efbff525e19"
   },
   {
     "path": "apps/portal/api/admin.mjs",
@@ -26,8 +26,8 @@
   },
   {
     "path": "apps/portal/api/server.mjs",
-    "bytes": 45166,
-    "sha256": "7b5c1f98d7e4d5bb14cfac1897c90041776dc20b9bdf0a1e6f73a69e34ee82e9"
+    "bytes": 45192,
+    "sha256": "912864dbed57782815e7781bd16b9e9a1cc35ce54b79ead19cf9bc3d7c48f685"
   },
   {
     "path": "apps/portal/api/templates.mjs",
@@ -115,14 +115,144 @@
     "sha256": "b8f802f05b322a7345805f5b89f8bb976604cc719a91530918d5ce3c47160950"
   },
   {
+    "path": "apps/portal/public/lessons/lesson-01-60cf3cca81-384.webp",
+    "bytes": 20658,
+    "sha256": "95cf3745eff96c12685835a4ed5576bb8bf03c136494b185d8f7c68ae34867e3"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-01-60cf3cca81-768.webp",
+    "bytes": 50464,
+    "sha256": "faea8bf7aceb586cf3f3fc0c4f6ba1df747dbb842bfead18611ef20b6387c116"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-02-b1ac8ff0a7-384.webp",
+    "bytes": 20608,
+    "sha256": "e3def46a6d73c19d37b0f788963aa9dc04760190015ebb916019bd6994c03731"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-02-b1ac8ff0a7-768.webp",
+    "bytes": 49648,
+    "sha256": "f36c21c7928cae793b4d7737f29e9331419278692560d56da8c8ea00b039d439"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-03-5e8f7959f5-384.webp",
+    "bytes": 20976,
+    "sha256": "da37f1477758727ba42214b6278051c0af9a8cf4f93eee109f8e90c3903d77d3"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-03-5e8f7959f5-768.webp",
+    "bytes": 50638,
+    "sha256": "083c9d706933c75b7b703bec5a128fd0e94edbf7696bfe125012214c00998063"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-04-f23ca5ad6f-384.webp",
+    "bytes": 20142,
+    "sha256": "62b60199c9ce836545383567fba2fba6000f8019baa2291e683b431771e8eb9c"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-04-f23ca5ad6f-768.webp",
+    "bytes": 49754,
+    "sha256": "275929f3f26889f16ab3f3c084f95e1c337985bbaee915d1c3bec9d4368b90f8"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-05-d7e49680e1-384.webp",
+    "bytes": 21710,
+    "sha256": "b3fb903ba92e401173a1074df67405885212f86556a6d63c00a99c18c78e6411"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-05-d7e49680e1-768.webp",
+    "bytes": 52438,
+    "sha256": "8b3f61114540d7ae1d6beb36d787a573c473a0de520eb7b9ea658333be46a5a4"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-06-bfc84ef67b-384.webp",
+    "bytes": 21228,
+    "sha256": "17053095ad720e3686694c3aac2e4e2e43feaa5d77a68a54d205289c51ae5d77"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-06-bfc84ef67b-768.webp",
+    "bytes": 51714,
+    "sha256": "044dda509db07ecf72b09fa3f8a0ba768f50a1636c2993648a6c4da5dc33a079"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-07-28d2b383c4-384.webp",
+    "bytes": 18938,
+    "sha256": "e86a9a3540beab8a885ef01ebbe81a9b613624faca89ac0c4a04459b913855e5"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-07-28d2b383c4-768.webp",
+    "bytes": 46026,
+    "sha256": "dcce1cce7cba3d55286146ef982d534c95c0c08cc2fec024c369fee830a45d35"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-08-68ef18ec4e-384.webp",
+    "bytes": 19230,
+    "sha256": "a3b02966c8d1c20bc3dad045d5b5773e7356e0515227d2c2c5c690fc728124bc"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-08-68ef18ec4e-768.webp",
+    "bytes": 47268,
+    "sha256": "f15f89de1d2f35abadef680b01c98460a642dc4e1dccc181fb5547eea9fd4ec3"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-09-424b8e282c-384.webp",
+    "bytes": 22090,
+    "sha256": "9df5903fa124fb70dd2dfc17206413ef7452bbb1c49e91096172750ac713ad98"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-09-424b8e282c-768.webp",
+    "bytes": 53340,
+    "sha256": "3e0a43831ac0bf5f8b0b70a578f8fe992ebf82b4bbe22c8928e55897e0508bb1"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-10-5858722a44-384.webp",
+    "bytes": 20786,
+    "sha256": "df52524b504e09f8592be2ef506e38ddfb35414dd0c467f877e1a8866388d3a4"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-10-5858722a44-768.webp",
+    "bytes": 51474,
+    "sha256": "b1ca57abe932f5de58b02f8da2bc7535e1ef670402eb0e8685b9a8a698a3ae6e"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-11-6481a7128e-384.webp",
+    "bytes": 22480,
+    "sha256": "209500759223d9bf969d0112bc97754f6f6fdfc042f6b02bad1a1a1dc825d545"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-11-6481a7128e-768.webp",
+    "bytes": 55346,
+    "sha256": "8da62657c8b22bbe5623b884028dac4ef80b573da418e5edb17666526aa09f45"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-12-33be004301-384.webp",
+    "bytes": 18902,
+    "sha256": "755cf4953b8491ea775f5222587f70f218189d7731ed5c8993b8bef7169a8fb9"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-12-33be004301-768.webp",
+    "bytes": 46236,
+    "sha256": "7e31d6493fc73f3f35ebdea5ad02b3b37b4474f28db53ee4fbda440abca771d4"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-13-3773204511-384.webp",
+    "bytes": 19050,
+    "sha256": "80ad05a749450ae46451c1105a2e5f0fc1a98763b30d5004f67c4bd88a9f664a"
+  },
+  {
+    "path": "apps/portal/public/lessons/lesson-13-3773204511-768.webp",
+    "bytes": 45874,
+    "sha256": "d3c9220b58e464ecc140845f72eee665f3f8a3833b82c74da0ea6cbb9b1cc903"
+  },
+  {
     "path": "apps/portal/src/Admin.tsx",
     "bytes": 27073,
     "sha256": "e4c5f5b1b38ae71c4d21a2b4b104a5d51b5184e963210210d8b40861569c3eac"
   },
   {
     "path": "apps/portal/src/App.tsx",
-    "bytes": 58704,
-    "sha256": "36594e28187db63c9c97bf606dae849678f794378a0078b762ccb1f0ae20be2e"
+    "bytes": 59771,
+    "sha256": "f9281bef2e6559db0e3ae34837da84ebee15a8f2ecb3432fd2bc90dcbcbb75d3"
   },
   {
     "path": "apps/portal/src/Brand.tsx",
@@ -135,9 +265,14 @@
     "sha256": "18ab9e020cfa9708f7e1d4ca400f2c1f02e138fc77cb206f05a413ea4b68393e"
   },
   {
+    "path": "apps/portal/src/Lessons.tsx",
+    "bytes": 8459,
+    "sha256": "4425a1b81ac0e54fbb52bc89e9196c897f189026a502f45a95f60ab8f55210cc"
+  },
+  {
     "path": "apps/portal/src/Workspace.tsx",
-    "bytes": 56379,
-    "sha256": "c55f69def02140afb1ba5a043d63564c3187bd9650bbfb9ea9a2230d8244f2c4"
+    "bytes": 56584,
+    "sha256": "ec1b36c3fcf5906342fce76b64c446273ff27cbc82c5d6cf72a3aeff01892363"
   },
   {
     "path": "apps/portal/src/admin.css",
@@ -153,6 +288,16 @@
     "path": "apps/portal/src/credit-usage.css",
     "bytes": 1479,
     "sha256": "02865335a1573a718271518a0a457fad956e08d746b1a8ca1463faa2aef195ee"
+  },
+  {
+    "path": "apps/portal/src/lessons-data.ts",
+    "bytes": 6560,
+    "sha256": "f842912ac485e6359d5247a95aafbfb58e13febd5343683865a1e53af3c51d53"
+  },
+  {
+    "path": "apps/portal/src/lessons.css",
+    "bytes": 6673,
+    "sha256": "835348934c0aba12a886ed58d7302f29ef133ad9cca810df64e6e85c4d2041b9"
   },
   {
     "path": "apps/portal/src/main.tsx",
@@ -852,7 +997,7 @@
   {
     "path": "evidence/student-secret-scan.json",
     "bytes": 327,
-    "sha256": "9220958b0e922a2ca2fa13e749f2f9dfa6c39a7205d1f629caaf1d5fb3afdd27"
+    "sha256": "1523bdf963475b8585cd3d80ff8d81b71c815b150ed17c233c2ffb506ace9f52"
   },
   {
     "path": "evidence/student-seed.json",
@@ -881,8 +1026,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 14376,
-    "sha256": "70d84e897f28209755d9c3bbded6aaf8f6636af2d47c129373ecfc338ba1ebad"
+    "bytes": 14780,
+    "sha256": "e9d14c277de475a55e21a6bf7520d82bdc65ec639ba7642a2617c10f0c20e8e9"
   },
   {
     "path": "evidence/toolchain.json",

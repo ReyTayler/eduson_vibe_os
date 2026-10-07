@@ -1248,7 +1248,7 @@ app.get("/*", async (req, reply) => {
       "Content-Security-Policy",
       "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src " +
         PREVIEW +
-        "; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
+        " https://terenta.github.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
     )
     .type(mime[path.extname(file)] ?? "application/octet-stream");
   if (file.startsWith("assets/"))

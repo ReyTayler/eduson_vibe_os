@@ -1,0 +1,213 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T07:52:47.649889+00:00",
+  "url": "https://80.249.145.94/",
+  "lessons": 13,
+  "runtimeApiMatchesSource": true,
+  "apiChange": "allow https://terenta.github.io in frame-src for original lesson viewer",
+  "activeModelRunsBeforePortalRestart": 0,
+  "gatewayAndBrokerRestarts": 0,
+  "previousClientAssetsRetained": true,
+  "installed": [
+    {
+      "path": "favicon.svg",
+      "sha256": "badf642c3235fd04960768b654f34dd0d82b9878aff0e733f3d90b4e1b1fe413"
+    },
+    {
+      "path": "brand/richie-space-v1.png",
+      "sha256": "8e6c185fadbb18d063a996afc1f7fedbd84b16dfb3f4041ebbe994bdff87818f"
+    },
+    {
+      "path": "brand/richie-space-128-v1.webp",
+      "sha256": "7c42a8256ad5d9c890e3bec313934acda1cc8029e02615d3bf7d0574b41727e3"
+    },
+    {
+      "path": "brand/richie-space-256-v1.webp",
+      "sha256": "3497526feb43eb0c9061d358ad2a0053ca6b5c004aa0a7e135166119e4fa067f"
+    },
+    {
+      "path": "brand/richie-space-v1.webp",
+      "sha256": "4299bed39a7cedb88aca9e1b93db588fd03ccc74114b45fffb8276b4fee9b573"
+    },
+    {
+      "path": "brand/richie-icon-v1.png",
+      "sha256": "78fc457249e8fef82fd262c1e7b76bc184236dc4e6522496c156a1b94bda4211"
+    },
+    {
+      "path": "assets/index-DujQDeh6.css",
+      "sha256": "bfb17afc6d3e1b1a416b336b8b3fa6acb7b36e89c6f308517bf9d4f4b3df6d8d"
+    },
+    {
+      "path": "assets/esm-ZWcA8GWW.js",
+      "sha256": "32efb3d211593d21e2e67bfe5978bb0941156ae290836753f4121ded301e67f2"
+    },
+    {
+      "path": "assets/index-BWtsO_L6.js",
+      "sha256": "603c713834ff8802a21a923524b8b54d1414df056f28577e305dafcafb3499d9"
+    },
+    {
+      "path": "assets/Workspace-Ca6GmK1n.css",
+      "sha256": "a732fc939268e851988033cfff5a93ccbc6de3cff92dab5209c478c4e27a4b09"
+    },
+    {
+      "path": "assets/play-CoCfj4eo.js",
+      "sha256": "59bd67413b65320877366d9150951c861f9e2dfa790dd6012459b855be8dd0e2"
+    },
+    {
+      "path": "assets/Lessons-51V0leO0.js",
+      "sha256": "50642224fcd93e587ec053d9ff701c7f0fe6e82038833ed3906b336bb3e23833"
+    },
+    {
+      "path": "assets/jsx-runtime-D3jfb0Ew.js",
+      "sha256": "a2c68294426b0ded53fa2d6c97bb39c4a51f99e5e4b23e7953a2c69298e361f8"
+    },
+    {
+      "path": "assets/Workspace-BSqtRqMq.js",
+      "sha256": "e46b3c0ddceb064872b3c90d535144c84ab3bece4bcc0a80378c441ce20421d9"
+    },
+    {
+      "path": "assets/Lessons-BUS-1-6Y.css",
+      "sha256": "afac9d8f02a9c03488fd17d09ffa470d52f2a408cf435c5ff3650e51f9be3eba"
+    },
+    {
+      "path": "lessons/lesson-09-424b8e282c-768.webp",
+      "sha256": "3e0a43831ac0bf5f8b0b70a578f8fe992ebf82b4bbe22c8928e55897e0508bb1"
+    },
+    {
+      "path": "lessons/lesson-01-60cf3cca81-768.webp",
+      "sha256": "faea8bf7aceb586cf3f3fc0c4f6ba1df747dbb842bfead18611ef20b6387c116"
+    },
+    {
+      "path": "lessons/lesson-02-b1ac8ff0a7-384.webp",
+      "sha256": "e3def46a6d73c19d37b0f788963aa9dc04760190015ebb916019bd6994c03731"
+    },
+    {
+      "path": "lessons/lesson-04-f23ca5ad6f-384.webp",
+      "sha256": "62b60199c9ce836545383567fba2fba6000f8019baa2291e683b431771e8eb9c"
+    },
+    {
+      "path": "lessons/lesson-08-68ef18ec4e-768.webp",
+      "sha256": "f15f89de1d2f35abadef680b01c98460a642dc4e1dccc181fb5547eea9fd4ec3"
+    },
+    {
+      "path": "lessons/lesson-03-5e8f7959f5-768.webp",
+      "sha256": "083c9d706933c75b7b703bec5a128fd0e94edbf7696bfe125012214c00998063"
+    },
+    {
+      "path": "lessons/lesson-03-5e8f7959f5-384.webp",
+      "sha256": "da37f1477758727ba42214b6278051c0af9a8cf4f93eee109f8e90c3903d77d3"
+    },
+    {
+      "path": "lessons/lesson-10-5858722a44-384.webp",
+      "sha256": "df52524b504e09f8592be2ef506e38ddfb35414dd0c467f877e1a8866388d3a4"
+    },
+    {
+      "path": "lessons/lesson-11-6481a7128e-768.webp",
+      "sha256": "8da62657c8b22bbe5623b884028dac4ef80b573da418e5edb17666526aa09f45"
+    },
+    {
+      "path": "lessons/lesson-07-28d2b383c4-384.webp",
+      "sha256": "e86a9a3540beab8a885ef01ebbe81a9b613624faca89ac0c4a04459b913855e5"
+    },
+    {
+      "path": "lessons/lesson-08-68ef18ec4e-384.webp",
+      "sha256": "a3b02966c8d1c20bc3dad045d5b5773e7356e0515227d2c2c5c690fc728124bc"
+    },
+    {
+      "path": "lessons/lesson-12-33be004301-768.webp",
+      "sha256": "7e31d6493fc73f3f35ebdea5ad02b3b37b4474f28db53ee4fbda440abca771d4"
+    },
+    {
+      "path": "lessons/lesson-06-bfc84ef67b-768.webp",
+      "sha256": "044dda509db07ecf72b09fa3f8a0ba768f50a1636c2993648a6c4da5dc33a079"
+    },
+    {
+      "path": "lessons/lesson-04-f23ca5ad6f-768.webp",
+      "sha256": "275929f3f26889f16ab3f3c084f95e1c337985bbaee915d1c3bec9d4368b90f8"
+    },
+    {
+      "path": "lessons/lesson-06-bfc84ef67b-384.webp",
+      "sha256": "17053095ad720e3686694c3aac2e4e2e43feaa5d77a68a54d205289c51ae5d77"
+    },
+    {
+      "path": "lessons/lesson-05-d7e49680e1-384.webp",
+      "sha256": "b3fb903ba92e401173a1074df67405885212f86556a6d63c00a99c18c78e6411"
+    },
+    {
+      "path": "lessons/lesson-05-d7e49680e1-768.webp",
+      "sha256": "8b3f61114540d7ae1d6beb36d787a573c473a0de520eb7b9ea658333be46a5a4"
+    },
+    {
+      "path": "lessons/lesson-02-b1ac8ff0a7-768.webp",
+      "sha256": "f36c21c7928cae793b4d7737f29e9331419278692560d56da8c8ea00b039d439"
+    },
+    {
+      "path": "lessons/lesson-10-5858722a44-768.webp",
+      "sha256": "b1ca57abe932f5de58b02f8da2bc7535e1ef670402eb0e8685b9a8a698a3ae6e"
+    },
+    {
+      "path": "lessons/lesson-01-60cf3cca81-384.webp",
+      "sha256": "95cf3745eff96c12685835a4ed5576bb8bf03c136494b185d8f7c68ae34867e3"
+    },
+    {
+      "path": "lessons/lesson-11-6481a7128e-384.webp",
+      "sha256": "209500759223d9bf969d0112bc97754f6f6fdfc042f6b02bad1a1a1dc825d545"
+    },
+    {
+      "path": "lessons/lesson-07-28d2b383c4-768.webp",
+      "sha256": "dcce1cce7cba3d55286146ef982d534c95c0c08cc2fec024c369fee830a45d35"
+    },
+    {
+      "path": "lessons/lesson-12-33be004301-384.webp",
+      "sha256": "755cf4953b8491ea775f5222587f70f218189d7731ed5c8993b8bef7169a8fb9"
+    },
+    {
+      "path": "lessons/lesson-09-424b8e282c-384.webp",
+      "sha256": "9df5903fa124fb70dd2dfc17206413ef7452bbb1c49e91096172750ac713ad98"
+    },
+    {
+      "path": "lessons/lesson-13-3773204511-384.webp",
+      "sha256": "80ad05a749450ae46451c1105a2e5f0fc1a98763b30d5004f67c4bd88a9f664a"
+    },
+    {
+      "path": "lessons/lesson-13-3773204511-768.webp",
+      "sha256": "d3c9220b58e464ecc140845f72eee665f3f8a3833b82c74da0ea6cbb9b1cc903"
+    },
+    {
+      "path": "fonts/manrope-3.ttf",
+      "sha256": "b9584e099e0e7f1e1e914c3037aabb9010c50346a3ce8df5eeeeecc0563044d8"
+    },
+    {
+      "path": "fonts/manrope-2.ttf",
+      "sha256": "6bad1a774228464cc88b8b0271555b266f7a3c64a7bedf15e165fdab4f6ac0ce"
+    },
+    {
+      "path": "fonts/manrope-1.ttf",
+      "sha256": "f433e5d333be1128d8ec8a28b8aadd0314d10e14e4105406076666bc830fc15d"
+    },
+    {
+      "path": "fonts/OFL.txt",
+      "sha256": "d6a309fcfb963d329a93baf9df66fa5f3c23a4be2b5f67edf24d6cafecde12ac"
+    },
+    {
+      "path": "fonts/manrope-4.ttf",
+      "sha256": "b8f802f05b322a7345805f5b89f8bb976604cc719a91530918d5ce3c47160950"
+    },
+    {
+      "path": "fonts/manrope-0.ttf",
+      "sha256": "a13d9b41b0a471ce58f0e46d377fa3cc76615e4632c3b15eb397caadf7a13f0a"
+    },
+    {
+      "path": "index.html",
+      "sha256": "804c7675b41ecab1b3f3908c490b07b41d8e3f18aae3cdf432bbb9d1b2f208ad"
+    }
+  ],
+  "services": {
+    "vibe-os-model-gateway": "active",
+    "vibe-os-workspace-broker": "active",
+    "vibe-os-workspace-runner": "active",
+    "vibe-os-portal": "active",
+    "vibe-os-portal-web": "active"
+  },
+  "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://80.249.145.94:8443 https://terenta.github.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+}

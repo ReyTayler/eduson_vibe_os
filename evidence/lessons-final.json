@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T07:56:00.920828+00:00",
+  "portalUrl": "https://80.249.145.94/",
+  "navigation": "Уроки immediately below Проекты",
+  "lessons": 13,
+  "desktopColumns": 4,
+  "covers": "actual first slides; browser screenshots; local WebP",
+  "viewer": "full-viewport native dialog; original external GitHub Pages lessons",
+  "sourceCatalog": "https://terenta.github.io/eduson-kids-design-book/lessons/",
+  "lessonContentModified": false,
+  "originalSlideNavigationVerifiedForEveryLesson": true,
+  "externalDependency": "lesson HTML and fonts served by source GitHub Pages/Google Fonts",
+  "uiEvidence": "lessons-live-ui.json",
+  "uiChecks": 7,
+  "originalStudentFilesUnchanged": true,
+  "originalStudentFiles": 7,
+  "dataCountsBefore": {
+    "users": 5,
+    "projects": 2,
+    "folders": 2,
+    "chats": 2,
+    "messages": 12,
+    "runs": 5
+  },
+  "dataCountsAfter": {
+    "users": 5,
+    "projects": 2,
+    "folders": 2,
+    "chats": 2,
+    "messages": 14,
+    "runs": 6
+  },
+  "studentActivityDuringWork": {
+    "newFiles": 1,
+    "additionalMessages": 2,
+    "additionalRuns": 1
+  },
+  "agentPaidModelCalls": 0,
+  "agentProjectFileWrites": 0
+}
