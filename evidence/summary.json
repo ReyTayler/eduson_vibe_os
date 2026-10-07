@@ -1,5 +1,5 @@
 {
-  "timeUtc": "2026-10-06T21:27:00.442198+00:00",
+  "timeUtc": "2026-10-07T06:54:48.092291+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
@@ -160,6 +160,12 @@
       "checks": 8,
       "paidCalls": 0,
       "evidence": "credit-weekly-acceptance.json"
+    },
+    "eduson-redesign-visual": {
+      "passed": true,
+      "checks": 3,
+      "paidCalls": 0,
+      "evidence": "eduson-redesign-ui.json"
     }
   },
   "staticChecks": {
@@ -237,7 +243,7 @@
     "absoluteModelAndRunDeadline": null,
     "providerIdleTimeoutMs": 300000
   },
-  "latestFeatureEvidence": "credit-final.json",
+  "latestFeatureEvidence": "eduson-redesign-final.json",
   "studentWeeklyBudgets": [
     {
       "generation": 5,
@@ -481,5 +487,13 @@
     "costBasis": "published-tariff-estimate",
     "pricingVersion": "deepseek-flash-2026-09-10",
     "peakHoursMoscow": "weekdays 04:00-07:00,09:00-13:00 excluding Chinese public holidays"
+  },
+  "productName": "Eduson Kids",
+  "branding": {
+    "name": "Eduson Kids",
+    "dashboardHeading": "Vibe-coding by Eduson Kids",
+    "mascot": "user-supplied Richie astronaut",
+    "favicon": "PNG 64x64",
+    "responsiveMascotBytes": [16914, 50800]
   }
 }

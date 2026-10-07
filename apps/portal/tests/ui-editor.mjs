@@ -18,7 +18,7 @@ async function dialog(value){
 try{
  await page.goto(origin,{waitUntil:'networkidle'});
  await page.getByLabel('Логин',{exact:true}).fill(account.login);await page.getByLabel('Пароль',{exact:true}).fill(account.password);
- await page.getByRole('button',{name:'Войти в пространство'}).click();await page.getByRole('heading',{name:'Идеям здесь просторно.'}).waitFor();
+ await page.getByRole('button',{name:'Войти в пространство'}).click();await page.getByRole('heading',{name:'Vibe-coding by Eduson Kids'}).waitFor();
  assert(await page.locator('.project-card').count()===0,'Second account not empty');checks.push('empty private cabinet');
  await page.screenshot({path:out+'/empty-cabinet.png',fullPage:true});
  await page.locator('.sidebar nav button').filter({hasText:'Проекты'}).click();

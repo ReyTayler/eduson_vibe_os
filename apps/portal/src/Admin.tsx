@@ -14,6 +14,7 @@ import {
   KeyRound,
 } from "lucide-react";
 import "./admin.css";
+import { Logo } from "./Brand";
 import CreditUsage, { creditNumber } from "./CreditUsage";
 import type { TokenUsage } from "./api";
 type AdminUser = { id: string; login: string; name: string; csrf: string };
@@ -321,10 +322,8 @@ export default function Admin() {
     return (
       <div className="admin-login">
         <a className="admin-brand" href="/">
-          <span>
-            <ShieldCheck size={22} />
-          </span>
-          Vibe OS <small>Управление</small>
+          <Logo />
+          <small>Управление</small>
         </a>
         <section className="admin-login-card glass">
           <div className="admin-icon">
@@ -395,10 +394,8 @@ export default function Admin() {
     <div className="admin-page">
       <header className="admin-header">
         <a className="admin-brand" href="/admin">
-          <span>
-            <ShieldCheck size={22} />
-          </span>
-          Vibe OS <small>Управление</small>
+          <Logo />
+          <small>Управление</small>
         </a>
         <div className="admin-header-right">
           <span>{user.name}</span>

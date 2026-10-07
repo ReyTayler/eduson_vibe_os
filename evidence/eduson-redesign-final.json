@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T06:54:48.092291+00:00",
+  "productName": "Eduson Kids",
+  "portalUrl": "https://80.249.145.94/",
+  "adminUrl": "https://80.249.145.94/admin",
+  "dashboardHeading": "Vibe-coding by Eduson Kids",
+  "mascot": "exact user supplied Richie astronaut; transparent background; original source SHA256 verified; responsive WebP and PNG favicon",
+  "removedBlocks": [
+    "sidebar assistant-ready",
+    "sidebar workspace-label",
+    "welcome eyebrow/title/description replaced",
+    "welcome-caption",
+    "idea-banner",
+    "app footer promotional sentence"
+  ],
+  "adminAndLoginRebranded": true,
+  "newProjectTemplateRebranded": true,
+  "pngAndWebpMimeCorrect": true,
+  "build": "TypeScript + Vite passed",
+  "runtimeFilesMatched": 19,
+  "visualVerification": [
+    "Eduson Kids title/sidebar/login; provided Richie mascot; correct PNG/WebP types and all requested removals",
+    "Desktop/tablet/mobile/320px layout; workspace and credit settings retain functional navigation",
+    "Empty student and admin login/dashboard/mobile retain supplied mascot and no old brand"
+  ],
+  "viewportWidths": [1440, 1024, 390, 320],
+  "screenshots": 11,
+  "paidModelCalls": 0,
+  "browserErrors": [],
+  "humanProjects": [
+    {
+      "login": "student01",
+      "projects": 3
+    },
+    {
+      "login": "student02",
+      "projects": 0
+    },
+    {
+      "login": "student03",
+      "projects": 0
+    },
+    {
+      "login": "student04",
+      "projects": 0
+    },
+    {
+      "login": "student05",
+      "projects": 0
+    }
+  ],
+  "services": {
+    "vibe-os-model-gateway": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-broker": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-workspace-runner": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "vibe-os-portal-web": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "evidence": [
+    "eduson-brand-asset.json",
+    "eduson-redesign-deploy.json",
+    "eduson-redesign-ui.json"
+  ]
+}

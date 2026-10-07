@@ -6,8 +6,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 6974,
-    "sha256": "87dcce04bbfe8ce20861cce0f7415b49c5d748d26b3448b6e2decb6d054291d1"
+    "bytes": 7656,
+    "sha256": "43ab025d5b9f242165ef44853d6c316cbe7d98de716e4f65b3f3fe04fa5a1996"
   },
   {
     "path": "apps/portal/api/admin.mjs",
@@ -26,18 +26,18 @@
   },
   {
     "path": "apps/portal/api/server.mjs",
-    "bytes": 45118,
-    "sha256": "ca5891be80edfcc4ba536728af4dafe2c72472b76afa1e8dbc4de9bc6a0f88d1"
+    "bytes": 45166,
+    "sha256": "7b5c1f98d7e4d5bb14cfac1897c90041776dc20b9bdf0a1e6f73a69e34ee82e9"
   },
   {
     "path": "apps/portal/api/templates.mjs",
-    "bytes": 3893,
-    "sha256": "496e3066052e61aafd600cb1defb134b0124a563e9cb0e60ab084a90073f1ca0"
+    "bytes": 3897,
+    "sha256": "5f413635e88e49000b589c5ff743e5f7fda5b270dbe3f6c7713a69aaa33dc1a5"
   },
   {
     "path": "apps/portal/index.html",
-    "bytes": 509,
-    "sha256": "39a0c529f7255dfa42c171fb41408b77c7a214473ba02b1002bb65d65fe81fd7"
+    "bytes": 546,
+    "sha256": "bc59622d6b9747ae610a5723bbb4d1bca1cbd03353abb06e21f4ce45bdd10e78"
   },
   {
     "path": "apps/portal/package.json",
@@ -53,6 +53,31 @@
     "path": "apps/portal/pnpm-workspace.yaml",
     "bytes": 630,
     "sha256": "afd46c096a46802f910e73f81368e44308056b6c08fb791b6f42b87841e6925a"
+  },
+  {
+    "path": "apps/portal/public/brand/richie-icon-v1.png",
+    "bytes": 7535,
+    "sha256": "78fc457249e8fef82fd262c1e7b76bc184236dc4e6522496c156a1b94bda4211"
+  },
+  {
+    "path": "apps/portal/public/brand/richie-space-128-v1.webp",
+    "bytes": 16914,
+    "sha256": "7c42a8256ad5d9c890e3bec313934acda1cc8029e02615d3bf7d0574b41727e3"
+  },
+  {
+    "path": "apps/portal/public/brand/richie-space-256-v1.webp",
+    "bytes": 50800,
+    "sha256": "3497526feb43eb0c9061d358ad2a0053ca6b5c004aa0a7e135166119e4fa067f"
+  },
+  {
+    "path": "apps/portal/public/brand/richie-space-v1.png",
+    "bytes": 1815628,
+    "sha256": "8e6c185fadbb18d063a996afc1f7fedbd84b16dfb3f4041ebbe994bdff87818f"
+  },
+  {
+    "path": "apps/portal/public/brand/richie-space-v1.webp",
+    "bytes": 988542,
+    "sha256": "4299bed39a7cedb88aca9e1b93db588fd03ccc74114b45fffb8276b4fee9b573"
   },
   {
     "path": "apps/portal/public/favicon.svg",
@@ -91,13 +116,18 @@
   },
   {
     "path": "apps/portal/src/Admin.tsx",
-    "bytes": 27165,
-    "sha256": "a15c05edb2fb135dff7fcfe081498a680b6b8fd8f86de2555ecb859c3f9a4c34"
+    "bytes": 27073,
+    "sha256": "e4c5f5b1b38ae71c4d21a2b4b104a5d51b5184e963210210d8b40861569c3eac"
   },
   {
     "path": "apps/portal/src/App.tsx",
-    "bytes": 60867,
-    "sha256": "b114de7d498a406688e939170d6c45021e718b2203fdaf4420b3805209132aae"
+    "bytes": 58274,
+    "sha256": "9bb0e9e99324870577879c71e77729c66554c5bbafd267c05f64fae4db8e3eb9"
+  },
+  {
+    "path": "apps/portal/src/Brand.tsx",
+    "bytes": 635,
+    "sha256": "532a76de7baaed7202ccae4f52b089ef3eaa534b4e7ec5bc12b561798fadbcbe"
   },
   {
     "path": "apps/portal/src/CreditUsage.tsx",
@@ -131,8 +161,8 @@
   },
   {
     "path": "apps/portal/src/style.css",
-    "bytes": 76192,
-    "sha256": "a816b82e913ac1f88c1f9d50a7bd0d484f6a22e2ea42220de32109c01da58aa1"
+    "bytes": 78267,
+    "sha256": "b3588cc4c6092d6fa02bf5cb1218fe2f43606220d940fe2204e2b9133335c9ff"
   },
   {
     "path": "apps/portal/src/vite-env.d.ts",
@@ -171,8 +201,8 @@
   },
   {
     "path": "apps/portal/tests/live-ui.mjs",
-    "bytes": 4646,
-    "sha256": "cac630e9138b3aad4bd1e2eaf9c007894cd4a7ab37a061cb1395e5396e7c6036"
+    "bytes": 4631,
+    "sha256": "5e08e92b1742617393b9993f14965357eef547d6c52991509cf7c9ad9f180246"
   },
   {
     "path": "apps/portal/tests/reasoning-live.mjs",
@@ -201,13 +231,13 @@
   },
   {
     "path": "apps/portal/tests/ui-editor.mjs",
-    "bytes": 7862,
-    "sha256": "1ee2fee91a4250be09e02d9f4c89ee64546e17b07a07d5c3ff17fea076522502"
+    "bytes": 7847,
+    "sha256": "67fbc0ac7e107b86627f74c2175b49b253023fcccf00c721e1155e673731e71c"
   },
   {
     "path": "apps/portal/tests/ui-first.mjs",
-    "bytes": 3932,
-    "sha256": "1a56d8aef8a822901bfbc2c596cfc99d0d2f5826c137e8030c0fcdc5ce74e31f"
+    "bytes": 3917,
+    "sha256": "16c291ea4f3013985ad2b60fd51972985ebb94bcce34448acdf1e88272dcf506"
   },
   {
     "path": "apps/portal/tests/weekly-quota.mjs",
@@ -375,6 +405,26 @@
     "sha256": "09789beb3147a9bdc0452873f8e1a6786cafb15c74a6196bc0aadbd7d7aff65c"
   },
   {
+    "path": "evidence/eduson-brand-asset.json",
+    "bytes": 806,
+    "sha256": "cdb5dcb9c4ca98993e5c5714e6461f1069437f992fb1f909bcfffe136e995e82"
+  },
+  {
+    "path": "evidence/eduson-redesign-deploy.json",
+    "bytes": 1177,
+    "sha256": "bc3151824e122268384d9c236816bee902ee614531e64809f07326d0a65d233d"
+  },
+  {
+    "path": "evidence/eduson-redesign-final.json",
+    "bytes": 2143,
+    "sha256": "f532bf0ec83a042dc79a972ed49b12972f3905346801872350a6f44adad17d91"
+  },
+  {
+    "path": "evidence/eduson-redesign-ui.json",
+    "bytes": 1455,
+    "sha256": "589ff2c17978dc9ee046abfde63c86b6f30f8fb5d9c68545d90b0e8d56abd6a0"
+  },
+  {
     "path": "evidence/harness-build.json",
     "bytes": 175,
     "sha256": "3be9aa57de39de8ddf08c63e309091a712f8b0c226757881756bdea6658eb2f8"
@@ -478,6 +528,61 @@
     "path": "evidence/portal-ui/editor-crud.png",
     "bytes": 463727,
     "sha256": "e8e8b1bfebe718e1325f18623a52b170ae48937cc7ea27be16827602e8e8fb0e"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-admin-login.png",
+    "bytes": 238493,
+    "sha256": "eb03417dea027e755f661fb888f93c539e8f6e2bf8939e4bf21806e341f4a6a1"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-admin-mobile.png",
+    "bytes": 333610,
+    "sha256": "463b796741a6355b672b686768ed5703b65167c9bbd18d76e750fde3afd88052"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-admin.png",
+    "bytes": 1364400,
+    "sha256": "ffb6d646f1c5510177d9d3f52c114e5520f3a8d63073b916e8463e353f707745"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-dashboard-1024.png",
+    "bytes": 713111,
+    "sha256": "ecc26f525da439aa222d7503df8c8e7b6a56d6db3045b007e530af3325f1f9ae"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-dashboard-320.png",
+    "bytes": 263414,
+    "sha256": "f5beedea763071917098ccf7407dc25e98e5897ebde243afca3e8bee10f81e73"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-dashboard-390.png",
+    "bytes": 296055,
+    "sha256": "a5277824d9f44366f88471642e4f98dd5767e17b238cc06f8e13e0b9475093b3"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-dashboard.png",
+    "bytes": 641059,
+    "sha256": "91828b237d3abc97613873fffc40b38e02b0ccbc71c12826d6db14f868b837d8"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-empty-student.png",
+    "bytes": 225922,
+    "sha256": "39194a880daa7d93ff5c3129e43933725676bc854e1d251cc9c3abcfc061088c"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-login.png",
+    "bytes": 375760,
+    "sha256": "10e48b8b4cffda9c5314c39f660fc739de3a034ccbac3862603a186e6b91d577"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-settings.png",
+    "bytes": 633217,
+    "sha256": "b53b6a796346af6a6dabbc30afbe5c7ef77d61f00b362fab1f9a16d27a1cf96b"
+  },
+  {
+    "path": "evidence/portal-ui/eduson-workspace.png",
+    "bytes": 572226,
+    "sha256": "2a38402781d2e41d0144cea991cb641bd66fe78d4136a71762e0c59d8f96b07a"
   },
   {
     "path": "evidence/portal-ui/empty-cabinet.png",
@@ -742,7 +847,7 @@
   {
     "path": "evidence/student-secret-scan.json",
     "bytes": 327,
-    "sha256": "4b45361af1e920442d35700aed98ed41046fa4b60691efc062c9bea33daa5255"
+    "sha256": "2e35aa78e19e440d4ddb062549712fdf2e3288a14cbb7108fd4ddeb41e04cfb5"
   },
   {
     "path": "evidence/student-seed.json",
@@ -771,8 +876,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 13710,
-    "sha256": "0a17bc1f41fba975485ac4f7403e0a2805cf8ee15d00030bc6f27c4e6ea42a3c"
+    "bytes": 14119,
+    "sha256": "b94239d647587cb52c7a075d898928b7325a4901addb4305ce495083d8e9236e"
   },
   {
     "path": "evidence/toolchain.json",

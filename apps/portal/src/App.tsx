@@ -1,4 +1,6 @@
 import Admin from "./Admin";
+import { Logo } from "./Brand";
+export { Logo } from "./Brand";
 import CreditUsage, { creditNumber } from "./CreditUsage";
 import {
   useEffect,
@@ -58,23 +60,6 @@ type Dialog = {
   submit: (value: string) => Promise<void>;
 };
 type Confirm = { title: string; text: string; submit: () => Promise<void> };
-export function Logo({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className="brand">
-      <span className="brand-mark">
-        <svg viewBox="0 0 36 36" aria-hidden="true">
-          <path d="M8 12l10 16 10-16M13 9l5 9 5-9" />
-        </svg>
-      </span>
-      {!compact && (
-        <span>
-          vibe<span className="brand-os">os</span>
-          <i>•</i>
-        </span>
-      )}
-    </div>
-  );
-}
 function GlassScene() {
   return (
     <div className="glass-scene" aria-hidden="true">
@@ -250,7 +235,7 @@ function Login({ onLogin }: { onLogin: (user: User) => void }) {
         </section>
       </main>
       <footer className="login-footer">
-        <span>Vibe OS</span>
+        <span>Eduson Kids</span>
         <span>Маленький шаг. Большая идея.</span>
       </footer>
     </div>
@@ -500,10 +485,6 @@ function StudentApp() {
     <div className="app-shell">
       <aside className="sidebar glass">
         <Logo />
-        <div className="workspace-label">
-          <span className="workspace-dot" />
-          Личное пространство
-        </div>
         <nav>
           {(
             [
@@ -563,15 +544,6 @@ function StudentApp() {
           )}
         </div>
         <div className="sidebar-bottom">
-          <div className="assistant-ready">
-            <span className="ready-orb">
-              <Sparkles size={18} />
-            </span>
-            <div>
-              <b>Помощник рядом</b>
-              <small>Твоя идея + немного ИИ</small>
-            </div>
-          </div>
           <button
             className={
               "nav-item settings-nav " + (view === "settings" ? "active" : "")
@@ -647,19 +619,9 @@ function StudentApp() {
               <>
                 <section className="welcome glass">
                   <div className="welcome-text">
-                    <span className="eyebrow">
-                      ТВОЁ ПРОСТРАНСТВО ДЛЯ СОЗДАНИЯ
-                    </span>
                     <h1>
-                      Идеям здесь
-                      <br />
-                      <span>просторно.</span>
+                      Vibe-coding <span>by Eduson Kids</span>
                     </h1>
-                    <p>
-                      От первого «привет, мир» до проекта,
-                      <br />
-                      которым хочется поделиться.
-                    </p>
                     <div className="welcome-actions">
                       <button className="button primary" onClick={newProject}>
                         Создать проект <ArrowUpRight size={17} />
@@ -675,10 +637,6 @@ function StudentApp() {
                     </div>
                   </div>
                   <GlassScene />
-                  <span className="welcome-caption">
-                    <span className="blue-dot" />
-                    Новая идея — всего в одном шаге
-                  </span>
                 </section>
                 <section className="stats-row">
                   <Stat
@@ -969,28 +927,6 @@ function StudentApp() {
                       </button>
                     </div>
                   )}
-                {view === "home" && (
-                  <section className="idea-banner glass">
-                    <span className="idea-icon">
-                      <Sparkles size={25} />
-                    </span>
-                    <div>
-                      <h3>Есть идея, но пока не знаешь, с чего начать?</h3>
-                      <p>
-                        Расскажи помощнику, что хочется создать. Первый шаг
-                        найдём вместе.
-                      </p>
-                    </div>
-                    <button
-                      className="text-button"
-                      onClick={() =>
-                        projects.length ? open(projects[0]) : newProject()
-                      }
-                    >
-                      Начнём <ArrowRight size={17} />
-                    </button>
-                  </section>
-                )}
               </>
             )}
             {view === "chats" && (
@@ -1190,10 +1126,7 @@ function StudentApp() {
           </main>
         )}
         <footer className="app-footer">
-          <span>Сделано для твоих идей.</span>
-          <span>
-            vibe os <span className="footer-star">✦</span>
-          </span>
+          <span>Eduson Kids</span>
         </footer>
       </div>
       {toast && (

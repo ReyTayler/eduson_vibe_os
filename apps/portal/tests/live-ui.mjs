@@ -13,7 +13,7 @@ let report
 try{
  await page.goto('https://80.249.145.94/',{waitUntil:'networkidle'})
  await page.getByLabel('Логин',{exact:true}).fill(account.login);await page.getByLabel('Пароль',{exact:true}).fill(account.password)
- await page.getByRole('button',{name:'Войти в пространство'}).click();await page.getByRole('heading',{name:'Идеям здесь просторно.'}).waitFor()
+ await page.getByRole('button',{name:'Войти в пространство'}).click();await page.getByRole('heading',{name:'Vibe-coding by Eduson Kids'}).waitFor()
  await page.getByRole('button',{name:'Открыть Моя первая идея'}).click();await page.locator('.cm-editor').waitFor()
  await page.getByRole('button',{name:'Новый чат',exact:true}).click()
  await page.getByRole('button',{name:'Переименовать чат'}).click()

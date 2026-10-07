@@ -4363,3 +4363,124 @@ p {
   color: #7697b0;
   white-space: nowrap;
 }
+
+/* Eduson Kids identity and simplified dashboard. */
+.eduson-brand {
+  gap: 9px;
+  font-size: 23px;
+  letter-spacing: -0.7px;
+  white-space: nowrap;
+}
+.eduson-brand .brand-mark {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.eduson-brand .brand-mark img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px #2b88bd18);
+}
+.eduson-brand .brand-kids {
+  color: #369bcc;
+  font-weight: 650;
+}
+.sidebar .eduson-brand {
+  padding: 0;
+  font-size: 20px;
+  gap: 6px;
+  letter-spacing: -0.6px;
+}
+.sidebar nav {
+  margin-top: 29px;
+}
+.app-footer {
+  justify-content: flex-end;
+}
+.welcome {
+  min-height: 266px;
+}
+.welcome-text {
+  padding: 37px 38px;
+}
+.welcome h1 {
+  margin: 0;
+  font-size: clamp(36px, 3.15vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+}
+.welcome h1 > span {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(22px, 1.85vw, 29px);
+  line-height: 1.2;
+  letter-spacing: -0.6px;
+  font-weight: 600;
+}
+.welcome-actions {
+  margin-top: 27px;
+}
+@media (max-width: 1100px) {
+  .sidebar .eduson-brand {
+    font-size: 18px;
+    gap: 5px;
+  }
+  .sidebar .eduson-brand .brand-mark {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+}
+@media (max-width: 760px) {
+  .sidebar .eduson-brand .brand-mark {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+  .welcome {
+    min-height: 220px;
+  }
+  .welcome-text {
+    padding: 27px 24px;
+  }
+  .welcome h1 {
+    font-size: 34px;
+  }
+  .welcome h1 > span {
+    font-size: 23px;
+  }
+}
+@media (max-width: 420px) {
+  .eduson-brand {
+    font-size: 21px;
+    gap: 6px;
+  }
+  .eduson-brand .brand-mark {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+  .sidebar .eduson-brand .brand-mark {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+  .welcome-text {
+    padding: 25px 18px;
+  }
+  .welcome h1 {
+    font-size: 30px;
+    letter-spacing: -1px;
+  }
+  .welcome h1 > span {
+    font-size: 20px;
+  }
+  .welcome-actions {
+    gap: 12px;
+  }
+}

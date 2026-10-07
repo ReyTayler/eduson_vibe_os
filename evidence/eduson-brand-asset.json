@@ -1,0 +1,27 @@
+{
+  "source": "user supplied codex-clipboard-d064d0eb-ec4a-4e43-b289-694111c3dc15.png",
+  "sourceSha256": "8e6c185fadbb18d063a996afc1f7fedbd84b16dfb3f4041ebbe994bdff87818f",
+  "width": 1360,
+  "height": 1156,
+  "alphaRange": [0, 255],
+  "sourceBytes": 1815628,
+  "webpBytes": 988542,
+  "webpDecodedPixelsEqualSource": true,
+  "renderedAsset": "apps/portal/public/brand/richie-space-v1.webp",
+  "favicon": "apps/portal/public/brand/richie-icon-v1.png",
+  "aiGeneratedReplacementUsed": false,
+  "responsiveVariants": [
+    {
+      "path": "apps/portal/public/brand/richie-space-128-v1.webp",
+      "width": 128,
+      "height": 109,
+      "bytes": 16914
+    },
+    {
+      "path": "apps/portal/public/brand/richie-space-256-v1.webp",
+      "width": 256,
+      "height": 218,
+      "bytes": 50800
+    }
+  ]
+}

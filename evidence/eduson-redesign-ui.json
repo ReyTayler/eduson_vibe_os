@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T06:50:38.467Z",
+  "checks": [
+    "Eduson Kids title/sidebar/login; provided Richie mascot; correct PNG/WebP types and all requested removals",
+    "Desktop/tablet/mobile/320px layout; workspace and credit settings retain functional navigation",
+    "Empty student and admin login/dashboard/mobile retain supplied mascot and no old brand"
+  ],
+  "paidCalls": 0,
+  "browserErrors": [],
+  "productionBudgetBefore": {
+    "attempts": 72,
+    "confirmed_tokens": 2737362,
+    "uncertain_ceiling": 0
+  },
+  "productionBudgetAfter": {
+    "attempts": 72,
+    "confirmed_tokens": 2737362,
+    "uncertain_ceiling": 0
+  },
+  "screenshots": [
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-login.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-dashboard.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-workspace.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-settings.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-dashboard-1024.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-dashboard-390.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-dashboard-320.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-empty-student.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-admin-login.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-admin.png",
+    "/opt/vibe-os/platform/evidence/portal-ui/eduson-admin-mobile.png"
+  ]
+}

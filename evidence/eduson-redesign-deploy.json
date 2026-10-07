@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T06:45:39Z",
+  "productName": "Eduson Kids",
+  "tagline": "Vibe-coding by Eduson Kids",
+  "userSuppliedMascot": true,
+  "humanTablesPreserved": {
+    "users": {
+      "count": 5,
+      "sha256": "8135a365a6ca390c7e1147464f6cb298e71ddd2e26d67b9028d21736674fc3a0"
+    },
+    "projects": {
+      "count": 3,
+      "sha256": "9401e1c57dece3ed00de7a45e16dc9f227a3363e01b177c79d4aabc8f150220f"
+    },
+    "folders": {
+      "count": 2,
+      "sha256": "866a0de2a740389669dd86f2d2f528a6c914857745a6f172285b6f0e8bde22e2"
+    },
+    "chats": {
+      "count": 4,
+      "sha256": "1fc900715b146b9b1982abc31b103cc5dbda8ae860325886a48041588cb95773"
+    },
+    "messages": {
+      "count": 12,
+      "sha256": "7a427be7971c291020d356458fa90b5ea682e8655dfde765ba69058f7bb418e2"
+    },
+    "runs": {
+      "count": 5,
+      "sha256": "5a5c4ea014126539ef5db53e79b1380f65f7be2436734a46bf7d418796cdbe5d"
+    }
+  },
+  "creditGeneration": 5,
+  "services": {
+    "vibe-os-model-gateway": "active",
+    "vibe-os-workspace-broker": "active",
+    "vibe-os-workspace-runner": "active",
+    "vibe-os-portal": "active",
+    "vibe-os-portal-web": "active"
+  }
+}
