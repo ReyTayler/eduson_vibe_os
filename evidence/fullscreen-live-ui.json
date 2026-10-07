@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "checks": [
+    "inline editor retains normal accessibility and layout",
+    "project preview fills viewport without iframe reload; sandbox preserved",
+    "all 4 project documents open in individual full-screen windows",
+    "long document scrolls inside the normal editor",
+    "full-screen vertical scrolling and per-file expand menu",
+    "double-click opening; horizontal scrolling; same editor and unsaved edits survive close/reopen",
+    "document switch confirmation; nested Escape preserves parent window",
+    "modal focus containment; Escape closure and scroll lock cleanup",
+    "390px and 320px file modals; mobile project preview; no horizontal page overflow",
+    "rapid document changes ignore out-of-order file responses"
+  ],
+  "count": 10,
+  "browserErrors": [],
+  "paidCalls": 0,
+  "projectFileWrites": 0,
+  "viewports": [
+    1440,
+    390,
+    320
+  ],
+  "screenshots": 5,
+  "scope": "published production interface"
+}

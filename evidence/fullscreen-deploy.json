@@ -1,0 +1,89 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T07:13:21.429564+00:00",
+  "url": "https://80.249.145.94/",
+  "staticOnly": true,
+  "serviceRestarts": 0,
+  "olderClientAssetsRetained": true,
+  "installed": [
+    {
+      "path": "favicon.svg",
+      "sha256": "badf642c3235fd04960768b654f34dd0d82b9878aff0e733f3d90b4e1b1fe413"
+    },
+    {
+      "path": "brand/richie-space-v1.png",
+      "sha256": "8e6c185fadbb18d063a996afc1f7fedbd84b16dfb3f4041ebbe994bdff87818f"
+    },
+    {
+      "path": "brand/richie-space-128-v1.webp",
+      "sha256": "7c42a8256ad5d9c890e3bec313934acda1cc8029e02615d3bf7d0574b41727e3"
+    },
+    {
+      "path": "brand/richie-space-256-v1.webp",
+      "sha256": "3497526feb43eb0c9061d358ad2a0053ca6b5c004aa0a7e135166119e4fa067f"
+    },
+    {
+      "path": "brand/richie-space-v1.webp",
+      "sha256": "4299bed39a7cedb88aca9e1b93db588fd03ccc74114b45fffb8276b4fee9b573"
+    },
+    {
+      "path": "brand/richie-icon-v1.png",
+      "sha256": "78fc457249e8fef82fd262c1e7b76bc184236dc4e6522496c156a1b94bda4211"
+    },
+    {
+      "path": "assets/index-C5fZLRz8.js",
+      "sha256": "1ed9138ac57910a9d2a3890d35181e204c7861c3254fb49c4ce5e86f30fbf56e"
+    },
+    {
+      "path": "assets/index-DujQDeh6.css",
+      "sha256": "bfb17afc6d3e1b1a416b336b8b3fa6acb7b36e89c6f308517bf9d4f4b3df6d8d"
+    },
+    {
+      "path": "assets/Workspace-Ca6GmK1n.css",
+      "sha256": "a732fc939268e851988033cfff5a93ccbc6de3cff92dab5209c478c4e27a4b09"
+    },
+    {
+      "path": "assets/Workspace-CAfhtVhV.js",
+      "sha256": "c03c13174175a73609c419b4f10041fd16abf7879e8ba9f0d1458a4e10036609"
+    },
+    {
+      "path": "assets/esm-BziCIgWO.js",
+      "sha256": "2d9a22d9b33b9e19de19aaf3e0062f0325567de8c313fd1dc9a5da426a236536"
+    },
+    {
+      "path": "fonts/manrope-3.ttf",
+      "sha256": "b9584e099e0e7f1e1e914c3037aabb9010c50346a3ce8df5eeeeecc0563044d8"
+    },
+    {
+      "path": "fonts/manrope-2.ttf",
+      "sha256": "6bad1a774228464cc88b8b0271555b266f7a3c64a7bedf15e165fdab4f6ac0ce"
+    },
+    {
+      "path": "fonts/manrope-1.ttf",
+      "sha256": "f433e5d333be1128d8ec8a28b8aadd0314d10e14e4105406076666bc830fc15d"
+    },
+    {
+      "path": "fonts/OFL.txt",
+      "sha256": "d6a309fcfb963d329a93baf9df66fa5f3c23a4be2b5f67edf24d6cafecde12ac"
+    },
+    {
+      "path": "fonts/manrope-4.ttf",
+      "sha256": "b8f802f05b322a7345805f5b89f8bb976604cc719a91530918d5ce3c47160950"
+    },
+    {
+      "path": "fonts/manrope-0.ttf",
+      "sha256": "a13d9b41b0a471ce58f0e46d377fa3cc76615e4632c3b15eb397caadf7a13f0a"
+    },
+    {
+      "path": "index.html",
+      "sha256": "c09f7021c2d6c65c282e70e1a8585370a036d959d3b948d104869bf701de2b98"
+    }
+  ],
+  "services": {
+    "vibe-os-model-gateway": "active",
+    "vibe-os-workspace-broker": "active",
+    "vibe-os-workspace-runner": "active",
+    "vibe-os-portal": "active",
+    "vibe-os-portal-web": "active"
+  }
+}

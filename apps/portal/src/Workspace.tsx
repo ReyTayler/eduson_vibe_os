@@ -31,6 +31,7 @@ import {
   MoreHorizontal,
   PanelRightClose,
   PanelRightOpen,
+  Maximize2,
 } from "lucide-react";
 import { html } from "@codemirror/lang-html";
 import { python } from "@codemirror/lang-python";
@@ -51,6 +52,7 @@ import {
   type ReasoningMode,
 } from "./api";
 import { TextDialog, ConfirmDialog } from "./App";
+import "./workspace-viewer.css";
 const CodeMirror = lazy(() => import("@uiw/react-codemirror"));
 type Dialog = {
   title: string;
@@ -91,6 +93,8 @@ export default function Workspace({
     [running, setRunning] = useState(false),
     [saving, setSaving] = useState(false),
     [previewing, setPreviewing] = useState(false),
+    [fileLoading, setFileLoading] = useState(false),
+    [expanded, setExpanded] = useState(false),
     [chats, setChats] = useState<Chat[]>([]),
     [selectedChat, setSelectedChat] = useState(""),
     [chat, setChat] = useState<ChatDetail | null>(null),
@@ -115,6 +119,10 @@ export default function Workspace({
     partialBuffer = useRef(""),
     partialFlush = useRef<ReturnType<typeof setTimeout> | null>(null),
     scroll = useRef<HTMLDivElement>(null),
+    viewer = useRef<HTMLDialogElement>(null),
+    viewerClose = useRef<HTMLButtonElement>(null),
+    viewerReturnFocus = useRef<HTMLElement | null>(null),
+    fileReadSequence = useRef(0),
     mounted = useRef(true);
   const dirty = text !== savedText,
     busy =
@@ -139,7 +147,9 @@ export default function Workspace({
     setFiles(data.files);
     setRevision(data.revision);
     revisionRef.current = data.revision;
-    if (read && fileRef.current && !dirtyRef.current) {
+    const entry = fileRef.current;
+    const request = fileReadSequence.current;
+    if (read && entry && !dirtyRef.current && !fileLoading && !saving) {
       try {
         const f = await api<{
           text: string;
@@ -149,15 +159,32 @@ export default function Workspace({
           "/projects/" +
             project.id +
             "/file?path=" +
-            encodeURIComponent(fileRef.current.path),
+            encodeURIComponent(entry.path),
         );
+        if (
+          !mounted.current ||
+          request !== fileReadSequence.current ||
+          fileRef.current?.path !== entry.path ||
+          dirtyRef.current ||
+          f.revision < revisionRef.current
+        )
+          return data;
         setText(f.text);
         setSavedText(f.text);
-        setFile({ ...fileRef.current, version: f.version });
+        setFile({ ...entry, version: f.version });
+        fileRef.current = { ...entry, version: f.version };
         setRevision(f.revision);
         revisionRef.current = f.revision;
       } catch (e) {
+        if (
+          !mounted.current ||
+          request !== fileReadSequence.current ||
+          fileRef.current?.path !== entry.path ||
+          dirtyRef.current
+        )
+          return data;
         setFile(null);
+        fileRef.current = null;
         setText("");
         setSavedText("");
       }
@@ -165,27 +192,59 @@ export default function Workspace({
     return data;
   }
   async function readFile(entry: FileEntry) {
-    if (entry.type !== "file") return;
-    const value = await api<{
-      text: string;
-      version: string;
-      revision: number;
-    }>(
-      "/projects/" +
-        project.id +
-        "/file?path=" +
-        encodeURIComponent(entry.path),
-    );
-    setFile({ ...entry, version: value.version });
-    fileRef.current = { ...entry, version: value.version };
-    setText(value.text);
-    setSavedText(value.text);
-    dirtyRef.current = false;
-    setRevision(value.revision);
-    revisionRef.current = value.revision;
-    setMode("code");
+    if (entry.type !== "file") return false;
+    const request = ++fileReadSequence.current;
+    setFileLoading(true);
+    try {
+      const value = await api<{
+        text: string;
+        version: string;
+        revision: number;
+      }>(
+        "/projects/" +
+          project.id +
+          "/file?path=" +
+          encodeURIComponent(entry.path),
+      );
+      if (!mounted.current || request !== fileReadSequence.current)
+        return false;
+      setFile({ ...entry, version: value.version });
+      fileRef.current = { ...entry, version: value.version };
+      setText(value.text);
+      setSavedText(value.text);
+      dirtyRef.current = false;
+      setRevision(value.revision);
+      revisionRef.current = value.revision;
+      setMode("code");
+      return true;
+    } finally {
+      if (mounted.current && request === fileReadSequence.current)
+        setFileLoading(false);
+    }
   }
-  function chooseFile(entry: FileEntry) {
+  function openViewer(returnFocus?: HTMLElement | null) {
+    const panel = viewer.current;
+    if (!panel || panel.matches(":modal")) return;
+    viewerReturnFocus.current =
+      returnFocus ?? (document.activeElement as HTMLElement | null);
+    // Keep the same editor and iframe mounted when moving into the browser top layer.
+    panel.close();
+    panel.showModal();
+    setExpanded(true);
+  }
+  function closeViewer() {
+    const panel = viewer.current;
+    if (!panel) return;
+    panel.close();
+    panel.show();
+    setExpanded(false);
+    const returnFocus = viewerReturnFocus.current;
+    requestAnimationFrame(() => {
+      if (!panel.matches(":modal") && returnFocus?.isConnected)
+        returnFocus.focus({ preventScroll: true });
+    });
+  }
+  function chooseFile(entry: FileEntry, inWindow = false) {
     if (entry.type === "directory") {
       setCollapsed((old) => {
         const next = new Set(old);
@@ -194,18 +253,30 @@ export default function Workspace({
       });
       return;
     }
-    if (dirty) {
+    if (saving) return;
+    const returnFocus = document.activeElement as HTMLElement | null;
+    const open = async () => {
+      if (await readFile(entry)) {
+        setFileMenu(null);
+        if (inWindow) openViewer(returnFocus);
+      }
+    };
+    if (fileRef.current?.path === entry.path && !fileLoading) {
+      setMode("code");
+      setFileMenu(null);
+      if (inWindow) openViewer(returnFocus);
+      return;
+    }
+    if (dirtyRef.current) {
       setConfirm({
         title: "Перейти к другому файлу?",
         text: "В текущем файле есть несохранённые изменения. При переходе они будут потеряны.",
-        submit: async () => {
-          await readFile(entry);
-        },
+        submit: open,
       });
-    } else void readFile(entry).catch((e) => say(e.message));
+    } else void open().catch((e) => say(e.message));
   }
   async function saveFile() {
-    if (!fileRef.current || !dirtyRef.current) return;
+    if (!fileRef.current || !dirtyRef.current || saving || fileLoading) return;
     setSaving(true);
     try {
       const f = fileRef.current;
@@ -346,6 +417,47 @@ export default function Workspace({
     return () => clearInterval(timer);
   }, [busy, project.id]);
   useEffect(() => {
+    if (!expanded) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    viewerClose.current?.focus({ preventScroll: true });
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [expanded]);
+  useEffect(() => {
+    if (!expanded) return;
+    const key = (e: KeyboardEvent) => {
+      const panel = viewer.current;
+      if (!panel || dialog || confirm || e.defaultPrevented || e.key !== "Tab")
+        return;
+      const controls = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'button:not(:disabled),input:not(:disabled),select:not(:disabled),textarea:not(:disabled),a[href],iframe,[contenteditable="true"],[tabindex="0"]',
+        ),
+      ).filter(
+        (el) =>
+          el.tabIndex >= 0 &&
+          el.getClientRects().length > 0 &&
+          getComputedStyle(el).visibility !== "hidden",
+      );
+      const first = controls[0],
+        last = controls.at(-1);
+      if (!panel.contains(document.activeElement)) {
+        e.preventDefault();
+        (e.shiftKey ? last : first)?.focus();
+      } else if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last?.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
+    };
+    window.addEventListener("keydown", key);
+    return () => window.removeEventListener("keydown", key);
+  }, [expanded, dialog, confirm]);
+  useEffect(() => {
     if (scroll.current) scroll.current.scrollTop = scroll.current.scrollHeight;
   }, [chat?.messages, partial, activeRun]);
   useEffect(() => {
@@ -398,7 +510,14 @@ export default function Workspace({
     }
   }
   async function send() {
-    if (!draft.trim() || !selectedChat || chat?.id !== selectedChat || busy)
+    if (
+      !draft.trim() ||
+      !selectedChat ||
+      chat?.id !== selectedChat ||
+      busy ||
+      saving ||
+      fileLoading
+    )
       return;
     setSending(true);
     try {
@@ -442,7 +561,7 @@ export default function Workspace({
     }
   }
   async function runCode(custom?: string) {
-    if (busy) return;
+    if (busy || saving || fileLoading) return;
     setRunning(true);
     setConsoleOpen(true);
     try {
@@ -477,7 +596,7 @@ export default function Workspace({
     }
   }
   async function showPreview() {
-    if (busy) return;
+    if (busy || saving || fileLoading) return;
     setPreviewing(true);
     try {
       if (dirty) await saveFile();
@@ -495,6 +614,7 @@ export default function Workspace({
     }
   }
   async function host(enabled: boolean) {
+    if (busy || saving || fileLoading || hostBusy) return;
     setHostBusy(true);
     try {
       if (dirty) await saveFile();
@@ -512,6 +632,7 @@ export default function Workspace({
     }
   }
   function createEntry(directory = false) {
+    if (busy || saving || fileLoading) return;
     setDialog({
       title: directory ? "Новая директория" : "Новый файл",
       label: directory ? "Путь директории" : "Имя и путь файла",
@@ -658,7 +779,7 @@ export default function Workspace({
             <>
               <button
                 className="button secondary small"
-                disabled={busy || hostBusy}
+                disabled={busy || hostBusy || saving || fileLoading}
                 onClick={() => void host(!project.hosting)}
               >
                 {hostBusy ? (
@@ -733,6 +854,9 @@ export default function Workspace({
                     }
                     style={{ paddingLeft: 12 + f.path.split("/").length * 9 }}
                     onClick={() => chooseFile(f)}
+                    onDoubleClick={() =>
+                      f.type === "file" && chooseFile(f, true)
+                    }
                   >
                     {f.type === "directory" ? (
                       <>
@@ -752,10 +876,21 @@ export default function Workspace({
                     )}
                     <span>{f.path.split("/").at(-1)}</span>
                   </button>
+                  {f.type === "file" && (
+                    <button
+                      className="tree-expand icon-button"
+                      title={"Открыть на весь экран: " + f.path}
+                      aria-label={"Открыть на весь экран: " + f.path}
+                      disabled={saving}
+                      onClick={() => chooseFile(f, true)}
+                    >
+                      <Maximize2 size={12} />
+                    </button>
+                  )}
                   <button
                     className="tree-actions icon-button"
                     aria-label={"Действия: " + f.path}
-                    disabled={busy}
+                    aria-expanded={fileMenu === f.path}
                     onClick={() =>
                       setFileMenu(fileMenu === f.path ? null : f.path)
                     }
@@ -764,11 +899,26 @@ export default function Workspace({
                   </button>
                   {fileMenu === f.path && (
                     <div className="tree-dropdown">
-                      <button onClick={() => renameEntry(f)}>
+                      {f.type === "file" && (
+                        <button
+                          disabled={saving}
+                          onClick={() => chooseFile(f, true)}
+                        >
+                          <Maximize2 size={12} />
+                          На весь экран
+                        </button>
+                      )}
+                      <button
+                        disabled={busy || saving || fileLoading}
+                        onClick={() => renameEntry(f)}
+                      >
                         <Pencil size={12} />
                         Переименовать
                       </button>
-                      <button onClick={() => removeEntry(f)}>
+                      <button
+                        disabled={busy || saving || fileLoading}
+                        onClick={() => removeEntry(f)}
+                      >
                         <Trash2 size={12} />
                         Удалить
                       </button>
@@ -782,244 +932,393 @@ export default function Workspace({
             {files.filter((f) => f.type === "file").length} файлов в проекте
           </div>
         </aside>
-        <section className="editor-panel">
-          <div className="editor-tabs">
-            <button
-              className={mode === "code" ? "selected" : ""}
-              onClick={() => setMode("code")}
-            >
-              <Code2 size={15} />
-              {file?.path.split("/").at(-1) ?? "Редактор"}
-              {dirty && <i className="unsaved-dot" />}
-            </button>
-            {project.kind === "web" && (
-              <button
-                className={mode === "preview" ? "selected" : ""}
-                onClick={() =>
-                  preview ? setMode("preview") : void showPreview()
-                }
-              >
-                <Eye size={15} />
-                Предпросмотр
-              </button>
-            )}
-            <span />
-            <button
-              className="icon-button"
-              title="Обновить файлы"
-              onClick={() =>
-                void refreshFiles(true).catch((e) => say(e.message))
+        <dialog
+          ref={viewer}
+          open
+          className="workspace-viewer"
+          role={expanded ? "dialog" : "presentation"}
+          aria-modal={expanded || undefined}
+          aria-labelledby={expanded ? "workspace-viewer-title" : undefined}
+          onCancel={(e) => {
+            if (dialog || confirm) e.preventDefault();
+          }}
+          onClose={() => {
+            // An earlier close event may arrive after showModal/show has reopened the panel.
+            if (viewer.current?.open) return;
+            closeViewer();
+          }}
+        >
+          {expanded && (
+            <header
+              className={
+                "viewer-header " +
+                (mode === "preview" ? "viewer-preview" : "viewer-code")
               }
             >
-              <RefreshCw size={14} />
-            </button>
-          </div>
-          <div className="editor-toolbar">
-            <span>
-              {mode === "preview"
-                ? "Результат проекта"
-                : (file?.path ?? "Выбери файл слева")}
-            </span>
-            <div>
-              {mode === "code" && (
-                <button
-                  className="button tiny secondary"
-                  title="Сохранить · Ctrl+S"
-                  disabled={!dirty || busy || saving}
-                  onClick={() => void saveFile().catch((e) => say(e.message))}
-                >
-                  {saving ? (
-                    <Loader2 className="spin" size={13} />
+              <div className="viewer-heading">
+                <span className="viewer-symbol">
+                  {mode === "preview" ? (
+                    <Eye size={20} />
                   ) : (
-                    <Save size={13} />
+                    <FileCode2 size={20} />
                   )}
-                  Сохранить
-                </button>
-              )}
-              {project.kind === "web" ? (
-                <button
-                  className="button tiny primary"
-                  disabled={busy || previewing}
-                  onClick={() => void showPreview()}
-                >
-                  {previewing ? (
-                    <Loader2 className="spin" size={13} />
-                  ) : (
-                    <Eye size={13} />
-                  )}
-                  Просмотр
-                </button>
-              ) : (
-                <button
-                  className="button tiny primary"
-                  disabled={!canRun || running || busy}
-                  onClick={() => void runCode()}
-                >
-                  {running ? (
-                    <Loader2 className="spin" size={13} />
-                  ) : (
-                    <Play size={13} />
-                  )}
-                  Запустить
-                </button>
-              )}
-            </div>
-          </div>
-          <div className="editor-content">
-            {mode === "preview" && preview ? (
-              <div className="preview-frame">
-                <iframe
-                  title="Предпросмотр проекта"
-                  src={preview}
-                  sandbox="allow-scripts"
-                />
-                <a
-                  href={preview}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="preview-open"
-                >
-                  Открыть отдельно <ArrowUpRight size={13} />
-                </a>
+                </span>
+                <div>
+                  <p>
+                    {mode === "preview" ? "Результат проекта" : project.name}
+                  </p>
+                  <h2
+                    id="workspace-viewer-title"
+                    title={mode === "preview" ? project.name : file?.path}
+                  >
+                    {mode === "preview"
+                      ? project.name
+                      : (file?.path ?? "Редактор")}
+                  </h2>
+                </div>
               </div>
-            ) : file ? (
-              <Suspense
-                fallback={
-                  <div className="editor-loading">
-                    <Loader2 className="spin" size={22} />
-                  </div>
+              <div className="viewer-actions">
+                {mode === "code" ? (
+                  <select
+                    aria-label="Открыть файл в окне"
+                    value={file?.path ?? ""}
+                    disabled={saving}
+                    onChange={(e) => {
+                      const entry = files.find(
+                        (f) => f.path === e.target.value,
+                      );
+                      if (entry) chooseFile(entry);
+                    }}
+                  >
+                    {!file && <option value="">Выбери файл</option>}
+                    {files
+                      .filter((f) => f.type === "file")
+                      .map((f) => (
+                        <option key={f.path} value={f.path}>
+                          {f.path}
+                        </option>
+                      ))}
+                  </select>
+                ) : (
+                  <>
+                    {file && (
+                      <button
+                        className="icon-button"
+                        title="Вернуться к файлу"
+                        aria-label="Вернуться к файлу"
+                        onClick={() => setMode("code")}
+                      >
+                        <Code2 size={18} />
+                      </button>
+                    )}
+                    <button
+                      className="icon-button"
+                      title="Обновить предпросмотр"
+                      aria-label="Обновить предпросмотр"
+                      disabled={busy || previewing || fileLoading || saving}
+                      onClick={() => void showPreview()}
+                    >
+                      {previewing ? (
+                        <Loader2 className="spin" size={18} />
+                      ) : (
+                        <RefreshCw size={18} />
+                      )}
+                    </button>
+                  </>
+                )}
+                <button
+                  ref={viewerClose}
+                  className="icon-button viewer-close"
+                  title="Закрыть окно · Esc"
+                  aria-label="Закрыть полноэкранное окно"
+                  onClick={closeViewer}
+                >
+                  <X size={21} />
+                </button>
+              </div>
+            </header>
+          )}
+          <section
+            className={
+              "editor-panel " +
+              (mode === "preview" ? "preview-mode" : "code-mode")
+            }
+          >
+            <div className="editor-tabs">
+              <button
+                className={mode === "code" ? "selected" : ""}
+                onClick={() => setMode("code")}
+              >
+                <Code2 size={15} />
+                {file?.path.split("/").at(-1) ?? "Редактор"}
+                {dirty && <i className="unsaved-dot" />}
+              </button>
+              {project.kind === "web" && (
+                <button
+                  className={mode === "preview" ? "selected" : ""}
+                  onClick={() =>
+                    preview ? setMode("preview") : void showPreview()
+                  }
+                >
+                  <Eye size={15} />
+                  Предпросмотр
+                </button>
+              )}
+              <span />
+              <button
+                className="icon-button"
+                title="Обновить файлы"
+                onClick={() =>
+                  void refreshFiles(true).catch((e) => say(e.message))
                 }
               >
-                <CodeMirror
-                  value={text}
-                  height="100%"
-                  extensions={[language]}
-                  editable={!busy}
-                  onChange={(value) => {
-                    setText(value);
-                    dirtyRef.current = value !== savedText;
-                  }}
-                  basicSetup={{
-                    lineNumbers: true,
-                    foldGutter: true,
-                    highlightActiveLine: true,
-                    autocompletion: true,
-                  }}
-                />
-              </Suspense>
-            ) : (
-              <div className="editor-empty">
-                <FileCode2 size={31} />
-                <h3>Место для твоего кода</h3>
-                <p>Открой файл слева или создай новый.</p>
-                <button
-                  className="button secondary small"
-                  disabled={busy}
-                  onClick={() => createEntry()}
-                >
-                  <FilePlus size={15} />
-                  Создать файл
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="editor-status">
-            <span>
-              {busy ? (
-                <>
-                  <Loader2 size={12} className="spin" />
-                  Помощник работает с файлами
-                </>
-              ) : dirty ? (
-                <>
-                  <span className="unsaved-dot" />
-                  Есть изменения
-                </>
-              ) : (
-                <>
-                  <Check size={12} />
-                  Всё сохранено
-                </>
-              )}
-            </span>
-            <div>
-              {file && mode === "code" && (
-                <>
-                  <button
-                    title="Переименовать файл"
-                    disabled={busy}
-                    onClick={() => file && renameEntry(file)}
-                  >
-                    <Pencil size={12} />
-                  </button>
-                  <button
-                    title="Удалить файл"
-                    disabled={busy}
-                    onClick={() => file && removeEntry(file)}
-                  >
-                    <Trash2 size={12} />
-                  </button>
-                </>
-              )}
-              <button
-                className={consoleOpen ? "active" : ""}
-                onClick={() => setConsoleOpen(!consoleOpen)}
-              >
-                <Terminal size={13} />
-                Консоль
+                <RefreshCw size={14} />
               </button>
             </div>
-          </div>
-          {consoleOpen && (
-            <div className="console-panel">
-              <div className="console-header">
-                <span>
-                  <Terminal size={13} />
-                  Результат выполнения
-                </span>
-                <button
-                  className="icon-button"
-                  title="Закрыть консоль"
-                  onClick={() => setConsoleOpen(false)}
+            <div className="editor-toolbar">
+              <span>
+                {mode === "preview"
+                  ? "Результат проекта"
+                  : (file?.path ?? "Выбери файл слева")}
+              </span>
+              <div>
+                {!expanded && (
+                  <button
+                    className="button tiny secondary expand-view"
+                    title={
+                      mode === "preview"
+                        ? "Развернуть проект на весь экран"
+                        : "Развернуть файл на весь экран"
+                    }
+                    aria-label={
+                      mode === "preview"
+                        ? "Развернуть проект на весь экран"
+                        : "Развернуть файл на весь экран"
+                    }
+                    disabled={
+                      fileLoading || (mode === "preview" ? !preview : !file)
+                    }
+                    onClick={() => openViewer()}
+                  >
+                    <Maximize2 size={14} />
+                    <span>На весь экран</span>
+                  </button>
+                )}
+                {mode === "code" && (
+                  <button
+                    className="button tiny secondary"
+                    title="Сохранить · Ctrl+S"
+                    disabled={!dirty || busy || saving || fileLoading}
+                    onClick={() => void saveFile().catch((e) => say(e.message))}
+                  >
+                    {saving ? (
+                      <Loader2 className="spin" size={13} />
+                    ) : (
+                      <Save size={13} />
+                    )}
+                    Сохранить
+                  </button>
+                )}
+                {project.kind === "web" ? (
+                  <button
+                    className="button tiny primary"
+                    disabled={busy || previewing || saving || fileLoading}
+                    onClick={() => void showPreview()}
+                  >
+                    {previewing ? (
+                      <Loader2 className="spin" size={13} />
+                    ) : (
+                      <Eye size={13} />
+                    )}
+                    Просмотр
+                  </button>
+                ) : (
+                  <button
+                    className="button tiny primary"
+                    disabled={
+                      !canRun || running || busy || saving || fileLoading
+                    }
+                    onClick={() => void runCode()}
+                  >
+                    {running ? (
+                      <Loader2 className="spin" size={13} />
+                    ) : (
+                      <Play size={13} />
+                    )}
+                    Запустить
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="editor-content" aria-busy={fileLoading}>
+              {fileLoading && (
+                <div className="file-loading-indicator">
+                  <Loader2 size={14} className="spin" />
+                  Открываю файл…
+                </div>
+              )}
+              {mode === "preview" && preview ? (
+                <div className="preview-frame">
+                  <iframe
+                    title="Предпросмотр проекта"
+                    src={preview}
+                    sandbox="allow-scripts"
+                  />
+                  <a
+                    href={preview}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="preview-open"
+                  >
+                    Открыть отдельно <ArrowUpRight size={13} />
+                  </a>
+                </div>
+              ) : file ? (
+                <Suspense
+                  fallback={
+                    <div className="editor-loading">
+                      <Loader2 className="spin" size={22} />
+                    </div>
+                  }
                 >
-                  <X size={14} />
+                  <CodeMirror
+                    className="document-editor"
+                    value={text}
+                    height="100%"
+                    extensions={[language]}
+                    editable={!busy && !saving && !fileLoading}
+                    onChange={(value) => {
+                      setText(value);
+                      dirtyRef.current = value !== savedText;
+                    }}
+                    basicSetup={{
+                      lineNumbers: true,
+                      foldGutter: true,
+                      highlightActiveLine: true,
+                      autocompletion: true,
+                    }}
+                  />
+                </Suspense>
+              ) : (
+                <div className="editor-empty">
+                  <FileCode2 size={31} />
+                  <h3>Место для твоего кода</h3>
+                  <p>Открой файл слева или создай новый.</p>
+                  <button
+                    className="button secondary small"
+                    disabled={busy}
+                    onClick={() => createEntry()}
+                  >
+                    <FilePlus size={15} />
+                    Создать файл
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="editor-status">
+              <span>
+                {busy ? (
+                  <>
+                    <Loader2 size={12} className="spin" />
+                    Помощник работает с файлами
+                  </>
+                ) : dirty ? (
+                  <>
+                    <span className="unsaved-dot" />
+                    Есть изменения
+                  </>
+                ) : (
+                  <>
+                    <Check size={12} />
+                    Всё сохранено
+                  </>
+                )}
+              </span>
+              <div>
+                {file && mode === "code" && (
+                  <>
+                    <button
+                      title="Переименовать файл"
+                      disabled={busy}
+                      onClick={() => file && renameEntry(file)}
+                    >
+                      <Pencil size={12} />
+                    </button>
+                    <button
+                      title="Удалить файл"
+                      disabled={busy}
+                      onClick={() => file && removeEntry(file)}
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </>
+                )}
+                <button
+                  className={consoleOpen ? "active" : ""}
+                  onClick={() => setConsoleOpen(!consoleOpen)}
+                >
+                  <Terminal size={13} />
+                  Консоль
                 </button>
               </div>
-              <pre>
-                {running
-                  ? "Запускаю код…"
-                  : output || "Здесь появится результат твоей программы."}
-              </pre>
-              <form
-                className="command-input"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (command.trim()) {
-                    void runCode(command);
-                    setCommand("");
-                  }
-                }}
-              >
-                <span>›</span>
-                <input
-                  aria-label="Команда"
-                  placeholder="python3.10 main.py"
-                  value={command}
-                  onChange={(e) => setCommand(e.target.value)}
-                  disabled={busy || running}
-                  maxLength={8000}
-                />
-                <button
-                  type="submit"
-                  title="Выполнить команду"
-                  disabled={busy || running || !command.trim()}
-                >
-                  <ArrowUp size={14} />
-                </button>
-              </form>
             </div>
+            {consoleOpen && (
+              <div className="console-panel">
+                <div className="console-header">
+                  <span>
+                    <Terminal size={13} />
+                    Результат выполнения
+                  </span>
+                  <button
+                    className="icon-button"
+                    title="Закрыть консоль"
+                    onClick={() => setConsoleOpen(false)}
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+                <pre>
+                  {running
+                    ? "Запускаю код…"
+                    : output || "Здесь появится результат твоей программы."}
+                </pre>
+                <form
+                  className="command-input"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (command.trim()) {
+                      void runCode(command);
+                      setCommand("");
+                    }
+                  }}
+                >
+                  <span>›</span>
+                  <input
+                    aria-label="Команда"
+                    placeholder="python3.10 main.py"
+                    value={command}
+                    onChange={(e) => setCommand(e.target.value)}
+                    disabled={busy || running || saving || fileLoading}
+                    maxLength={8000}
+                  />
+                  <button
+                    type="submit"
+                    title="Выполнить команду"
+                    disabled={busy || running || !command.trim()}
+                  >
+                    <ArrowUp size={14} />
+                  </button>
+                </form>
+              </div>
+            )}
+          </section>
+          {dialog && (
+            <TextDialog dialog={dialog} onClose={() => setDialog(null)} />
           )}
-        </section>
+          {confirm && (
+            <ConfirmDialog confirm={confirm} onClose={() => setConfirm(null)} />
+          )}
+        </dialog>
         {!hideChat && (
           <section className="assistant-panel">
             <div className="assistant-panel-top">
@@ -1193,6 +1492,8 @@ export default function Workspace({
                       disabled={
                         !draft.trim() ||
                         busy ||
+                        saving ||
+                        fileLoading ||
                         !budget?.ready ||
                         !budget?.maxRemainingCalls
                       }
@@ -1218,10 +1519,6 @@ export default function Workspace({
           </section>
         )}
       </div>
-      {dialog && <TextDialog dialog={dialog} onClose={() => setDialog(null)} />}{" "}
-      {confirm && (
-        <ConfirmDialog confirm={confirm} onClose={() => setConfirm(null)} />
-      )}
     </main>
   );
 }

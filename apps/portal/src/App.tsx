@@ -1411,8 +1411,19 @@ function Modal({
 }) {
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement | null;
+    if (!box.current?.contains(document.activeElement)) {
+      box.current
+        ?.querySelector<HTMLElement>(
+          "button:not(:disabled),input:not(:disabled)",
+        )
+        ?.focus();
+    }
     const key = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
       if (e.key === "Tab" && box.current) {
         const list = Array.from(
           box.current.querySelectorAll<HTMLElement>(
@@ -1431,7 +1442,11 @@ function Modal({
       }
     };
     window.addEventListener("keydown", key);
-    return () => window.removeEventListener("keydown", key);
+    return () => {
+      window.removeEventListener("keydown", key);
+      if (previousFocus?.isConnected)
+        previousFocus.focus({ preventScroll: true });
+    };
   }, [onClose]);
   return (
     <div

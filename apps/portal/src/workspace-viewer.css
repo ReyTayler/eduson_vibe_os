@@ -1,0 +1,293 @@
+/* A non-modal dialog participates in the existing editor grid. showModal()
+   puts this same DOM subtree in the top layer without reloading the iframe. */
+.workspace-viewer {
+  display: contents;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  font: inherit;
+}
+.workspace-viewer:modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #f8fcff;
+  outline: none;
+}
+.workspace-viewer::backdrop {
+  background: #1d4c6a55;
+  backdrop-filter: blur(12px);
+}
+.viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 20px;
+  min-height: 68px;
+  padding: calc(12px + env(safe-area-inset-top, 0px))
+    max(20px, env(safe-area-inset-right, 0px)) 12px
+    max(20px, env(safe-area-inset-left, 0px));
+  border-bottom: 1px solid #dcecf7;
+  background: linear-gradient(120deg, #fff, #edf7ff);
+}
+.viewer-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.viewer-heading > div {
+  min-width: 0;
+}
+.viewer-symbol {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d6ecfb;
+  border-radius: 12px;
+  color: #2599d3;
+  background: #e8f6ff;
+}
+.viewer-heading p,
+.viewer-heading h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.viewer-heading p {
+  margin: 0 0 3px;
+  color: #7d9fb8;
+  font-size: 11px;
+}
+.viewer-heading h2 {
+  margin: 0;
+  color: #235678;
+  font-size: 15px;
+  font-weight: 700;
+}
+.viewer-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+}
+.viewer-actions select {
+  width: 240px;
+  max-width: 35vw;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #d2e7f6;
+  border-radius: 9px;
+  background: #ffffffc9;
+  color: #507f9e;
+  font: inherit;
+  font-size: 12px;
+}
+.viewer-actions .icon-button {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d2e7f6;
+  border-radius: 10px;
+  color: #5386a7;
+  background: #ffffffb3;
+}
+.viewer-actions .icon-button:focus-visible,
+.viewer-actions select:focus-visible,
+.expand-view:focus-visible,
+.tree-expand:focus-visible {
+  outline: 2px solid #59b5e7;
+  outline-offset: 2px;
+}
+.workspace-viewer:modal > .editor-panel {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.workspace-viewer:modal .editor-tabs,
+.workspace-viewer:modal .preview-mode .editor-toolbar,
+.workspace-viewer:modal .preview-mode .editor-status,
+.workspace-viewer:modal .preview-mode .preview-open,
+.workspace-viewer:modal .preview-mode .console-panel {
+  display: none;
+}
+.file-panel,
+.editor-panel,
+.file-tree,
+.preview-frame {
+  min-height: 0;
+}
+.file-tree,
+.cm-scroller,
+.console-panel pre {
+  overscroll-behavior: contain;
+}
+.file-tree {
+  scrollbar-gutter: stable;
+}
+.editor-content {
+  min-height: 0;
+}
+.editor-content > .document-editor {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.cm-scroller {
+  height: 100%;
+  min-height: 0;
+}
+.preview-frame {
+  flex: 1;
+}
+.preview-frame iframe {
+  flex: 1 1 0;
+  min-height: 0;
+}
+.editor-tabs,
+.editor-toolbar,
+.editor-status,
+.files-bottom,
+.panel-heading {
+  flex-shrink: 0;
+}
+.editor-toolbar > span {
+  min-width: 0;
+}
+.editor-toolbar > div {
+  flex-wrap: wrap;
+}
+.expand-view svg {
+  flex-shrink: 0;
+}
+.file-loading-indicator {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border: 1px solid #d5eaf8;
+  border-radius: 8px;
+  color: #598aab;
+  background: #f4faffed;
+  font-size: 11px;
+  pointer-events: none;
+}
+.tree-expand {
+  position: absolute;
+  top: 4px;
+  right: 23px;
+  width: 20px;
+  height: 26px;
+  opacity: 0;
+  color: #70a9cb;
+  background: #eff8fde8;
+}
+.file-tree-item:hover .tree-expand,
+.file-tree-item:focus-within .tree-expand,
+.file-tree-row.selected ~ .tree-expand {
+  opacity: 1;
+}
+.tree-dropdown {
+  min-width: 152px;
+}
+.tree-dropdown button:disabled {
+  opacity: 0.45;
+}
+@media (max-width: 1200px) {
+  .expand-view > span {
+    display: none;
+  }
+}
+@media (max-width: 760px), (hover: none) {
+  .tree-expand {
+    opacity: 1;
+    right: 19px;
+    width: 18px;
+  }
+}
+@media (max-width: 600px) {
+  .viewer-header {
+    gap: 10px;
+    min-height: 62px;
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 12px 10px;
+  }
+  .viewer-heading {
+    gap: 8px;
+  }
+  .viewer-symbol {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+  .viewer-heading h2 {
+    font-size: 13px;
+  }
+  .viewer-heading p {
+    font-size: 10px;
+  }
+  .viewer-code {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    gap: 8px;
+  }
+  .viewer-code .viewer-heading {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .viewer-code .viewer-actions {
+    display: contents;
+  }
+  .viewer-code select {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    max-width: none;
+  }
+  .viewer-code .viewer-close {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .workspace-viewer:modal .editor-toolbar {
+    flex-direction: row;
+    align-items: center;
+    min-height: 44px;
+    padding: 7px 12px;
+  }
+  .workspace-viewer:modal .editor-toolbar > div {
+    width: auto;
+  }
+  .workspace-viewer:modal .cm-editor {
+    font-size: 12px !important;
+  }
+  .workspace-viewer:modal .editor-status {
+    min-height: 34px;
+    height: auto;
+    padding: 6px 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace-viewer .modal {
+    animation: none;
+  }
+}

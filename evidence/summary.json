@@ -1,10 +1,16 @@
 {
-  "timeUtc": "2026-10-07T06:54:48.092291+00:00",
+  "timeUtc": "2026-10-07T07:14:54.794228+00:00",
   "server": "80.249.145.94",
   "scope": "five live student cabinets; real Harness; static persistent hosting",
   "portalUrl": "https://80.249.145.94/",
   "accounts": 5,
-  "initialProjectsByStudent": [2, 0, 0, 0, 0],
+  "initialProjectsByStudent": [
+    2,
+    0,
+    0,
+    0,
+    0
+  ],
   "hostingSlotsPerStudent": 3,
   "paidCallsTotal": 72,
   "confirmedTokensTotal": 2737362,
@@ -166,6 +172,13 @@
       "checks": 3,
       "paidCalls": 0,
       "evidence": "eduson-redesign-ui.json"
+    },
+    "project-and-documents-fullscreen": {
+      "passed": true,
+      "checks": 10,
+      "paidCalls": 0,
+      "projectFileWrites": 0,
+      "evidence": "fullscreen-live-ui.json"
     }
   },
   "staticChecks": {
@@ -232,7 +245,12 @@
   ],
   "modelSettings": {
     "model": "deepseek-flash",
-    "reasoningModes": ["off", "low", "high", "max"],
+    "reasoningModes": [
+      "off",
+      "low",
+      "high",
+      "max"
+    ],
     "default": "off",
     "scope": "per-chat persisted; immutable run snapshot",
     "providerMaxOutputTokens": 393216,
@@ -243,7 +261,7 @@
     "absoluteModelAndRunDeadline": null,
     "providerIdleTimeoutMs": 300000
   },
-  "latestFeatureEvidence": "eduson-redesign-final.json",
+  "latestFeatureEvidence": "fullscreen-final.json",
   "studentWeeklyBudgets": [
     {
       "generation": 5,
@@ -314,7 +332,7 @@
       "spentCredits": 0.00465,
       "reservedCredits": 0,
       "remainingCredits": 999.99535,
-      "costUsd": 4.65e-6,
+      "costUsd": 4.65e-06,
       "costBasis": "published-tariff-estimate",
       "pricingVersion": "deepseek-flash-2026-09-10",
       "usage": {
@@ -356,7 +374,7 @@
       "spentCredits": 0.00465,
       "reservedCredits": 0,
       "remainingCredits": 999.99535,
-      "costUsd": 4.65e-6,
+      "costUsd": 4.65e-06,
       "costBasis": "published-tariff-estimate",
       "pricingVersion": "deepseek-flash-2026-09-10",
       "usage": {
@@ -398,7 +416,7 @@
       "spentCredits": 0.00465,
       "reservedCredits": 0,
       "remainingCredits": 999.99535,
-      "costUsd": 4.65e-6,
+      "costUsd": 4.65e-06,
       "costBasis": "published-tariff-estimate",
       "pricingVersion": "deepseek-flash-2026-09-10",
       "usage": {
@@ -494,6 +512,9 @@
     "dashboardHeading": "Vibe-coding by Eduson Kids",
     "mascot": "user-supplied Richie astronaut",
     "favicon": "PNG 64x64",
-    "responsiveMascotBytes": [16914, 50800]
+    "responsiveMascotBytes": [
+      16914,
+      50800
+    ]
   }
 }

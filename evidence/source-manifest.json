@@ -6,8 +6,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 7656,
-    "sha256": "43ab025d5b9f242165ef44853d6c316cbe7d98de716e4f65b3f3fe04fa5a1996"
+    "bytes": 8026,
+    "sha256": "6c0288ac7242704f6a71893528f127dd20b04af6de9f063668f28264e0500e20"
   },
   {
     "path": "apps/portal/api/admin.mjs",
@@ -121,8 +121,8 @@
   },
   {
     "path": "apps/portal/src/App.tsx",
-    "bytes": 58274,
-    "sha256": "9bb0e9e99324870577879c71e77729c66554c5bbafd267c05f64fae4db8e3eb9"
+    "bytes": 58704,
+    "sha256": "36594e28187db63c9c97bf606dae849678f794378a0078b762ccb1f0ae20be2e"
   },
   {
     "path": "apps/portal/src/Brand.tsx",
@@ -136,8 +136,8 @@
   },
   {
     "path": "apps/portal/src/Workspace.tsx",
-    "bytes": 44599,
-    "sha256": "1890d6dbb3d481f0e1a66729c51cef9756a246f3bd60b009702939468bd2701d"
+    "bytes": 56379,
+    "sha256": "c55f69def02140afb1ba5a043d63564c3187bd9650bbfb9ea9a2230d8244f2c4"
   },
   {
     "path": "apps/portal/src/admin.css",
@@ -168,6 +168,11 @@
     "path": "apps/portal/src/vite-env.d.ts",
     "bytes": 38,
     "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  {
+    "path": "apps/portal/src/workspace-viewer.css",
+    "bytes": 5648,
+    "sha256": "e4d1dfd0caac99700431cf0eb8f136ba4830f7df3564f75763f5811c7d59a0b5"
   },
   {
     "path": "apps/portal/tests/acceptance.py",
@@ -847,7 +852,7 @@
   {
     "path": "evidence/student-secret-scan.json",
     "bytes": 327,
-    "sha256": "2e35aa78e19e440d4ddb062549712fdf2e3288a14cbb7108fd4ddeb41e04cfb5"
+    "sha256": "9220958b0e922a2ca2fa13e749f2f9dfa6c39a7205d1f629caaf1d5fb3afdd27"
   },
   {
     "path": "evidence/student-seed.json",
@@ -876,8 +881,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 14119,
-    "sha256": "b94239d647587cb52c7a075d898928b7325a4901addb4305ce495083d8e9236e"
+    "bytes": 14376,
+    "sha256": "70d84e897f28209755d9c3bbded6aaf8f6636af2d47c129373ecfc338ba1ebad"
   },
   {
     "path": "evidence/toolchain.json",

@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-07T07:14:16.150412+00:00",
+  "portalUrl": "https://80.249.145.94/",
+  "product": "Eduson Kids",
+  "projectPopup": "full viewport; same iframe preserved on expand/close",
+  "documentPopup": "shared editable buffer; file chooser and dirty-change confirmation",
+  "scrolling": "vertical and horizontal in embedded/fullscreen editor",
+  "uiEvidence": "fullscreen-live-ui.json",
+  "uiChecks": 10,
+  "humanProjectFilesUnchanged": true,
+  "projectFiles": 11,
+  "humanTableCountsUnchanged": {
+    "users": 5,
+    "projects": 3,
+    "folders": 2,
+    "chats": 4,
+    "messages": 12,
+    "runs": 5
+  },
+  "publishedIndexMatchesBuild": true,
+  "https": {
+    "contentType": "text/html; charset=utf-8",
+    "cspPresent": true,
+    "nosniff": "nosniff",
+    "status": 200
+  },
+  "paidModelCalls": 0,
+  "humanProjectFileWrites": 0,
+  "serviceRestarts": 0
+}
