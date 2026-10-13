@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-13T13:16:51.698997+00:00",
+  "rootCause": "all original provider keys rejected with HTTP 401 during /models discovery",
+  "secondaryIssue": "expired short-lived HTTPS certificate; renewal and nginx validation paths read-only in systemd unit",
+  "resolution": "rotate encrypted slot20 to current key from previously provided file; shared provider authentication with unchanged student slots and personal weekly credits; fix renewal/reload write paths",
+  "preserved": {
+    "users": true,
+    "projectIdentity": true,
+    "folders": true,
+    "chatIdentityNamesReasoning": true,
+    "messagesHistory": true,
+    "runsHistory": true,
+    "priorModelRequests": true
+  },
+  "counts": {
+    "users": {
+      "before": 5,
+      "after": 5
+    },
+    "projects": {
+      "before": 2,
+      "after": 2
+    },
+    "folders": {
+      "before": 2,
+      "after": 2
+    },
+    "chats": {
+      "before": 2,
+      "after": 2
+    },
+    "messages": {
+      "before": 20,
+      "after": 22
+    },
+    "runs": {
+      "before": 9,
+      "after": 10
+    }
+  },
+  "normalProjectRevisionAdvance": {
+    "project": "fd956de103f35327278c0128283b33bd",
+    "before": 10,
+    "after": 11
+  },
+  "providerDiscoveryByStudent": {
+    "1": 200,
+    "2": 200,
+    "3": 200,
+    "4": 200,
+    "5": 200
+  },
+  "tls": [
+    "notBefore=Oct 13 12:00:07 2026 GMT",
+    "notAfter=Oct 20 04:00:06 2026 GMT"
+  ],
+  "publicHttps": 200,
+  "offlineTests": 60,
+  "live": {
+    "passed": true,
+    "timeUtc": "2026-10-13T13:12:44.783Z",
+    "checks": [
+      "Valid HTTPS, student login, original chat and current weekly credits",
+      "Original Harness session resumes, runs complete, old messages and chat settings stay intact",
+      "Model answer is visible in the live student interface",
+      "One settled student-scoped call; unchanged files; token usage below the one-million ceiling"
+    ],
+    "errors": [],
+    "originalChatResumed": true,
+    "oldMessagesPreserved": true,
+    "newMessages": 2,
+    "workspaceFilesPreserved": true,
+    "fileCount": 7,
+    "modelCalls": 1,
+    "totalTokens": 63373,
+    "inputTokens": 63367,
+    "cacheReadTokens": 0,
+    "outputTokens": 6,
+    "costUsd": 0.00950865,
+    "student": 1,
+    "remainingCredits": 990.49135,
+    "weeklyBudgetPreserved": true,
+    "reasoningModeUsed": "off",
+    "chatReasoningPreserved": "high"
+  },
+  "renewalServiceRecheck": {
+    "passed": true,
+    "result": "success",
+    "exitStatus": 0,
+    "renewalTimerActive": true,
+    "deployHookVerifiedUnderHardening": true
+  }
+}

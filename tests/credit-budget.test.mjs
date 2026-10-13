@@ -233,6 +233,10 @@ test("Migration prices historical usage once and preserves token grants and orig
   });
   old.reserveOutput(rid, 20, "fixture", 500000, 10000, 1);
   old.finish(rid, "settled", usage(3078, 492928, 7320), 200);
+  // Legacy journal timestamps use SQLite's real clock; anchor this pricing fixture.
+  old.db
+    .prepare("UPDATE model_requests SET created_at=?,ended_at=? WHERE id=?")
+    .run(Math.floor(now / 1000), Math.floor(now / 1000), rid);
   const rows = old.db.prepare("SELECT * FROM model_requests").all();
   old.close();
   let l = new CreditLedger(file, { clock: () => now });

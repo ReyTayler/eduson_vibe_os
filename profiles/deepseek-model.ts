@@ -58,8 +58,25 @@ class SchoolDeepSeek extends LlmAdapter {
           response.on("error", reject);
           response.on("end", () => {
             try {
-              if (response.statusCode !== 200)
-                throw new Error("Model discovery rejected");
+              if (response.statusCode !== 200) {
+                let reason = "MODEL_DISCOVERY_REJECTED";
+                try {
+                  const failure: unknown = JSON.parse(
+                    Buffer.concat(chunks).toString("utf8"),
+                  );
+                  if (
+                    failure &&
+                    typeof failure === "object" &&
+                    "error" in failure &&
+                    typeof failure.error === "string" &&
+                    /^[A-Z][A-Z0-9_]{0,79}$/.test(failure.error)
+                  )
+                    reason = failure.error;
+                } catch {
+                  /* Only fixed gateway codes may leave this boundary. */
+                }
+                throw new LlmError("School gateway: " + reason, "TRANSPORT");
+              }
               const payload: unknown = JSON.parse(
                 Buffer.concat(chunks).toString("utf8"),
               );
@@ -115,8 +132,9 @@ class SchoolDeepSeek extends LlmAdapter {
     if (provider !== "school-deepseek" || model !== "deepseek-flash")
       throw new LlmError("School route unavailable", "INVALID_REQUEST");
     if (!this.discovery)
-      this.discovery = this.discover().catch(() => {
+      this.discovery = this.discover().catch((error) => {
         this.discovery = undefined;
+        if (error instanceof LlmError) throw error;
         throw new LlmError("Provider model discovery unavailable", "TRANSPORT");
       });
     return this.discovery;

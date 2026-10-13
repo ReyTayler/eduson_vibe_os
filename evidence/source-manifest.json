@@ -6,8 +6,8 @@
   },
   {
     "path": "README.md",
-    "bytes": 9176,
-    "sha256": "0b30b8492729cc67af4bec35aa0ae69617ab116e466370b955bddfe9081589d1"
+    "bytes": 9609,
+    "sha256": "edab4d65bbfdf9c5c048228118fbaea153943c47bcb87d6b6f5ba1b16fb858c0"
   },
   {
     "path": "apps/portal/api/admin.mjs",
@@ -450,6 +450,11 @@
     "sha256": "d896c92f87319f820b37315c1a3b9aa56925fb737c54e53078c97f7a79948aa3"
   },
   {
+    "path": "docs/generation-recovery-20261013.md",
+    "bytes": 7194,
+    "sha256": "31e10ab60d4094c9bab89469ffa448168c13298ba718b83be6566c35cb3f7566"
+  },
+  {
     "path": "docs/implementation-next-generation1.md",
     "bytes": 12860,
     "sha256": "af9018ac270467ad9194904115c9a755ab17c8576eaea34b957765ab28315e59"
@@ -643,6 +648,26 @@
     "path": "evidence/fullscreen-live-ui.json",
     "bytes": 963,
     "sha256": "4806c4a5d3b58446d8346a05a6eaadd0b762e08dda954c5a866f57085436fe0d"
+  },
+  {
+    "path": "evidence/generation-recovery-deploy.json",
+    "bytes": 1666,
+    "sha256": "8482d2e60f13a13efbfb6e3ccf31993cc67a34ceb906ee4085f1e366069511e0"
+  },
+  {
+    "path": "evidence/generation-recovery-final.json",
+    "bytes": 2555,
+    "sha256": "ade5963b398aa0c6a24fdd1118b56ccf25b0b2f5967dd2d84b1e31604bb0396c"
+  },
+  {
+    "path": "evidence/generation-recovery-live.json",
+    "bytes": 852,
+    "sha256": "f50ab6f0aa6140097b5792e115c6839cc8a465e46d55b0acd2a651b9d3cf7db2"
+  },
+  {
+    "path": "evidence/generation-recovery-tests.tap",
+    "bytes": 13662,
+    "sha256": "b0d21a2172a20447c249f6f4bbfa34d444da0658ed18854a95917902148335b6"
   },
   {
     "path": "evidence/harness-build.json",
@@ -908,6 +933,11 @@
     "path": "evidence/portal-ui/fullscreen-preview-mobile.png",
     "bytes": 207709,
     "sha256": "59c5b99a964e2d4caadbaa744159bd9ba16ad2817138c4fb0dbc5515cb2365b5"
+  },
+  {
+    "path": "evidence/portal-ui/generation-restored-20261013.jpg",
+    "bytes": 134539,
+    "sha256": "dbdde62167a10a5b97e6f53941f36e07b745bd8fef8b0bdba66e0762f690fe44"
   },
   {
     "path": "evidence/portal-ui/history-failure-fixed.png",
@@ -1197,7 +1227,7 @@
   {
     "path": "evidence/student-secret-scan.json",
     "bytes": 328,
-    "sha256": "86189ceaf888c49a9fdc27f48e54c422050ae9acbd5820658eb5128c2db712c1"
+    "sha256": "06086275e2c0dcb52041fd051c90b39ee395447bbfca74cf715480be8513850a"
   },
   {
     "path": "evidence/student-seed.json",
@@ -1226,8 +1256,8 @@
   },
   {
     "path": "evidence/summary.json",
-    "bytes": 15687,
-    "sha256": "e33171275608798aa866e2bc6c374fa1822d6359a5694ccaba7e3786af56c83f"
+    "bytes": 15911,
+    "sha256": "292d7ae1f9409cf1fabf6f6b85aceea34cc476d9fe157dfc6360de1271afb068"
   },
   {
     "path": "evidence/toolchain.json",
@@ -1381,8 +1411,8 @@
   },
   {
     "path": "infra/systemd/vibe-os-model-gateway.service",
-    "bytes": 1114,
-    "sha256": "4a3d55d762a6fd173d64809540046bade1c442fee1c9dc09df9cc4c4101b17df"
+    "bytes": 1254,
+    "sha256": "06d2e9eb74aea9cb9010920e8860d09a7a10ac92b9b1644bb341d75cc7892c94"
   },
   {
     "path": "infra/systemd/vibe-os-poc-app1.service",
@@ -1421,8 +1451,8 @@
   },
   {
     "path": "infra/systemd/vibe-os-portal-cert-renew.service",
-    "bytes": 319,
-    "sha256": "9eb3910c7ac2fa334773cc775b4680ee9c826c89c37190653a9f55048361d715"
+    "bytes": 417,
+    "sha256": "0dbcdf76c5f0a68c285d564c8e1642ae5fbbf9ed914e104141f824ac66e7d5c1"
   },
   {
     "path": "infra/systemd/vibe-os-portal-cert-renew.timer",
@@ -1486,8 +1516,8 @@
   },
   {
     "path": "packages/credentials/vault.mjs",
-    "bytes": 3460,
-    "sha256": "a275b88cfff227378456f38e0f000fa1a4721d6316d9acb9ad4fc87af77b5690"
+    "bytes": 4360,
+    "sha256": "f0d1efd2747059a549bb061111d09b8a7fc4517dbb2c5dd7ad6fdf495aaf014d"
   },
   {
     "path": "profiles/cordis.live.patch.yml",
@@ -1506,8 +1536,8 @@
   },
   {
     "path": "profiles/deepseek-model.ts",
-    "bytes": 8152,
-    "sha256": "717772fee7f6db2d7831579fda581a4dde08ea71ba044bac088ba0a96b40b176"
+    "bytes": 8910,
+    "sha256": "cede6a250de166fb2a6e40196bdc43883e73998d3113edf677594df00649eccb"
   },
   {
     "path": "profiles/fs-provider.ts",
@@ -1611,8 +1641,8 @@
   },
   {
     "path": "services/model-gateway/server.mjs",
-    "bytes": 22341,
-    "sha256": "62e5abcc93c4b2d2bf2cbb197fb28fa3b3263c383834f2153010fe491065148c"
+    "bytes": 22988,
+    "sha256": "ee4f6cf3481e6427abf95be978734fa46872389957f7a677b537cf11a35baa8c"
   },
   {
     "path": "services/model-gateway/wait-ready.mjs",
@@ -1646,13 +1676,13 @@
   },
   {
     "path": "services/workspace-broker/run-errors.mjs",
-    "bytes": 2872,
-    "sha256": "a914a8f2f8f63aa94c790bd4a571d1c897f0b7304bc8f5cdb68ad82788eb6486"
+    "bytes": 3248,
+    "sha256": "e5f4844f962141c412a8bbeb0bcf7bacbdca4a0bb07b662411b7b78bfc17337a"
   },
   {
     "path": "services/workspace-broker/server.mjs",
-    "bytes": 36287,
-    "sha256": "420c78540bf53e474db9f9194a0eae51204d499cfcb277f3fb3152b0dd721505"
+    "bytes": 36507,
+    "sha256": "d8311dde7f8e5822ab7f646f34fb5c7dbbf967f06586141f39214c0be9cda62f"
   },
   {
     "path": "services/workspace-broker/templates/engine.cfg",
@@ -1681,8 +1711,8 @@
   },
   {
     "path": "tests/credit-budget.test.mjs",
-    "bytes": 19162,
-    "sha256": "64a5c717eac09455f937625f9ed844263d4158c85f30b892ac579ba0d436dcb9"
+    "bytes": 19396,
+    "sha256": "730b57f27e2169fae0d0a6b1791aa309d1c997a5c7bce622adcb9dafcb43d466"
   },
   {
     "path": "tests/deepseek_harness.py",
@@ -1693,6 +1723,11 @@
     "path": "tests/extra-budget.test.mjs",
     "bytes": 9313,
     "sha256": "35fa352cd3e787597b45e938d8fc8c0e1b4ea1e84b38b8b85615268d6eb96b02"
+  },
+  {
+    "path": "tests/generation-recovery.test.mjs",
+    "bytes": 9338,
+    "sha256": "4ebaa8f200272b7960ceb70be715d07c30778e4aaf36d2063acbf074f6870318"
   },
   {
     "path": "tests/harness_composition.py",

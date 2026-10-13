@@ -7,6 +7,8 @@ Type=simple
 User=vibe-model-gateway
 Group=vibe-poc-engine
 SupplementaryGroups=vibe-model-gateway
+# Logical credential slots and student budgets remain separate from provider authentication.
+Environment=DEEPSEEK_PROVIDER_CREDENTIAL_ID=20
 ExecStart=/usr/local/bin/node /opt/vibe-os/model-gateway/services/model-gateway/server.mjs
 ExecStartPost=/usr/local/bin/node /opt/vibe-os/model-gateway/services/model-gateway/wait-ready.mjs
 TimeoutStartSec=15

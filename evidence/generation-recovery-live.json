@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-13T13:12:44.783Z",
+  "checks": [
+    "Valid HTTPS, student login, original chat and current weekly credits",
+    "Original Harness session resumes, runs complete, old messages and chat settings stay intact",
+    "Model answer is visible in the live student interface",
+    "One settled student-scoped call; unchanged files; token usage below the one-million ceiling"
+  ],
+  "errors": [],
+  "originalChatResumed": true,
+  "oldMessagesPreserved": true,
+  "newMessages": 2,
+  "workspaceFilesPreserved": true,
+  "fileCount": 7,
+  "modelCalls": 1,
+  "totalTokens": 63373,
+  "inputTokens": 63367,
+  "cacheReadTokens": 0,
+  "outputTokens": 6,
+  "costUsd": 0.00950865,
+  "student": 1,
+  "remainingCredits": 990.49135,
+  "weeklyBudgetPreserved": true,
+  "reasoningModeUsed": "off",
+  "chatReasoningPreserved": "high"
+}

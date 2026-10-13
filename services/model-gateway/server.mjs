@@ -204,9 +204,17 @@ export function createGateway({
   vault,
   capability,
   studentCapabilities = [],
+  providerCredentialId = null,
   fetchImpl = fetch,
   idleTimeoutMs = MODEL_IDLE_TIMEOUT_MS,
 }) {
+  if (
+    providerCredentialId !== null &&
+    (!Number.isInteger(providerCredentialId) ||
+      providerCredentialId < 20 ||
+      providerCredentialId > 27)
+  )
+    throw new Error("INVALID_PROVIDER_CREDENTIAL");
   const modelLimits = { maxOutputTokens: MAX_OUTPUT, contextWindow: 1048576 };
   const expected = Buffer.from("Bearer " + capability);
   const studentTokens = studentCapabilities.map((row) => {
@@ -356,7 +364,9 @@ export function createGateway({
         throw fail("CREDENTIAL_SCOPE", 403);
       if (req.method === "GET" && req.url === "/v1/models") {
         const response = await fetchImpl(UPSTREAM + "/models", {
-          headers: { Authorization: "Bearer " + vault.get(keyId) },
+          headers: {
+            Authorization: "Bearer " + vault.get(providerCredentialId ?? keyId),
+          },
           signal: control.signal,
           redirect: "error",
         });
@@ -405,7 +415,7 @@ export function createGateway({
       }
       const raw = Buffer.concat(parts),
         body = validateBody(JSON.parse(raw.toString("utf8")));
-      const key = vault.get(keyId);
+      const key = vault.get(providerCredentialId ?? keyId);
       const bodyHash = createHash("sha256").update(raw).digest("hex");
       if (ledger.reserveOutput) {
         reservation = ledger.reserveOutput(
@@ -632,13 +642,22 @@ export function start() {
     vault,
     capability,
     studentCapabilities,
+    providerCredentialId:
+      process.env.DEEPSEEK_PROVIDER_CREDENTIAL_ID === undefined
+        ? null
+        : Number(process.env.DEEPSEEK_PROVIDER_CREDENTIAL_ID),
   });
   server.requestTimeout = 15000;
   server.headersTimeout = 10000;
   server.maxConnections = 4;
   server.listen(socket, () => {
     chmodSync(socket, 0o660);
-    console.log("Bounded model gateway ready; eight encrypted credentials");
+    console.log(
+      "Bounded model gateway ready; encrypted credentials; " +
+        (process.env.DEEPSEEK_PROVIDER_CREDENTIAL_ID
+          ? "shared provider key with per-student budgets"
+          : "per-slot provider keys"),
+    );
   });
   for (const signal of ["SIGTERM", "SIGINT"])
     process.on(signal, () => {

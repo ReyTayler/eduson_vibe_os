@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "timeUtc": "2026-10-13T13:09:36.823Z",
+  "idleBefore": {
+    "runs": 0,
+    "names": 0,
+    "models": 0
+  },
+  "rotatedCredential": 20,
+  "sharedProviderCredential": 20,
+  "logicalStudentSlots": [
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "weeklyBudgetsPreserved": true,
+  "plaintextWritten": false,
+  "installed": [
+    {
+      "source": "services/model-gateway/server.mjs",
+      "target": "/opt/vibe-os/model-gateway/services/model-gateway/server.mjs",
+      "sha256": "ee4f6cf3481e6427abf95be978734fa46872389957f7a677b537cf11a35baa8c"
+    },
+    {
+      "source": "packages/credentials/vault.mjs",
+      "target": "/opt/vibe-os/model-gateway/packages/credentials/vault.mjs",
+      "sha256": "f0d1efd2747059a549bb061111d09b8a7fc4517dbb2c5dd7ad6fdf495aaf014d"
+    },
+    {
+      "source": "services/workspace-broker/server.mjs",
+      "target": "/opt/vibe-os/portal-broker/server.mjs",
+      "sha256": "d8311dde7f8e5822ab7f646f34fb5c7dbbf967f06586141f39214c0be9cda62f"
+    },
+    {
+      "source": "services/workspace-broker/run-errors.mjs",
+      "target": "/opt/vibe-os/portal-broker/run-errors.mjs",
+      "sha256": "e5f4844f962141c412a8bbeb0bcf7bacbdca4a0bb07b662411b7b78bfc17337a"
+    },
+    {
+      "source": "dist/profiles/deepseek-model.js",
+      "target": "/opt/vibe-os/portal-profile/deepseek-model.js",
+      "sha256": "be374d2439894835e50b68c9c25d433108559f0f05812103d7a38a89e9da6ccd"
+    },
+    {
+      "source": "infra/systemd/vibe-os-model-gateway.service",
+      "target": "/etc/systemd/system/vibe-os-model-gateway.service",
+      "sha256": "06d2e9eb74aea9cb9010920e8860d09a7a10ac92b9b1644bb341d75cc7892c94"
+    }
+  ]
+}

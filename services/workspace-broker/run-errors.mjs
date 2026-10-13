@@ -58,3 +58,13 @@ export function classifyRunFailure(value) {
     return { code: "MODEL_CONNECTION_FAILED", reason: "MODEL_TRANSPORT" };
   return { code: "MODEL_RUN_FAILED", reason: "UNCLASSIFIED" };
 }
+
+/** An RPC envelope can fail before session/prompt, including provider discovery. */
+export function classifyRpcFailure(value) {
+  const failure = classifyRunFailure(
+    typeof value?.message === "string" ? value.message : null,
+  );
+  return failure && failure.reason !== "UNCLASSIFIED"
+    ? failure
+    : { code: "HARNESS_REQUEST_FAILED", reason: "UNCLASSIFIED_RPC" };
+}

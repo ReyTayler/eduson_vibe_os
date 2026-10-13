@@ -1,6 +1,6 @@
 /** Root-only typed workspace/engine coordinator, reachable solely through a protected Unix socket. */
 import http from "node:http";
-import { classifyRunFailure } from "./run-errors.mjs";
+import { classifyRunFailure, classifyRpcFailure } from "./run-errors.mjs";
 import { adminModelRequest } from "./admin-model.mjs";
 import { requestChatTitle } from "./chat-title.mjs";
 import {
@@ -723,9 +723,15 @@ async function ai(params, res) {
           const p = pending.get(msg.id);
           pending.delete(msg.id);
           clearTimeout(p.timer);
-          msg.error
-            ? p.reject(error("HARNESS_REQUEST_FAILED", 503))
-            : p.resolve(msg.result);
+          if (msg.error) {
+            const failure = classifyRpcFailure(msg.error);
+            console.error(
+              "Student engine RPC failure",
+              failure.code,
+              failure.reason,
+            );
+            p.reject(error(failure.code, 503));
+          } else p.resolve(msg.result);
         }
         if (msg.method === "session.delta" && msg.params?.runId === run) {
           const f = msg.params.frame;
