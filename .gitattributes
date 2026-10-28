@@ -1,0 +1,13 @@
+# Код работает на Linux: в репозитории и в рабочей копии всегда LF,
+# иначе bash-скрипты и unit-файлы systemd ломаются после правки на Windows.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.zst binary
